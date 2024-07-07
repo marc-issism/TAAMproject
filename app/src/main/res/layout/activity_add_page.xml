@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddPage">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Toronto Asian Art Museum Collection Management"
+        tools:layout_editor_absoluteX="3dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lot Number:"
+        tools:layout_editor_absoluteX="15dp"
+        tools:layout_editor_absoluteY="148dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name:"
+        tools:layout_editor_absoluteX="15dp"
+        tools:layout_editor_absoluteY="190dp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Category:"
+        tools:layout_editor_absoluteX="15dp"
+        tools:layout_editor_absoluteY="233dp" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Period:"
+        tools:layout_editor_absoluteX="15dp"
+        tools:layout_editor_absoluteY="285dp" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description:"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="330dp" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Picture/Video: Upload file here:"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="473dp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sumbit"
+        tools:layout_editor_absoluteX="297dp"
+        tools:layout_editor_absoluteY="472dp" />
+
+    <EditText
+        android:id="@+id/editTextText2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Name"
+        tools:layout_editor_absoluteX="105dp"
+        tools:layout_editor_absoluteY="135dp" />
+
+    <EditText
+        android:id="@+id/editTextText3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Name"
+        tools:layout_editor_absoluteX="105dp"
+        tools:layout_editor_absoluteY="177dp" />
+
+    <EditText
+        android:id="@+id/editTextText4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Name"
+        tools:layout_editor_absoluteX="105dp"
+        tools:layout_editor_absoluteY="226dp" />
+
+    <EditText
+        android:id="@+id/editTextText6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Name"
+        tools:layout_editor_absoluteX="105dp"
+        tools:layout_editor_absoluteY="275dp" />
+
+    <EditText
+        android:id="@+id/editTextTextMultiLine"
+        android:layout_width="207dp"
+        android:layout_height="97dp"
+        android:ems="10"
+        android:text="hi"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        tools:layout_editor_absoluteX="105dp"
+        tools:layout_editor_absoluteY="330dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

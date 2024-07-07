@@ -13,7 +13,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
-    Firebasedatabase db;
+    FirebaseDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,9 +24,9 @@ public class MainActivity extends AppCompatActivity {
         String dbURL = "";
         db = FirebaseDatabase.getInstance(dbURL);
         DatabaseReference dbRef = db.getReference("IDK WHAT GOES HERE");
-
-       if(savedInstanceState == null){
-            loadFragment(new HomeFragment());
-       }
+        //
+       //if(savedInstanceState == null){
+       //     loadFragment(new HomeFragment());
+      // }
     }
 }

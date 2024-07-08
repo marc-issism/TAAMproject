@@ -24,7 +24,8 @@ public class MainActivity extends AppCompatActivity {
         String dbURL = "";
         db = FirebaseDatabase.getInstance(dbURL);
         DatabaseReference dbRef = db.getReference("IDK WHAT GOES HERE");
-        //
+
+        // Change this for default activity/fragment
        //if(savedInstanceState == null){
        //     loadFragment(new HomeFragment());
       // }

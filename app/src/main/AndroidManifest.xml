@@ -13,9 +13,6 @@
         android:theme="@style/Theme.TAAM_project"
         tools:targetApi="31">
         <activity
-            android:name=".AddPage"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

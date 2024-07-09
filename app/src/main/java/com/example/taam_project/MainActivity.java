@@ -23,22 +23,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Database linking
-        String dbURL = "";
+        String dbURL = "https://cscb07-taam-default-rtdb.firebaseio.com/";
         db = FirebaseDatabase.getInstance(dbURL);
-        DatabaseReference dbRef = db.getReference("IDK WHAT GOES HERE");
-
-        // Change this for default activity/fragment
+      //  DatabaseReference dbRef = db.getReference("IDK WHAT GOES HERE");
+        //
        if(savedInstanceState == null){
-            loadFragment(new SearchFragment());
+            loadFragment(new HomeFragment());
        }
-
-
     }
+    private void loadFragment(Fragment fragment){
+        FragmentTransaction frag =getSupportFragmentManager().beginTransaction();
+        frag.replace(R.id.fragment_container, fragment);
+        frag.addToBackStack(null);
+        frag.commit();
 
-    private void loadFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
     }
 }

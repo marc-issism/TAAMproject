@@ -9,7 +9,7 @@
         android:id="@+id/search_constrait_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
+<!-->
         <EditText
             android:id="@+id/lotNumberInput"
             android:layout_width="wrap_content"
@@ -45,5 +45,6 @@
             android:entries="Jade, Paintings"
             tools:layout_editor_absoluteX="1dp"
             tools:layout_editor_absoluteY="146dp" />
+    -->
     </androidx.constraintlayout.widget.ConstraintLayout>
-</FrameLayout>
+    </FrameLayout>

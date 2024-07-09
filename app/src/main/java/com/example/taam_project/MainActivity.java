@@ -21,9 +21,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Database linking
-        String dbURL = "";
+        String dbURL = "https://cscb07-taam-default-rtdb.firebaseio.com/";
         db = FirebaseDatabase.getInstance(dbURL);
-        DatabaseReference dbRef = db.getReference("IDK WHAT GOES HERE");
+        DatabaseReference dbRef = db.getReference("test");
+        dbRef.child("oscar").setValue("pang");
         //
        //if(savedInstanceState == null){
        //     loadFragment(new HomeFragment());

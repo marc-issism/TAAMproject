@@ -37,4 +37,9 @@
         tools:layout_editor_absoluteX="245dp"
         tools:layout_editor_absoluteY="583dp" />
 
+    <Button
+        android:id="@+id/show_login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show Login" />
 </androidx.constraintlayout.widget.ConstraintLayout>

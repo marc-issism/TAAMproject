@@ -53,13 +53,13 @@ public class AddItem extends Fragment {
     }
 
     private void addItem(){
-        String tmpLot = lotNumber.getText().toString().trim();
+        int tmpLot = Integer.parseInt(lotNumber.getText().toString().trim());
         String tmpName = name.getText().toString().trim();
         String tmpCategory = category.getSelectedItem().toString().toLowerCase();
         String tmpPeriod = period.getSelectedItem().toString().toLowerCase();
         String tmpDisc = description.getText().toString().trim();
 
-        if (tmpLot.isEmpty() || tmpName.isEmpty() || tmpCategory.isEmpty() || tmpPeriod.isEmpty() || tmpDisc.isEmpty()) {
+        if (tmpLot == 0 || tmpName.isEmpty() || tmpCategory.isEmpty() || tmpPeriod.isEmpty() || tmpDisc.isEmpty()) {
             Toast.makeText(getContext(), "Please fill out all fields", Toast.LENGTH_SHORT).show();
             return;
         }

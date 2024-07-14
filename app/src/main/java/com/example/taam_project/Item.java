@@ -3,7 +3,7 @@ package com.example.taam_project;
 public class Item {
 
     // Fields
-    private String lotNumber;
+    private int lotNumber;
     private String name;
     private String category;
     private String period;
@@ -11,7 +11,7 @@ public class Item {
     private String media;
 
     // Constructor
-    public Item(String lotNumber, String name, String category, String period, String description, String media) {
+    public Item(int lotNumber, String name, String category, String period, String description, String media) {
         this.lotNumber = lotNumber;
         this.name = name;
         this.category = category;
@@ -21,10 +21,10 @@ public class Item {
     }
 
     // Getters and Setters
-    public String getLotNumber() {
+    public int getLotNumber() {
         return lotNumber;
     }
-    public void setLotNumber(String lotNumber) {
+    public void setLotNumber(int lotNumber) {
         this.lotNumber = lotNumber;
     }
     public String getName() {

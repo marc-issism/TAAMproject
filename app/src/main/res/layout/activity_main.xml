@@ -29,4 +29,12 @@
 
     </FrameLayout>
 
+    <Button
+        android:id="@+id/reportbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Report"
+        tools:layout_editor_absoluteX="245dp"
+        tools:layout_editor_absoluteY="583dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

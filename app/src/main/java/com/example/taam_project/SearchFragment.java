@@ -151,7 +151,7 @@ public class SearchFragment extends Fragment {
         if (!period.equals("Any") && !item.getPeriod().equals(period)) {
             return false;
         }
-        if (!description.isEmpty() && !item.getDescription().equals(description)) {
+        if (!description.isEmpty() && !item.getDescription().contains(description)) {
             return false;
         }
 

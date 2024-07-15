@@ -5,7 +5,6 @@
 
 
     <string-array name="category_arr">
-        <item>Any</item>
         <item>Jade</item>
         <item>Paintings</item>
         <item>Calligraphy</item>
@@ -20,7 +19,6 @@
     </string-array>
     
     <string-array name="period_arr">
-        <item>Any</item>
         <item>Xia</item>
         <item>Shang</item>
         <item>Zhou</item>

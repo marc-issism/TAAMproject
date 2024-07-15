@@ -27,7 +27,7 @@
             android:ems="10"
             android:fontFamily="monospace"
             android:hint="Lot Number"
-            android:inputType="number"
+            android:inputType="text"
             android:textAlignment="center"
             android:textSize="20sp" />
 

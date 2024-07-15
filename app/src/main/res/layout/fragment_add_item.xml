@@ -33,11 +33,13 @@
         android:id="@+id/EditDescription"
         android:layout_width="210dp"
         android:layout_height="136dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="16dp"
         android:ems="10"
         android:inputType="text"
         android:text="Description"
-        tools:layout_editor_absoluteX="101dp"
-        tools:layout_editor_absoluteY="248dp" />
+        app:layout_constraintBottom_toTopOf="@+id/EditPicture"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/Description"

@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Database linking
         String dbURL = "";
-        db = FirebaseDatabase.getInstance(dbURL);
+        //db = FirebaseDatabase.getInstance(dbURL);
       //  DatabaseReference dbRef = db.getReference("IDK WHAT GOES HERE");
         //
       

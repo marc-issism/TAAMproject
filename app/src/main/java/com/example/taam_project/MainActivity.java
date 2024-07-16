@@ -51,14 +51,14 @@ public class MainActivity extends AppCompatActivity {
         });
         */
 
-        ReportButton = findViewById(R.id.reportbutton);
-        ReportButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, ReportActivity.class);
-                startActivity(intent);
-            }
-        });
+//        ReportButton = findViewById(R.id.reportbutton);
+//        ReportButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(MainActivity.this, ReportActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
         // Patrick - Admin Login Button
         findViewById(R.id.show_login_button).setOnClickListener(v->{

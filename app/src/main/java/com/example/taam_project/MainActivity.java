@@ -13,8 +13,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 public class MainActivity extends AppCompatActivity {
     Button ReportButton;
@@ -47,18 +45,13 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Patrick - Admin Login Button
-        findViewById(R.id.show_login_button).setOnClickListener(v->{
-            AdminLoginFragment loginFrag = new AdminLoginFragment();
-            loginFrag.show(getSupportFragmentManager(), "AdminLoginFragment");
-        });
-        ReportButton = findViewById(R.id.reportbutton);
-        ReportButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, ReportActivity.class);
-                startActivity(intent);
-            }
-        });
+//        ReportButton = findViewById(R.id.reportbutton);
+//        ReportButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(MainActivity.this, ReportActivity.class);
+//                startActivity(intent);
+//            }
+//        });
     }
 }

@@ -19,18 +19,16 @@ import com.google.firebase.database.FirebaseDatabase;
 public class MainActivity extends AppCompatActivity {
     Button ReportButton;
 
-    FirebaseDatabase db;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         // Database linking
-        String dbURL = "https://cscb07-taam-default-rtdb.firebaseio.com/";
-        db = FirebaseDatabase.getInstance(dbURL);
-      //  DatabaseReference dbRef = db.getReference("IDK WHAT GOES HERE");
-        //
+        // String dbURL = "https://cscb07-taam-default-rtdb.firebaseio.com/";
+        // db = FirebaseDatabase.getInstance(dbURL);
+        // DatabaseReference dbRef = db.getReference("IDK WHAT GOES HERE");
+
        if(savedInstanceState == null){
             loadFragment(new HomeFragment());
        }

@@ -10,6 +10,8 @@ public class Item {
     private String description;
     private String media;
 
+    public Item() {}
+
     // Constructor
     public Item(String lotNumber, String name, String category, String period, String description, String media) {
         this.lotNumber = lotNumber;

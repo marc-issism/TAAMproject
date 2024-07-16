@@ -6,10 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".HomeFragment">
 
-
-    <TextView
-        android:id="@+id/textView3"
+    <Button
+        android:id="@+id/start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:text="Hello"
+        app:layout_constraintBottom_toTopOf="@+id/buttonScroller"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </FrameLayout>

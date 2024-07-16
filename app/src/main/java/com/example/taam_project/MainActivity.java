@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
             AdminLoginFragment loginFrag = new AdminLoginFragment();
             loginFrag.show(getSupportFragmentManager(), "AdminLoginFragment");
         });
-
         ReportButton = findViewById(R.id.reportbutton);
         ReportButton.setOnClickListener(new View.OnClickListener() {
             @Override

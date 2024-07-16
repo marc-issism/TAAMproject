@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Patrick - Admin Login Button
-        findViewById(R.id.show_login_button).setOnClickListener(v-> {
+        findViewById(R.id.show_login_button).setOnClickListener(v->{
             AdminLoginFragment loginFrag = new AdminLoginFragment();
             loginFrag.show(getSupportFragmentManager(), "AdminLoginFragment");
         });

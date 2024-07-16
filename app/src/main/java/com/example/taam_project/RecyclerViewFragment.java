@@ -24,32 +24,31 @@ import java.util.List;
 public class RecyclerViewFragment extends Fragment {
     private ItemAdapter adapter;
     private List<Item> items;
-    private FirebaseDatabase db;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.recycler_view, container, false);
+        View view = inflater.inflate(R.layout.fragment_recycler_view, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        items = new ArrayList<Item>();
+        items = new ArrayList<>();
         adapter = new ItemAdapter(items, getContext());
         recyclerView.setAdapter(adapter);
-        db = FirebaseDatabase.getInstance("https://cscb07-taam-default-rtdb.firebaseio.com/");
-        fetchItems();
+        DatabaseReference dbRef = FirebaseDatabase.getInstance("https://cscb07-taam-default-rtdb.firebaseio.com/").getReference("test");
+        fetchItems(dbRef);
 
         return view;
     }
 
-    private void fetchItems() {
-        DatabaseReference reference = db.getReference("test");
-        reference.addValueEventListener(new ValueEventListener() {
+    private void fetchItems(DatabaseReference dbRef) {
+        dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 items.clear();
-                for (DataSnapshot ds: snapshot.getChildren())
+                for (DataSnapshot ds: snapshot.getChildren()) {
                     items.add(ds.getValue(Item.class));
+                    }
                 adapter.notifyDataSetChanged();
             }
 

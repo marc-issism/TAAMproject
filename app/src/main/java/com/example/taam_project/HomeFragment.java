@@ -2,37 +2,66 @@ package com.example.taam_project;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class HomeFragment extends Fragment {
-    private Button start;
+
+    private Button viewFragmentButton;
+    private Button searchFragmentButton;
+    private Button addFragmentButton;
+    private Button removeFragmentButton;
+    private Button reportFragmentButton;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        start = view.findViewById(R.id.start);
 
-        start.setOnClickListener(v -> loadFragment(new RecyclerViewFragment()));
+        viewFragmentButton = view.findViewById(R.id.viewFragmentButton);
+        searchFragmentButton = view.findViewById(R.id.searchFragmentButton);
+        addFragmentButton = view.findViewById(R.id.addFragmentButton);
+        removeFragmentButton = view.findViewById(R.id.removeFragmentButton);
+        reportFragmentButton = view.findViewById(R.id.reportFragmentButton);
+
+        // Temporary (should load automatically when the app launches)
+        viewFragmentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { loadFragment(new RecyclerViewFragment());}
+        });
+
+        searchFragmentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { loadFragment(new SearchFragment());}
+        });
+
+        // Please rename to AddFragment if possible for consistency
+        addFragmentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { loadFragment(new AddItem());}
+        });
+
+        /* UNCOMMENT when Remove Fragment implemented
+        removeFragmentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { loadFragment(new RemoveFragment());}
+        });
+        */
+
+        /* UNCOMMENT when Report Activity is converted to fragment
+        reportFragmentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { loadFragment(new ReportFragment());}
+        });
+        */
+
         return view;
     }
 

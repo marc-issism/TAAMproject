@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,17 +17,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
 
     private List<Item> items;
     private Context context;
-
-    public ItemAdapter(List<Item> items) {
-        this.items = items;
-    }
 
     public ItemAdapter(List<Item> items, Context context) {
         this.items = items;
@@ -45,12 +39,15 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         Item item = items.get(position);
-        holder.lotNumber.setText(String.valueOf(item.getLotNumber()));
-        holder.name.setText(item.getName());
-        holder.category.setText(item.getCategory());
-        holder.period.setText(item.getPeriod());
-        holder.description.setText(item.getDescription());
-        holder.media.setText(item.getMedia());
+
+        // Will use resource strings instead of concatenation later
+        holder.lotNumber.setText("Lot #: " + item.getLotNumber());
+        holder.name.setText("Name: " + item.getName());
+        holder.category.setText("Category: " + item.getCategory());
+        holder.period.setText("Period: " + item.getPeriod());
+        holder.description.setText("Description: " + item.getDescription());
+        holder.media.setText("Media: " + item.getMedia());
+
         holder.remove.setOnClickListener(view -> {
             FirebaseDatabase db = FirebaseDatabase.getInstance("https://cscb07-taam-default-rtdb.firebaseio.com/");
             DatabaseReference ref = db.getReference("test");
@@ -60,7 +57,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    int count = 0;
                     for (DataSnapshot ds: snapshot.getChildren()) {
                         Toast.makeText(context, ds.getKey(), Toast.LENGTH_SHORT).show();
                     }
@@ -73,9 +69,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             });
         });
     }
-
-    public void setItems(List<Item> items) { this.items = items; }
-    public List<Item> getItems() { return items; }
 
     @Override
     public int getItemCount() { return items.size(); }

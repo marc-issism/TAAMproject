@@ -28,12 +28,17 @@ public class AddItem extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_item, container, false);
+        // grab xml elements
         lotNumber = view.findViewById(R.id.EditLotNumber);
         name = view.findViewById(R.id.EditName);
         category = view.findViewById(R.id.EditCategory);
         period = view.findViewById(R.id.EditPeriod);
         description = view.findViewById(R.id.EditDescription);
+        submit = view.findViewById(R.id.Submit);
+
         db = FirebaseDatabase.getInstance("https://cscb07-taam-default-rtdb.firebaseio.com/");
+
+        // add spinner elements
         ArrayAdapter<CharSequence> catAdap = ArrayAdapter.createFromResource(getContext(),
                 R.array.category_arr, android.R.layout.simple_spinner_item);
         catAdap.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -43,6 +48,7 @@ public class AddItem extends Fragment {
         perAdap.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         period.setAdapter(perAdap);
 
+        // submit the form
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,7 +74,7 @@ public class AddItem extends Fragment {
         String id = itemsRef.push().getKey();
         Item item = new Item(tmpLot, tmpName, tmpCategory, tmpPeriod, tmpDisc, "");
 
-        itemsRef.child(id).setValue(item).addOnCompleteListener(task -> {
+        itemsRef.child(item.getName()).setValue(item).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Toast.makeText(getContext(), "Item added", Toast.LENGTH_SHORT).show();
             } else {

@@ -1,7 +1,6 @@
 package com.example.taam_project;
 
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -18,6 +17,7 @@ public class HomeFragment extends Fragment {
     private Button addFragmentButton;
     private Button removeFragmentButton;
     private Button reportFragmentButton;
+    private Button loginFragmentButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,6 +30,12 @@ public class HomeFragment extends Fragment {
         addFragmentButton = view.findViewById(R.id.addFragmentButton);
         removeFragmentButton = view.findViewById(R.id.removeFragmentButton);
         reportFragmentButton = view.findViewById(R.id.reportFragmentButton);
+        loginFragmentButton = view.findViewById(R.id.loginFragmentButton);
+
+        loginFragmentButton.setOnClickListener(v->{
+            AdminLoginFragment loginFrag = new AdminLoginFragment();
+            loginFrag.show(getParentFragmentManager(), "AdminLoginFragment");
+        });
 
         // Temporary (should load automatically when the app launches)
         viewFragmentButton.setOnClickListener(new View.OnClickListener() {

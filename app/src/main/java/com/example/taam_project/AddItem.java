@@ -2,6 +2,7 @@ package com.example.taam_project;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -14,8 +15,11 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.firebase.Firebase;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class AddItem extends Fragment {
     private EditText lotNumber, name, description;
@@ -23,6 +27,7 @@ public class AddItem extends Fragment {
     private Button submit;
     private FirebaseDatabase db;
     private DatabaseReference itemsRef;
+    static boolean exists = false;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -70,13 +75,33 @@ public class AddItem extends Fragment {
             return;
         }
 
-        itemsRef = db.getReference("categories/" + tmpCategory);
+        itemsRef = db.getReference("test/");
         String id = itemsRef.push().getKey();
         Item item = new Item(tmpLot, tmpName, tmpCategory, tmpPeriod, tmpDisc, "");
+        itemsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot snap : snapshot.getChildren()){
+                    String data = snap.child("lotNumber").getValue().toString();
+                    if (!data.isEmpty()) {
+                        exists = true;
+                    }
 
-        itemsRef.child(item.getName()).setValue(item).addOnCompleteListener(task -> {
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+        if (!exists){
+            Toast.makeText(getContext(), "Please enter a unique Lot Number", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        itemsRef.child(tmpLot).setValue(item).addOnCompleteListener(task -> {
+            exists = false;
             if (task.isSuccessful()) {
-                Toast.makeText(getContext(), "Item added", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "success", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getContext(), "Failed to add item", Toast.LENGTH_SHORT).show();
             }

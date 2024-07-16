@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         //
       
        if(savedInstanceState == null){
-            loadFragment(new HomeFragment()); // Default is HomeFragment DO NOT CHANGE!!
+            loadFragment(new AddItem()); // Default is HomeFragment DO NOT CHANGE!!
        }
     }
 

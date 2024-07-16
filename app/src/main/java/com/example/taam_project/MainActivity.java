@@ -31,9 +31,9 @@ public class MainActivity extends AppCompatActivity {
         //db = FirebaseDatabase.getInstance(dbURL);
       //  DatabaseReference dbRef = db.getReference("IDK WHAT GOES HERE");
         //
-      
+
        if(savedInstanceState == null){
-            loadFragment(new AddItem()); // Default is HomeFragment DO NOT CHANGE!!
+            loadFragment(new HomeFragment()); // Default is HomeFragment DO NOT CHANGE!!
        }
     }
 

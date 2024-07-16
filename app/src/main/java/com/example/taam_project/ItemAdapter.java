@@ -27,16 +27,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         Item item = items.get(position);
-        holder.lotNumber.setText(String.valueOf(item.getLotNumber()));
-        holder.name.setText(item.getName());
-        holder.category.setText(item.getCategory());
-        holder.period.setText(item.getPeriod());
-        holder.description.setText(item.getDescription());
-        holder.media.setText(item.getMedia());
+        // Will use resource strings instead of concatenation later
+        holder.lotNumber.setText("Lot #: " + item.getLotNumber());
+        holder.name.setText("Name: " + item.getName());
+        holder.category.setText("Category: " + item.getCategory());
+        holder.period.setText("Period: " + item.getPeriod());
+        holder.description.setText("Description: " + item.getDescription());
+        holder.media.setText("Media: " + item.getMedia());
     }
-
-    public void setItems(ArrayList<Item> items) { this.items = items; }
-    public ArrayList<Item> getItems() { return items; }
 
     @Override
     public int getItemCount() { return items.size(); }

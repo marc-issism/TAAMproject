@@ -31,12 +31,11 @@ public class HomeFragment extends Fragment {
         removeFragmentButton = view.findViewById(R.id.removeFragmentButton);
         reportFragmentButton = view.findViewById(R.id.reportFragmentButton);
 
-        /* UNCOMMENT when View Fragment implemented
+        // Temporary (should load automatically when the app launches)
         viewFragmentButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) { loadFragment(new ViewFragment());}
+            public void onClick(View v) { loadFragment(new RecyclerViewFragment());}
         });
-        */
 
         searchFragmentButton.setOnClickListener(new View.OnClickListener() {
             @Override

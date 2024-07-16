@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
        if(savedInstanceState == null){
             loadFragment(new HomeFragment());
+
        }
     }
     private void loadFragment(Fragment fragment){

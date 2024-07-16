@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ReportActivity">
+
+    <Button
+        android:id="@+id/all2"
+        android:layout_width="92dp"
+        android:layout_height="42dp"
+        android:text="Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/lotTextAll2"
+        app:layout_constraintTop_toBottomOf="@+id/lotTextAll2" />
+
+    <Button
+        android:id="@+id/buttonAll2"
+        android:layout_width="92dp"
+        android:layout_height="42dp"
+        android:text="Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.835"
+        app:layout_constraintStart_toEndOf="@+id/lotTextAll1"
+        app:layout_constraintTop_toBottomOf="@+id/lotTextAll1" />
+
+    <TextView
+        android:id="@+id/lotTextAll2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:text="for all items (only Description and Picture):"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonAll2" />
+
+    <TextView
+        android:id="@+id/lotTextAll1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:text="for all items:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lotFormPeriod2" />
+
+    <Spinner
+        android:id="@+id/lotFormPeriod2"
+        android:layout_width="224dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="4dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Period"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="@+id/period2"
+        app:layout_constraintTop_toBottomOf="@+id/period2" />
+
+    <Button
+        android:id="@+id/buttonPeriod2"
+        android:layout_width="92dp"
+        android:layout_height="42dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/lotFormPeriod2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lotFormPeriod2"
+        app:layout_constraintTop_toTopOf="@+id/lotFormPeriod2" />
+
+    <TextView
+        android:id="@+id/period2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:text="by Period (only Description and Picture):"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lotFormPeriod1" />
+
+    <Spinner
+        android:id="@+id/lotFormPeriod1"
+        android:layout_width="224dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="4dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Period"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="@+id/period1"
+        app:layout_constraintTop_toBottomOf="@+id/period1" />
+
+    <Button
+        android:id="@+id/buttonPeriod1"
+        android:layout_width="92dp"
+        android:layout_height="42dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/lotFormPeriod1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lotFormPeriod1"
+        app:layout_constraintTop_toTopOf="@+id/lotFormPeriod1" />
+
+    <TextView
+        android:id="@+id/period1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:text="by Period:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lotFormCategory2" />
+
+    <Button
+        android:id="@+id/buttonCategory2"
+        android:layout_width="92dp"
+        android:layout_height="42dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/lotFormCategory2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lotFormCategory2"
+        app:layout_constraintTop_toTopOf="@+id/lotFormCategory2" />
+
+    <Spinner
+        android:id="@+id/lotFormCategory2"
+        android:layout_width="224dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="4dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Category"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="@+id/category2"
+        app:layout_constraintTop_toBottomOf="@+id/category2" />
+
+    <TextView
+        android:id="@+id/category2"
+        android:layout_width="365dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:text="by Category (with only Description and Picture):"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lotFormCategory1" />
+
+    <Spinner
+        android:id="@+id/lotFormCategory1"
+        android:layout_width="224dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="4dp"
+        android:ems="10"
+        android:inputType="text"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="@+id/category1"
+        app:layout_constraintTop_toBottomOf="@+id/category1" />
+
+    <Button
+        android:id="@+id/buttonCategory1"
+        android:layout_width="92dp"
+        android:layout_height="42dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/lotFormCategory1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.531"
+        app:layout_constraintStart_toEndOf="@+id/lotFormCategory1"
+        app:layout_constraintTop_toTopOf="@+id/lotFormCategory1" />
+
+    <TextView
+        android:id="@+id/category1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:text="by Category:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lotFormName" />
+
+    <EditText
+        android:id="@+id/lotFormName"
+        android:layout_width="224dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="4dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Name"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="@+id/name"
+        app:layout_constraintTop_toBottomOf="@+id/name" />
+
+    <Button
+        android:id="@+id/buttonName"
+        android:layout_width="92dp"
+        android:layout_height="42dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/lotFormName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lotFormName"
+        app:layout_constraintTop_toTopOf="@+id/lotFormName" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:text="by Name:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lotFormNumber" />
+
+    <TextView
+        android:id="@+id/Title"
+        android:layout_width="179dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="15dp"
+        android:text="Generate Report"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.068"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/lotNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="by Lot numbers:"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.051"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Title" />
+
+    <EditText
+        android:id="@+id/lotFormNumber"
+        android:layout_width="224dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="4dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Lot #"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="@+id/lotNumber"
+        app:layout_constraintTop_toBottomOf="@+id/lotNumber" />
+
+    <Button
+        android:id="@+id/buttonLotNumber"
+        android:layout_width="92dp"
+        android:layout_height="42dp"
+        android:text="Submit"
+        app:layout_constraintBottom_toBottomOf="@+id/lotFormNumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.531"
+        app:layout_constraintStart_toEndOf="@+id/lotFormCategory2"
+        app:layout_constraintTop_toTopOf="@+id/lotFormNumber" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

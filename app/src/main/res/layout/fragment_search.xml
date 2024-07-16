@@ -5,46 +5,69 @@
     android:layout_height="match_parent"
     tools:context=".SearchFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/search_constrait_layout"
+    <LinearLayout
+        android:id="@+id/linearLayoutSearch"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-<!-->
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/searchFragmentTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="monospace"
+            android:text="Search Catalogue"
+            android:textAlignment="center"
+            android:textSize="16sp" />
+
         <EditText
             android:id="@+id/lotNumberInput"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="48sp"
             android:ems="10"
+            android:fontFamily="monospace"
             android:hint="Lot Number"
-            android:inputType="number"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="38dp" />
+            android:inputType="text"
+            android:textAlignment="center"
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/nameInput"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="48sp"
             android:ems="10"
+            android:fontFamily="monospace"
             android:hint="Name"
             android:inputType="text"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="88dp" />
-
-        <Button
-            android:id="@+id/submitButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Search"
-            tools:layout_editor_absoluteX="100dp"
-            tools:layout_editor_absoluteY="335dp" />
+            android:textAlignment="center"
+            android:textSize="20sp" />
 
         <Spinner
             android:id="@+id/categorySpinner"
-            android:layout_width="409dp"
+            android:layout_width="match_parent"
+            android:layout_height="48sp" />
+
+        <Spinner
+            android:id="@+id/periodSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="48sp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="285dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/descriptionInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Description" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/searchButton"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:entries="Jade, Paintings"
-            tools:layout_editor_absoluteX="1dp"
-            tools:layout_editor_absoluteY="146dp" />
-    -->
-    </androidx.constraintlayout.widget.ConstraintLayout>
-    </FrameLayout>
+            android:text="Search" />
+
+    </LinearLayout>
+</FrameLayout>

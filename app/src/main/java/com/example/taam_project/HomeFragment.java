@@ -1,5 +1,6 @@
 package com.example.taam_project;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -18,7 +19,6 @@ public class HomeFragment extends Fragment {
     private Button addFragmentButton;
     private Button removeFragmentButton;
     private Button reportFragmentButton;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -62,6 +62,15 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) { loadFragment(new ReportFragment());}
         });
         */
+        Button ReportButton;
+        ReportButton = reportFragmentButton;
+        ReportButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ReportActivity.class);
+                startActivity(intent);
+            }
+        });
 
         return view;
     }

@@ -17,7 +17,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
-    Button ReportButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,13 +46,6 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        ReportButton = findViewById(R.id.reportbutton);
-        ReportButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, ReportActivity.class);
-                startActivity(intent);
-            }
-        });
+
     }
 }

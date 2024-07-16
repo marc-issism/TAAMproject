@@ -34,8 +34,7 @@ public class RecyclerViewFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         items = new ArrayList<Item>();
-        adapter = new ItemAdapter(items);
-        adapter.setContext(getContext());
+        adapter = new ItemAdapter(items, getContext());
         recyclerView.setAdapter(adapter);
         db = FirebaseDatabase.getInstance("https://cscb07-taam-default-rtdb.firebaseio.com/");
         fetchItems();

@@ -30,7 +30,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         this.items = items;
     }
 
-    public void setContext(Context context) {
+    public ItemAdapter(List<Item> items, Context context) {
+        this.items = items;
         this.context = context;
     }
 

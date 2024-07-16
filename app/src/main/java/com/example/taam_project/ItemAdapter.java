@@ -1,20 +1,32 @@
 package com.example.taam_project;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
 
-    private ArrayList<Item> items;
+    private List<Item> items;
+    private Context context;
 
-    public ItemAdapter(ArrayList<Item> items) {
+    public ItemAdapter(List<Item> items, Context context) {
         this.items = items;
+        this.context = context;
     }
 
     @NonNull
@@ -27,22 +39,43 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         Item item = items.get(position);
-        holder.lotNumber.setText(String.valueOf(item.getLotNumber()));
-        holder.name.setText(item.getName());
-        holder.category.setText(item.getCategory());
-        holder.period.setText(item.getPeriod());
-        holder.description.setText(item.getDescription());
-        holder.media.setText(item.getMedia());
-    }
 
-    public void setItems(ArrayList<Item> items) { this.items = items; }
-    public ArrayList<Item> getItems() { return items; }
+        // Will use resource strings instead of concatenation later
+        holder.lotNumber.setText("Lot #: " + item.getLotNumber());
+        holder.name.setText("Name: " + item.getName());
+        holder.category.setText("Category: " + item.getCategory());
+        holder.period.setText("Period: " + item.getPeriod());
+        holder.description.setText("Description: " + item.getDescription());
+        holder.media.setText("Media: " + item.getMedia());
+
+        holder.remove.setOnClickListener(view -> {
+            FirebaseDatabase db = FirebaseDatabase.getInstance("https://cscb07-taam-default-rtdb.firebaseio.com/");
+            DatabaseReference ref = db.getReference("test");
+            Query query = ref.orderByChild("lotNumber").equalTo(item.getLotNumber());
+
+            // TODO add error checking to this
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot ds: snapshot.getChildren()) {
+                        Toast.makeText(context, ds.getKey(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    // communicate error
+                }
+            });
+        });
+    }
 
     @Override
     public int getItemCount() { return items.size(); }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
         TextView lotNumber, name, category, period, description, media;
+        Button remove;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -52,6 +85,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             period = itemView.findViewById(R.id.textViewPeriod);
             description = itemView.findViewById(R.id.textViewDescription);
             media = itemView.findViewById(R.id.textViewMedia);
+            remove = itemView.findViewById(R.id.remove);
         }
     }
 

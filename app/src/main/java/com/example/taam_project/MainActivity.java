@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -30,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
        if(savedInstanceState == null){
             loadFragment(new HomeFragment());
+
        }
     }
     private void loadFragment(Fragment fragment){
@@ -47,5 +46,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+//        ReportButton = findViewById(R.id.reportbutton);
+//        ReportButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(MainActivity.this, ReportActivity.class);
+//                startActivity(intent);
+//            }
+//        });
     }
 }

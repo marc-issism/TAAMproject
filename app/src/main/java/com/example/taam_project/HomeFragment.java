@@ -2,7 +2,6 @@ package com.example.taam_project;
 
 import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -19,6 +18,8 @@ public class HomeFragment extends Fragment {
     private Button addFragmentButton;
     private Button removeFragmentButton;
     private Button reportFragmentButton;
+    private Button loginFragmentButton;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -30,13 +31,18 @@ public class HomeFragment extends Fragment {
         addFragmentButton = view.findViewById(R.id.addFragmentButton);
         removeFragmentButton = view.findViewById(R.id.removeFragmentButton);
         reportFragmentButton = view.findViewById(R.id.reportFragmentButton);
+        loginFragmentButton = view.findViewById(R.id.loginFragmentButton);
 
-        /* UNCOMMENT when View Fragment implemented
+        loginFragmentButton.setOnClickListener(v->{
+            AdminLoginFragment loginFrag = new AdminLoginFragment();
+            loginFrag.show(getParentFragmentManager(), "AdminLoginFragment");
+        });
+
+        // Temporary (should load automatically when the app launches)
         viewFragmentButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) { loadFragment(new ViewFragment());}
+            public void onClick(View v) { loadFragment(new RecyclerViewFragment());}
         });
-        */
 
         searchFragmentButton.setOnClickListener(new View.OnClickListener() {
             @Override

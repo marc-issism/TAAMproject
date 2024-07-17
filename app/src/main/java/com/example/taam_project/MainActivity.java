@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         // DatabaseReference dbRef = db.getReference("IDK WHAT GOES HERE");
 
        if(savedInstanceState == null){
-            loadFragment(new HomeFragment());
+            loadFragment(new AddItem());
 
        }
     }

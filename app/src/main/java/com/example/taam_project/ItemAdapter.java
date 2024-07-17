@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,6 +17,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -46,7 +48,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         holder.category.setText("Category: " + item.getCategory());
         holder.period.setText("Period: " + item.getPeriod());
         holder.description.setText("Description: " + item.getDescription());
-        holder.media.setText("Media: " + item.getMedia());
+
+        Glide.with(context)
+                .load(item.getMedia())
+                .placeholder(R.drawable.ic_launcher_foreground)
+                .into(holder.media);
 
         holder.remove.setOnClickListener(view -> {
             FirebaseDatabase db = FirebaseDatabase.getInstance("https://cscb07-taam-default-rtdb.firebaseio.com/");
@@ -74,7 +80,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     public int getItemCount() { return items.size(); }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
-        TextView lotNumber, name, category, period, description, media;
+        TextView lotNumber, name, category, period, description;
+        ImageView media;
         Button remove;
 
         public ItemViewHolder(@NonNull View itemView) {
@@ -84,7 +91,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             category = itemView.findViewById(R.id.textViewCategory);
             period = itemView.findViewById(R.id.textViewPeriod);
             description = itemView.findViewById(R.id.textViewDescription);
-            media = itemView.findViewById(R.id.textViewMedia);
+            media = itemView.findViewById(R.id.imageViewMedia);
             remove = itemView.findViewById(R.id.remove);
         }
     }

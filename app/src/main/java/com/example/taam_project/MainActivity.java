@@ -13,11 +13,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 public class MainActivity extends AppCompatActivity {
-    Button ReportButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
             loginFrag.show(getSupportFragmentManager(), "AdminLoginFragment");
         });
       
+
 //        ReportButton = findViewById(R.id.reportbutton);
 //        ReportButton.setOnClickListener(new View.OnClickListener() {
 //            @Override

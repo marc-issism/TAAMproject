@@ -48,7 +48,7 @@ public class RecyclerViewFragment extends Fragment {
                 items.clear();
                 for (DataSnapshot ds: snapshot.getChildren()) {
                     items.add(ds.getValue(Item.class));
-                    }
+                }
                 adapter.notifyDataSetChanged();
             }
 

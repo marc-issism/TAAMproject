@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         // DatabaseReference dbRef = db.getReference("IDK WHAT GOES HERE");
 
        if(savedInstanceState == null){
-            loadFragment(new HomeFragment());
+            loadFragment(new AddItem());
 
        }
     }
@@ -45,6 +45,12 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        // Patrick - Admin Login Button
+        findViewById(R.id.show_login_button).setOnClickListener(v->{
+            AdminLoginFragment loginFrag = new AdminLoginFragment();
+            loginFrag.show(getSupportFragmentManager(), "AdminLoginFragment");
+        });
+      
 
 //        ReportButton = findViewById(R.id.reportbutton);
 //        ReportButton.setOnClickListener(new View.OnClickListener() {

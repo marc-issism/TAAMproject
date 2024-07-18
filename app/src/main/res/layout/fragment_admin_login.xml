@@ -13,7 +13,10 @@
         android:layout_height="wrap_content"
         android:text="This is a popup!"
         android:textSize="18sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/close_button"
@@ -21,6 +24,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="52dp"
         android:text="Close"
-        app:layout_constraintTop_toBottomOf="@+id/dialog_title"
-        tools:layout_editor_absoluteX="16dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_title" />
 </androidx.constraintlayout.widget.ConstraintLayout>

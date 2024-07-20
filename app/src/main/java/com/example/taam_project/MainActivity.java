@@ -15,7 +15,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
-    Button ReportButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         // DatabaseReference dbRef = db.getReference("IDK WHAT GOES HERE");
 
        if(savedInstanceState == null){
-            loadFragment(new HomeFragment());
+            loadFragment(new AddItem());
 
        }
     }
@@ -45,6 +44,13 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // Patrick - Admin Login Button
+//        findViewById(R.id.show_login_button).setOnClickListener(v->{
+//            AdminLoginFragment loginFrag = new AdminLoginFragment();
+//            loginFrag.show(getSupportFragmentManager(), "AdminLoginFragment");
+//        });
+      
 
 //        ReportButton = findViewById(R.id.reportbutton);
 //        ReportButton.setOnClickListener(new View.OnClickListener() {

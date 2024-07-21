@@ -9,6 +9,9 @@ import android.widget.TextView;
 import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -25,10 +28,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
     private List<Item> items;
     private Context context;
+    private FragmentManager parentFragmentManager;
 
-    public ItemAdapter(List<Item> items, Context context) {
+    public ItemAdapter(List<Item> items, Context context, FragmentManager fm) {
         this.items = items;
         this.context = context;
+        this.parentFragmentManager = fm;
     }
 
     @NonNull
@@ -43,11 +48,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         Item item = items.get(position);
 
         // Will use resource strings instead of concatenation later
-        holder.lotNumber.setText("Lot #: " + item.getLotNumber());
+        // holder.lotNumber.setText("Lot #: " + item.getLotNumber());
         holder.name.setText("Name: " + item.getName());
-        holder.category.setText("Category: " + item.getCategory());
-        holder.period.setText("Period: " + item.getPeriod());
-        holder.description.setText("Description: " + item.getDescription());
+        // holder.category.setText("Category: " + item.getCategory());
+        // holder.period.setText("Period: " + item.getPeriod());
+        // holder.description.setText("Description: " + item.getDescription());
 
         Glide.with(context)
                 .load(item.getMedia())
@@ -74,6 +79,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                 }
             });
         });
+
+        holder.view.setOnClickListener(view -> {
+            loadFragment(new ViewFragment(item));
+        });
     }
 
     @Override
@@ -82,18 +91,26 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
         TextView lotNumber, name, category, period, description;
         ImageView media;
-        Button remove;
+        Button remove, view;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
-            lotNumber = itemView.findViewById(R.id.textViewLotNumber);
+            // lotNumber = itemView.findViewById(R.id.textViewLotNumber);
             name = itemView.findViewById(R.id.textViewName);
-            category = itemView.findViewById(R.id.textViewCategory);
-            period = itemView.findViewById(R.id.textViewPeriod);
-            description = itemView.findViewById(R.id.textViewDescription);
+            // category = itemView.findViewById(R.id.textViewCategory);
+            // period = itemView.findViewById(R.id.textViewPeriod);
+            // description = itemView.findViewById(R.id.textViewDescription);
             media = itemView.findViewById(R.id.imageViewMedia);
             remove = itemView.findViewById(R.id.remove);
+            view = itemView.findViewById(R.id.view);
         }
+    }
+
+    private void loadFragment(Fragment fragment) {
+        FragmentTransaction transaction = parentFragmentManager.beginTransaction();
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
 }

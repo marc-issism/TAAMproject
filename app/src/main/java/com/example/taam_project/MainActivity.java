@@ -15,7 +15,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
-    Button ReportButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +26,9 @@ public class MainActivity extends AppCompatActivity {
         // db = FirebaseDatabase.getInstance(dbURL);
         // DatabaseReference dbRef = db.getReference("IDK WHAT GOES HERE");
 
-       if(savedInstanceState == null){
+        if (savedInstanceState == null){
             loadFragment(new HomeFragment());
-
-       }
+        }
     }
     private void loadFragment(Fragment fragment){
         FragmentTransaction frag =getSupportFragmentManager().beginTransaction();

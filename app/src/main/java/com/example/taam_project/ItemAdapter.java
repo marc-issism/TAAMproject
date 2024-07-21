@@ -69,13 +69,15 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     for (DataSnapshot ds: snapshot.getChildren()) {
-                        Toast.makeText(context, ds.getKey(), Toast.LENGTH_SHORT).show();
+                        Item item = ds.getValue(Item.class);
+                        Toast.makeText(context, "Removing " + item.getName(), Toast.LENGTH_SHORT).show();
+                        ds.getRef().removeValue();
                     }
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    // communicate error
+                    Toast.makeText(context, "Deletion failed ", Toast.LENGTH_SHORT).show();
                 }
             });
         });

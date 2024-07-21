@@ -18,10 +18,9 @@ import com.google.firebase.auth.FirebaseUser;
 
 
 public class HomeFragment extends Fragment {
-    private Button viewFragmentButton;
+
     private Button searchFragmentButton;
     private Button addFragmentButton;
-    private Button removeFragmentButton;
     private Button reportFragmentButton;
     private Button loginFragmentButton;
 
@@ -35,10 +34,8 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        viewFragmentButton = view.findViewById(R.id.viewFragmentButton);
         searchFragmentButton = view.findViewById(R.id.searchFragmentButton);
         addFragmentButton = view.findViewById(R.id.addFragmentButton);
-        removeFragmentButton = view.findViewById(R.id.removeFragmentButton);
         reportFragmentButton = view.findViewById(R.id.reportFragmentButton);
         loginFragmentButton = view.findViewById(R.id.loginFragmentButton);
         Button logoutButton = view.findViewById(R.id.logoutButton);
@@ -46,12 +43,6 @@ public class HomeFragment extends Fragment {
         loginFragmentButton.setOnClickListener(v->{
             AdminLoginFragment loginFrag = new AdminLoginFragment(this);
             loginFrag.show(getParentFragmentManager(), "AdminLoginFragment");
-        });
-
-        // Temporary (should load automatically when the app launches)
-        viewFragmentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { loadFragment(new RecyclerViewFragment());}
         });
 
         searchFragmentButton.setOnClickListener(new View.OnClickListener() {
@@ -64,13 +55,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) { loadFragment(new AddItem());}
         });
-
-        /* UNCOMMENT when Remove Fragment implemented
-        removeFragmentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { loadFragment(new RemoveFragment());}
-        });
-        */
 
         /* UNCOMMENT when Report Activity is converted to fragment
         reportFragmentButton.setOnClickListener(new View.OnClickListener() {
@@ -99,7 +83,15 @@ public class HomeFragment extends Fragment {
         // Simple check to see if a user is logged in.
         loginStatusTextView = view.findViewById(R.id.loginStatusTextView);
 
+        loadRecyclerView();
+
         return view;
+    }
+
+    private void loadRecyclerView() {
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.recyclerViewContainer, new RecyclerViewFragment());
+        transaction.commit();
     }
 
     private void loadFragment(Fragment fragment) {

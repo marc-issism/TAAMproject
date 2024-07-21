@@ -1,26 +1,21 @@
 package com.example.taam_project;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.ImageView;
+import androidx.fragment.app.DialogFragment;
+import android.content.Context;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.bumptech.glide.Glide;
 
-import org.w3c.dom.Text;
+public class ViewFragment extends DialogFragment {
 
-import java.util.ArrayList;
-
-public class ViewFragment extends Fragment {
     private Item item;
     private TextView name, lot, category, dynasty, description;
+    private ImageView media;
 
     public ViewFragment(Item item) {
         this.item = item;
@@ -36,13 +31,33 @@ public class ViewFragment extends Fragment {
         category = view.findViewById(R.id.textViewCategory);
         dynasty = view.findViewById(R.id.textViewPeriod);
         description = view.findViewById(R.id.textViewDescription);
+        media = view.findViewById(R.id.imageViewMedia);
 
-        name.setText(item.getName());
-        lot.setText(item.getLotNumber());
-        category.setText(item.getCategory());
-        dynasty.setText(item.getPeriod());
-        description.setText(item.getDescription());
+        Context context = getContext();
+
+        if (context != null) {
+
+            name.setText(context.getString(R.string.item_name, item.getName()));
+            lot.setText(context.getString(R.string.item_lot_number, item.getLotNumber()));
+            category.setText(context.getString(R.string.item_category, item.getCategory()));
+            dynasty.setText(context.getString(R.string.item_period, item.getPeriod()));
+            description.setText(context.getString(R.string.item_description, item.getDescription()));
+
+            Glide.with(context)
+                    .load(item.getMedia())
+                    .placeholder(R.drawable.ic_launcher_foreground)
+                    .into(media);
+
+        }
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (getDialog() != null) {
+            getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
     }
 }

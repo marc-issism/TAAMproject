@@ -55,9 +55,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         // holder.description.setText("Description: " + item.getDescription());
 
         Glide.with(context)
-                .load(item.getMedia())
-                .placeholder(R.drawable.ic_launcher_foreground)
-                .into(holder.media);
+            .load(item.getMedia())
+            .placeholder(R.drawable.ic_launcher_foreground)
+            .into(holder.media);
 
         holder.remove.setOnClickListener(view -> {
             FirebaseDatabase db = FirebaseDatabase.getInstance("https://cscb07-taam-default-rtdb.firebaseio.com/");
@@ -82,9 +82,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             });
         });
 
-        // Make each item container clickable
+        // Make each item container pop-ups
         holder.itemView.setOnClickListener(view -> {
-            loadFragment(new ViewFragment(item));
+            ViewFragment viewFrag = new ViewFragment(item);
+            viewFrag.show(parentFragmentManager, "view_dialog_fragment");
         });
 
 //        holder.view.setOnClickListener(view -> {

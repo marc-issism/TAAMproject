@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -17,9 +15,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
-    Button ReportButton;
-
-    FirebaseDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,39 +22,44 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Database linking
-        String dbURL = "";
-        //db = FirebaseDatabase.getInstance(dbURL);
-      //  DatabaseReference dbRef = db.getReference("IDK WHAT GOES HERE");
-        //
-      
+        // String dbURL = "https://cscb07-taam-default-rtdb.firebaseio.com/";
+        // db = FirebaseDatabase.getInstance(dbURL);
+        // DatabaseReference dbRef = db.getReference("IDK WHAT GOES HERE");
+
        if(savedInstanceState == null){
-            loadFragment(new HomeFragment()); // Default is HomeFragment DO NOT CHANGE!!
+            loadFragment(new HomeFragment());
+
        }
     }
-
     private void loadFragment(Fragment fragment){
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-
-        /*teddy's code (will move to appropriate position later if required)
+        Fragment animFrag = new Fragment();
+        FragmentTransaction frag =getSupportFragmentManager().beginTransaction();
+        frag.replace(R.id.fragment_container, fragment);
+        frag.addToBackStack(null);
+        frag.commit();
+  
+      
+        /*teddy's code (will move to appropriate position later if required)*/
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        */
 
+        // Patrick - Admin Login Button
+//        findViewById(R.id.show_login_button).setOnClickListener(v->{
+//            AdminLoginFragment loginFrag = new AdminLoginFragment();
+//            loginFrag.show(getSupportFragmentManager(), "AdminLoginFragment");
+//        });
+      
+
+//        ReportButton = findViewById(R.id.reportbutton);
+//        ReportButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(MainActivity.this, ReportActivity.class);
+//                startActivity(intent);
+//            }
+//        });
     }
-
-    @Override
-    public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
-            getSupportFragmentManager().popBackStack();
-        } else {
-            super.onBackPressed();
-        }
-    }
-
 }

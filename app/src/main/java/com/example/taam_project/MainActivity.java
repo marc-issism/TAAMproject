@@ -26,9 +26,10 @@ public class MainActivity extends AppCompatActivity {
         // db = FirebaseDatabase.getInstance(dbURL);
         // DatabaseReference dbRef = db.getReference("IDK WHAT GOES HERE");
 
-        if (savedInstanceState == null){
+       if(savedInstanceState == null){
             loadFragment(new HomeFragment());
-        }
+
+       }
     }
     private void loadFragment(Fragment fragment){
         FragmentTransaction frag =getSupportFragmentManager().beginTransaction();
@@ -43,6 +44,13 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // Patrick - Admin Login Button
+//        findViewById(R.id.show_login_button).setOnClickListener(v->{
+//            AdminLoginFragment loginFrag = new AdminLoginFragment();
+//            loginFrag.show(getSupportFragmentManager(), "AdminLoginFragment");
+//        });
+      
 
 //        ReportButton = findViewById(R.id.reportbutton);
 //        ReportButton.setOnClickListener(new View.OnClickListener() {

@@ -80,9 +80,15 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             });
         });
 
-        holder.view.setOnClickListener(view -> {
+        // Make each item container clickable
+        holder.itemView.setOnClickListener(view -> {
             loadFragment(new ViewFragment(item));
         });
+
+//        holder.view.setOnClickListener(view -> {
+//            loadFragment(new ViewFragment(item));
+//        });
+
     }
 
     @Override
@@ -102,7 +108,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             // description = itemView.findViewById(R.id.textViewDescription);
             media = itemView.findViewById(R.id.imageViewMedia);
             remove = itemView.findViewById(R.id.remove);
-            view = itemView.findViewById(R.id.view);
+//            view = itemView.findViewById(R.id.view);
         }
     }
 

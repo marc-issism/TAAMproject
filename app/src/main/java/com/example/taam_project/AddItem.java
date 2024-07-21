@@ -159,10 +159,7 @@ public class AddItem extends Fragment {
         sb.child(tmpLot).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                String link = "";
-                if (uri != null){
-                    link = uri.toString();
-                }
+                String link = uri.toString();
                 itemsRef.child(tmpLot).child("media").setValue(link);
                 }
         }).addOnFailureListener(new OnFailureListener() {

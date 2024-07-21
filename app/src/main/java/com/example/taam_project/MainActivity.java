@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
        }
     }
     private void loadFragment(Fragment fragment){
+        Fragment animFrag = new Fragment();
         FragmentTransaction frag =getSupportFragmentManager().beginTransaction();
         frag.replace(R.id.fragment_container, fragment);
         frag.addToBackStack(null);

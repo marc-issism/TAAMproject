@@ -1,6 +1,5 @@
 package com.example.taam_project;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,13 +7,12 @@ import android.os.Bundle;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,29 +22,27 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.Firebase;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
+
 
 public class AddItem extends Fragment {
     private EditText lotNumber, name, description;
     private Spinner category, period;
-    private Button submit, media;
     private FirebaseDatabase db;
     private DatabaseReference itemsRef;
     private StorageReference sb;
     ActivityResultLauncher<Intent> resultLauncher;
     private Uri image;
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -58,8 +54,8 @@ public class AddItem extends Fragment {
         category = view.findViewById(R.id.EditCategory);
         period = view.findViewById(R.id.EditPeriod);
         description = view.findViewById(R.id.EditDescription);
-        submit = view.findViewById(R.id.Submit);
-        media = view.findViewById(R.id.EditPicture);
+        Button submit = view.findViewById(R.id.Submit);
+        Button media = view.findViewById(R.id.EditPicture);
         registerResult();
 
         db = FirebaseDatabase.getInstance("https://cscb07-taam-default-rtdb.firebaseio.com/");
@@ -112,7 +108,7 @@ public class AddItem extends Fragment {
         }
 
         itemsRef = db.getReference("test/");
-        String id = itemsRef.push().getKey();
+       // String id = itemsRef.push().getKey();
 
         uploadImage(tmpLot);
 
@@ -143,6 +139,7 @@ public class AddItem extends Fragment {
                             image = result.getData().getData();
                         }
                         catch (Exception e){
+                            Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
 
                         }
                     }
@@ -151,6 +148,9 @@ public class AddItem extends Fragment {
     }
 
     private void uploadImage(String lotNumber){
+        if (image == null){
+            return;
+        }
         StorageReference imageRef = sb.child(lotNumber);
         imageRef.putFile(image);
     }
@@ -159,7 +159,10 @@ public class AddItem extends Fragment {
         sb.child(tmpLot).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                String link = uri.toString();
+                String link = "";
+                if (uri != null){
+                    link = uri.toString();
+                }
                 itemsRef.child(tmpLot).child("media").setValue(link);
                 }
         }).addOnFailureListener(new OnFailureListener() {

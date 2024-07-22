@@ -51,6 +51,10 @@ dependencies {
     // Bumptech
     implementation("com.github.bumptech.glide:glide:4.14.2")
 
+    // ExoPlayer
+    implementation("com.google.android.exoplayer:exoplayer-core:2.18.1")
+    implementation("com.google.android.exoplayer:exoplayer-ui:2.18.1")
+
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)

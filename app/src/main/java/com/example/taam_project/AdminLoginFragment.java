@@ -86,19 +86,29 @@ public class AdminLoginFragment extends DialogFragment {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.d(TAG, "signInWithEmail:success");
+                        // Sign in success
                         FirebaseUser user = mAuth.getCurrentUser();
-                        Toast.makeText(getActivity(), "Successfully logged in.",
-                                Toast.LENGTH_SHORT).show();
-                        parentFragment.displayWhosSignedIn();
-                        dismiss();
+                        if (user != null) {
+                            if (user.isEmailVerified()) {
+                                // Email is verified
+                                Log.d(TAG, "signInWithEmail:success");
+                                Toast.makeText(getActivity(), "Successfully logged in.",
+                                        Toast.LENGTH_SHORT).show();
+                                parentFragment.setAdminState();
+                                dismiss();
+                            } else {
+                                // Email is not verified
+                                Log.w(TAG, "Email not verified");
+                                Toast.makeText(getActivity(), "Please verify your email before logging in.",
+                                        Toast.LENGTH_SHORT).show();
+                                mAuth.signOut(); // Sign out the user
+                            }
+                        }
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithEmail:failure", task.getException());
-                        Toast.makeText(getActivity(), "Authentication failed.",
+                        Toast.makeText(getActivity(), "Authentication failed." + task.getException().getMessage(),
                                 Toast.LENGTH_SHORT).show();
-                        // updateUI(null);
                     }
                 }
             });
@@ -110,18 +120,33 @@ public class AdminLoginFragment extends DialogFragment {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.d(TAG, "createUserWithEmail:success");
+                        // Account creation success
                         FirebaseUser user = mAuth.getCurrentUser();
-                        Toast.makeText(getActivity(), "Account successfully created.",
-                                Toast.LENGTH_SHORT).show();
-                        // updateUI(user);
+                        if (user != null) {
+                            // Send verification email
+                            user.sendEmailVerification()
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Log.d(TAG, "Verification email sent.");
+                                                Toast.makeText(getActivity(), "Account successfully created. Please check your email to verify your account.",
+                                                        Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Log.e(TAG, "Failed to send verification email.", task.getException());
+                                                Toast.makeText(getActivity(), "Failed to send verification email.",
+                                                        Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+                        }
                     } else {
-                        // If sign in fails, display a message to the user.
-                        Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                        Toast.makeText(getActivity(), "Authentication failed.",
-                                Toast.LENGTH_SHORT).show();
-                        // updateUI(null);
+                        // Account creation failed
+                        Exception exception = task.getException();
+                        if (exception != null) {
+                            Log.w(TAG, "createUserWithEmail:failure", exception);
+                            Toast.makeText(getActivity(), "Authentication failed. " + exception.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             });
@@ -144,13 +169,6 @@ public class AdminLoginFragment extends DialogFragment {
 
             Log.d(TAG, "displayUserInfo: " + name + " " + email);
         }
-    }
-
-    public void updateUI(FirebaseUser user) {
-        if (user == null) {
-            return;
-        }
-        ((HomeFragment) getParentFragment()).displayWhosSignedIn();
     }
 
     @Override

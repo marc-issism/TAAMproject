@@ -1,5 +1,7 @@
 package com.example.taam_project;
 
+import static android.view.View.GONE;
+
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -38,7 +40,7 @@ public class HomeFragment extends Fragment {
         addFragmentButton = view.findViewById(R.id.addFragmentButton);
         reportFragmentButton = view.findViewById(R.id.reportFragmentButton);
         loginFragmentButton = view.findViewById(R.id.loginFragmentButton);
-        Button logoutButton = view.findViewById(R.id.logoutButton);
+        logoutButton = view.findViewById(R.id.logoutButton);
 
         loginFragmentButton.setOnClickListener(v->{
             AdminLoginFragment loginFrag = new AdminLoginFragment(this);
@@ -77,7 +79,7 @@ public class HomeFragment extends Fragment {
             // Call the signOut method to log out the current user
             FirebaseAuth.getInstance().signOut();
             Toast.makeText(getActivity(), "User logged out", Toast.LENGTH_SHORT).show();
-            displayWhosSignedIn();
+            setAdminState();
         });
 
         // Simple check to see if a user is logged in.
@@ -107,20 +109,29 @@ public class HomeFragment extends Fragment {
         transaction.commit();
     }
 
-    public void displayWhosSignedIn() {
+    public void setAdminState() {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currentUser != null){
+        if (currentUser != null && currentUser.isEmailVerified()) {
+            // User is signed in.
             String email = currentUser.getEmail();
-            loginStatusTextView.setText("User (" + email + ") is signed in");
+            addFragmentButton.setVisibility(View.VISIBLE);
+            reportFragmentButton.setVisibility(View.VISIBLE);
+            logoutButton.setVisibility(View.VISIBLE);
+            loginFragmentButton.setVisibility(GONE);
+            loginStatusTextView.setText("Admin (" + email + ") is signed in");
         } else {
-            // User is not signed in, display a different message or handle accordingly.
-            loginStatusTextView.setText("No user is signed in");
+            // User is not signed in.
+            addFragmentButton.setVisibility(GONE);
+            reportFragmentButton.setVisibility(GONE);
+            logoutButton.setVisibility(GONE);
+            loginFragmentButton.setVisibility(View.VISIBLE);
+            loginStatusTextView.setText("No admin signed in");
         }
     }
 
     public void onStart() {
         super.onStart();
-        displayWhosSignedIn();
+        setAdminState();
     }
 }

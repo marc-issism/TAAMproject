@@ -70,14 +70,6 @@ public class ViewFragment extends DialogFragment {
                 player.play();
             }
 
-            // Video player test
-//            player = new ExoPlayer.Builder(context).build();
-//            playerView.setPlayer(player);
-//            MediaItem media = MediaItem.fromUri(item.getMedia());
-//            player.setMediaItem(media);
-//            player.prepare();
-//            player.play();
-
         }
 
         closeButton.setOnClickListener(v -> {

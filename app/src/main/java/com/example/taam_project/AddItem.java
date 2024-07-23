@@ -1,5 +1,6 @@
 package com.example.taam_project;
 
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.provider.MediaStore;
 
@@ -29,7 +32,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
+
+import java.util.concurrent.TimeUnit;
 
 
 public class AddItem extends Fragment {
@@ -40,6 +46,7 @@ public class AddItem extends Fragment {
     private StorageReference sb;
     ActivityResultLauncher<Intent> resultLauncher;
     private Uri image;
+    static public LoadingFragment load = new LoadingFragment();
 
 
 
@@ -59,7 +66,7 @@ public class AddItem extends Fragment {
         registerResult();
 
         db = FirebaseDatabase.getInstance("https://cscb07-taam-default-rtdb.firebaseio.com/");
-        sb = FirebaseStorage.getInstance().getReference();
+        sb = FirebaseStorage.getInstance().getReference().child("ItemImages/");
 
         // add spinner elements
         ArrayAdapter<CharSequence> catAdap = ArrayAdapter.createFromResource(getContext(),
@@ -108,6 +115,7 @@ public class AddItem extends Fragment {
         }
 
         itemsRef = db.getReference("test/");
+
        // String id = itemsRef.push().getKey();
 
         uploadImage(tmpLot);
@@ -115,8 +123,17 @@ public class AddItem extends Fragment {
         Item item = new Item(tmpLot, tmpName, tmpCategory, tmpPeriod, tmpDisc, "");
         itemsRef.child(tmpLot).setValue(item).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                getMediaLink(tmpLot);
-                Toast.makeText(getContext(), "Successfully added", Toast.LENGTH_SHORT).show();
+                try {
+                    getMediaLink(tmpLot, 0);
+                    setMediaType(tmpLot, 0);
+                    load.show(getParentFragmentManager(), "loading_fragment");
+
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+
+
             } else {
                 Toast.makeText(getContext(), "Failed to add item", Toast.LENGTH_SHORT).show();
             }
@@ -139,7 +156,7 @@ public class AddItem extends Fragment {
                             image = result.getData().getData();
                         }
                         catch (Exception e){
-                            Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Could not register image", Toast.LENGTH_SHORT).show();
 
                         }
                     }
@@ -155,19 +172,66 @@ public class AddItem extends Fragment {
         imageRef.putFile(image);
     }
 
-    private void getMediaLink(String tmpLot){
-        sb.child(tmpLot).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+    private void getMediaLink(String lotNum, Integer loop) throws InterruptedException {
+        if (loop == 10) {
+            Toast.makeText(getContext(), "Media could not be uploaded", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        sb.child(lotNum).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 String link = uri.toString();
-                itemsRef.child(tmpLot).child("media").setValue(link);
-                }
+                itemsRef.child(lotNum).child("media").setValue(link);
+                load.dismiss();
+
+                Toast.makeText(getContext(), "Media successfully uploaded", Toast.LENGTH_SHORT).show();
+                FragmentManager frag = getParentFragmentManager();
+                FragmentTransaction transaction = frag.beginTransaction();
+                transaction.replace(R.id.fragment_container, HomeFragment.class, null);
+                transaction.commit();
+
+            }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-
-                Toast.makeText(getContext(), "Failed to process image", Toast.LENGTH_SHORT).show();
+                try {
+                    TimeUnit.SECONDS.sleep(2);
+                    getMediaLink(lotNum, loop+1);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
     }
+    private void setMediaType(String lot, Integer loop){
+        if (loop == 10){
+            Toast.makeText(getContext(), "Media could not be uploaded", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        StorageReference item = sb.child(lot);
+        item.getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
+            @Override
+            public void onSuccess(StorageMetadata storageMetadata) {
+                // Metadata now contains the metadata for 'images/forest.jpg'
+                String mediaType = storageMetadata.getContentType();
+                itemsRef.child(lot).child("mediaType").setValue(mediaType);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                try {
+                    TimeUnit.SECONDS.sleep(2);
+                    setMediaType(lot, loop+1);
+
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+    }
+
+
+
 }

@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.bumptech.glide.disklrucache.DiskLruCache;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,24 +32,14 @@ import java.util.List;
 public class SearchFragment extends Fragment {
 
     // View components
-    private EditText lotNumberInput;
-    private EditText nameInput;
-    private Spinner categorySpinner;
-    private Spinner periodSpinner;
-    private TextInputEditText descriptionInput;
     private Button searchButton;
+    private Spinner filterSpinner;
+    private EditText searchTextInput;
 
     // Firebase
     private FirebaseDatabase db;
     private DatabaseReference ref;
     private List<Item> results;
-
-    // Default fields
-    private String lotNumber = "";
-    private String name = "";
-    private String category = "Any";
-    private String period = "Any";
-    private String description = "";
 
     @Nullable
     @Override
@@ -55,24 +47,16 @@ public class SearchFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
-        lotNumberInput = view.findViewById(R.id.lotNumberInput);
-        nameInput = view.findViewById(R.id.nameInput);
-        categorySpinner = view.findViewById(R.id.categorySpinner);
-        periodSpinner = view.findViewById(R.id.periodSpinner);
-        descriptionInput = view.findViewById(R.id.descriptionInput);
         searchButton = view.findViewById(R.id.searchButton);
+        filterSpinner = view.findViewById(R.id.filterSpinner);
+        searchTextInput = view.findViewById(R.id.searchTextInput);
 
-        // Set category spinner options
-        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(getContext(),
-                R.array.category_arr, android.R.layout.simple_spinner_item);
-        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        categorySpinner.setAdapter(adapter1);
-
-        // Set period spinner options
-        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(getContext(),
-                R.array.period_arr, android.R.layout.simple_spinner_item);
-        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        periodSpinner.setAdapter(adapter2);
+        // Set filter spinner options
+        ArrayAdapter<CharSequence> filterAdapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.filter_arr, android.R.layout.simple_spinner_item);
+        filterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        filterSpinner.setAdapter(filterAdapter);
+        filterSpinner.setAdapter(filterAdapter);
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,25 +69,17 @@ public class SearchFragment extends Fragment {
 
     public void search() {
 
-        String DIR = "https://cscb07-taam-default-rtdb.firebaseio.com/";
+        final String DIR = "https://cscb07-taam-default-rtdb.firebaseio.com/";
         db = FirebaseDatabase.getInstance(DIR);
         ref = db.getReference("test");
 
         results = new ArrayList<>();
 
-        resetSearchFields(); // Set all fields to default values of empty string
+        String filter = filterSpinner.getSelectedItem().toString();
+        String query = searchTextInput.getText().toString();
 
-        lotNumber = lotNumberInput.getText().toString();
-        name = nameInput.getText().toString();
-        category = categorySpinner.getSelectedItem().toString();
-        period = periodSpinner.getSelectedItem().toString();
-        try {
-            description = descriptionInput.getText().toString();
-        } catch (Exception e) {
+        Log.d("SEARCH CRITERIA", filter + "|" + query);
 
-        }
-
-        Log.d("SEARCH CRITERIA", lotNumber + "|" + name + "|" + category + "|" + period + "|" + description);
 
         ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -114,17 +90,31 @@ public class SearchFragment extends Fragment {
                     Item item = ds.getValue(Item.class);
                     Log.d("ITEM PARSE", item.getName());
 
-                    boolean isMatch = matchesQuery(item, lotNumber, name, category, period, description);
-                    Log.d("SEARCH MATCH", String.valueOf(isMatch));
+                    boolean isMatch = false;
+
+                    if (filter.equals("All")) {
+                        isMatch = containsQuery(item, query);
+                    } else if (filter.equals("Lot Number")) {
+                        isMatch = containsLotNumber(item, query);
+                    } else if (filter.equals("Name")) {
+                        isMatch = containsName(item, query);
+                    } else if (filter.equals("Category")) {
+                        isMatch = hasCategory(item, query);
+                    } else if (filter.equals("Description")) {
+                        isMatch = containsDescription(item, query);
+                    } else {
+                        isMatch = hasPeriod(item, query);
+                    }
+
+                    Log.d("SEARCH", String.valueOf(isMatch));
                     if (isMatch) {
                         results.add(item);
                     }
 
                 }
 
-                // Log all search results' names
-                for (int i = 0; i < results.size(); i++) {
-                    Log.d("SEARCH RESULT", results.get(i).getName());
+                for (Item item : results) {
+                    Log.d("SEARCH RESULT", item.getName());
                 }
             }
 
@@ -136,37 +126,47 @@ public class SearchFragment extends Fragment {
 
     }
 
-    public static boolean matchesQuery(Item item, String lotNumber, String name, String category, String period, String description) {
+    public static boolean containsQuery(Item item, String query) {
 
-        if (!lotNumber.isEmpty() && !item.getLotNumber().equals(lotNumber)) {
+        if (containsName(item, query)) {
+            return true;
+        }
+        if (containsDescription(item, query)) {
+            return true;
+        }
+        if (hasCategory(item, query)) {
+            return true;
+        }
+        if (hasPeriod(item, query)) {
+            return true;
+        }
+        if (containsLotNumber(item, query)) {
+            return true;
+        }
 
-            return false;
-        }
-        if (!name.isEmpty() && !item.getName().equals(name)) {
-            return false;
-        }
-        if (!category.equals("Any") && !item.getCategory().equals(category)) {
-            return false;
-        }
-        if (!period.equals("Any") && !item.getPeriod().equals(period)) {
-            return false;
-        }
-        if (!description.isEmpty() && !item.getDescription().contains(description)) {
-            return false;
-        }
-
-        return true;
+        return false;
     }
 
-    private void resetSearchFields() {
-
-        lotNumber = "";
-        name = "";
-        category = "";
-        period = "";
-        description = "";
-
+    public static boolean containsLotNumber(@NonNull Item item, String lotNumber) {
+        return item.getLotNumber().contains(lotNumber) || lotNumber.isEmpty();
     }
+
+    public static boolean containsName(@NonNull Item item, String name) {
+        return item.getName().contains(name) || name.isEmpty();
+    }
+
+    public static boolean hasCategory(@NonNull Item item, String category) {
+        return item.getCategory().equals(category) || category.isEmpty();
+    }
+
+    public static boolean hasPeriod(@NonNull Item item, String period) {
+        return item.getPeriod().equals(period) || period.isEmpty();
+    }
+
+    public static boolean containsDescription(@NonNull Item item, String description) {
+        return item.getDescription().contains(description);
+    }
+
 
     private void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();

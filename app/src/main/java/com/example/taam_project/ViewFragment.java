@@ -9,6 +9,8 @@ import android.widget.TextView;
 import android.widget.ImageView;
 import androidx.fragment.app.DialogFragment;
 import android.content.Context;
+import android.content.DialogInterface;
+import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
 import com.google.android.exoplayer2.ExoPlayer;
@@ -40,7 +42,7 @@ public class ViewFragment extends DialogFragment {
         category = view.findViewById(R.id.textViewCategory);
         dynasty = view.findViewById(R.id.textViewPeriod);
         description = view.findViewById(R.id.textViewDescription);
-        imageView = view.findViewById(R.id.imageViewMedia);
+        imageView = view.findViewById(R.id.imageView);
         playerView = view.findViewById(R.id.playerView);
 
         if (context != null) {
@@ -52,13 +54,15 @@ public class ViewFragment extends DialogFragment {
             description.setText(context.getString(R.string.item_description, item.getDescription()));
 
             if (item.getMediaType().startsWith("image")) {
+                playerView.setVisibility(View.GONE);
                 Glide.with(context)
                     .load(item.getMedia())
                     .placeholder(R.drawable.ic_launcher_foreground)
                     .into(imageView);
             }
             if (item.getMediaType().startsWith("video")) {
-                ExoPlayer player = new ExoPlayer.Builder(context).build();
+                playerView.setVisibility(View.VISIBLE);
+                player = new ExoPlayer.Builder(context).build();
                 playerView.setPlayer(player);
                 MediaItem media = MediaItem.fromUri(item.getMedia());
                 player.setMediaItem(media);
@@ -66,26 +70,23 @@ public class ViewFragment extends DialogFragment {
                 player.play();
             }
 
-            // Video player test
-//            player = new ExoPlayer.Builder(context).build();
-//            playerView.setPlayer(player);
-//            MediaItem media = MediaItem.fromUri(item.getMedia());
-//            player.setMediaItem(media);
-//            player.prepare();
-//            player.play();
-
         }
 
         closeButton.setOnClickListener(v -> {
-            if (player != null) {
-                player.stop();
-                player.release();
-                player = null;
-            }
             dismiss();
         });
 
         return view;
+    }
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if (player != null) {
+            player.stop();
+            player.release();
+            player = null;
+        }
     }
 
     @Override

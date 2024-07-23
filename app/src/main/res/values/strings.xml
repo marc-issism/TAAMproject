@@ -51,4 +51,10 @@
         <item>Qing</item>
         <item>Modern</item>
     </string-array>
+
+    <string name="item_name">Name: %1$s</string>
+    <string name="item_lot_number">Lot #: %1$s</string>
+    <string name="item_category">Category: %1$s</string>
+    <string name="item_period">Period: %1$s</string>
+    <string name="item_description">Description: %1$s</string>
 </resources>

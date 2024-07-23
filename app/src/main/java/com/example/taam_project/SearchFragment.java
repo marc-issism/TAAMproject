@@ -148,11 +148,11 @@ public class SearchFragment extends Fragment {
     }
 
     public static boolean containsLotNumber(@NonNull Item item, String lotNumber) {
-        return item.getLotNumber().equals(lotNumber) || lotNumber.isEmpty();
+        return item.getLotNumber().contains(lotNumber) || lotNumber.isEmpty();
     }
 
     public static boolean containsName(@NonNull Item item, String name) {
-        return item.getName().equals(name) || name.isEmpty();
+        return item.getName().contains(name) || name.isEmpty();
     }
 
     public static boolean hasCategory(@NonNull Item item, String category) {

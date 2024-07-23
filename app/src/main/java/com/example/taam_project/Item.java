@@ -9,7 +9,7 @@ public class Item {
     private String period;
     private String description;
     private String media;
-
+    private String mediaType;
     // Empty constructor
     public Item() {
 
@@ -23,6 +23,7 @@ public class Item {
         this.period = period;
         this.description = description;
         this.media = media;
+        mediaType = "";
     }
 
     // Getters and Setters
@@ -62,5 +63,6 @@ public class Item {
     public void setMedia(String media) {
         this.media = media;
     }
+    public String getMediaType(){ return mediaType;}
 
 }

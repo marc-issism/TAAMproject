@@ -11,6 +11,8 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.provider.MediaStore;
 
@@ -44,6 +46,8 @@ public class AddItem extends Fragment {
     private StorageReference sb;
     ActivityResultLauncher<Intent> resultLauncher;
     private Uri image;
+    static public LoadingFragment load = new LoadingFragment();
+
 
 
     @Override
@@ -62,7 +66,7 @@ public class AddItem extends Fragment {
         registerResult();
 
         db = FirebaseDatabase.getInstance("https://cscb07-taam-default-rtdb.firebaseio.com/");
-        sb = FirebaseStorage.getInstance().getReference();
+        sb = FirebaseStorage.getInstance().getReference().child("ItemImages/");
 
         // add spinner elements
         ArrayAdapter<CharSequence> catAdap = ArrayAdapter.createFromResource(getContext(),
@@ -122,7 +126,7 @@ public class AddItem extends Fragment {
                 try {
                     getMediaLink(tmpLot, 0);
                     setMediaType(tmpLot, 0);
-                    Toast.makeText(getContext(), "Item added, waiting for media...", Toast.LENGTH_LONG).show();
+                    load.show(getParentFragmentManager(), "loading_fragment");
 
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
@@ -179,7 +183,9 @@ public class AddItem extends Fragment {
             public void onSuccess(Uri uri) {
                 String link = uri.toString();
                 itemsRef.child(lotNum).child("media").setValue(link);
+                load.dismiss();
                 Toast.makeText(getContext(), "Media successfully uploaded", Toast.LENGTH_SHORT).show();
+
 
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -220,7 +226,8 @@ public class AddItem extends Fragment {
                 }
             }
         });
-
-
     }
+
+
+
 }

@@ -51,28 +51,28 @@ public class ViewFragment extends DialogFragment {
             dynasty.setText(context.getString(R.string.item_period, item.getPeriod()));
             description.setText(context.getString(R.string.item_description, item.getDescription()));
 
-//            if (media is an image) {
-//                Glide.with(context)
-//                    .load(item.getMedia())
-//                    .placeholder(R.drawable.ic_launcher_foreground)
-//                    .into(imageView);
-//            }
-//            else {
-//                ExoPlayer player = new ExoPlayer.Builder(context).build();
-//                playerView.setPlayer(player);
-//                MediaItem media = MediaItem.fromUri(item.getMedia());
-//                player.setMediaItem(media);
-//                player.prepare();
-//                player.play();
-//            }
+            if (item.getMediaType().startsWith("image")) {
+                Glide.with(context)
+                    .load(item.getMedia())
+                    .placeholder(R.drawable.ic_launcher_foreground)
+                    .into(imageView);
+            }
+            if (item.getMediaType().startsWith("video")) {
+                ExoPlayer player = new ExoPlayer.Builder(context).build();
+                playerView.setPlayer(player);
+                MediaItem media = MediaItem.fromUri(item.getMedia());
+                player.setMediaItem(media);
+                player.prepare();
+                player.play();
+            }
 
             // Video player test
-            player = new ExoPlayer.Builder(context).build();
-            playerView.setPlayer(player);
-            MediaItem media = MediaItem.fromUri(item.getMedia());
-            player.setMediaItem(media);
-            player.prepare();
-            player.play();
+//            player = new ExoPlayer.Builder(context).build();
+//            playerView.setPlayer(player);
+//            MediaItem media = MediaItem.fromUri(item.getMedia());
+//            player.setMediaItem(media);
+//            player.prepare();
+//            player.play();
 
         }
 

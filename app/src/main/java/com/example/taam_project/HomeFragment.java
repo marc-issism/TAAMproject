@@ -87,6 +87,9 @@ public class HomeFragment extends Fragment {
 
         loadRecyclerView();
 
+
+
+
         return view;
     }
 
@@ -109,7 +112,7 @@ public class HomeFragment extends Fragment {
         transaction.commit();
     }
 
-    public void setAdminState() {
+    protected void setAdminState() {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null && currentUser.isEmailVerified()) {
@@ -132,6 +135,6 @@ public class HomeFragment extends Fragment {
 
     public void onStart() {
         super.onStart();
-        setAdminState();
+       // setAdminState();
     }
 }

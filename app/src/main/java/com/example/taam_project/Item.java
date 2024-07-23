@@ -63,5 +63,6 @@ public class Item {
     public void setMedia(String media) {
         this.media = media;
     }
+    public String getMediaType(){ return mediaType;}
 
 }

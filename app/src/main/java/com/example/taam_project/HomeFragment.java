@@ -27,12 +27,17 @@ public class HomeFragment extends Fragment {
     // For basic functionality of admin.
     private Button logoutButton;
     private TextView loginStatusTextView;
+    private RecyclerViewFragment recyclerView;
+    private SearchFragment search;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        recyclerView = new RecyclerViewFragment();
+        search = new SearchFragment(recyclerView);
+        search.fetchItems();
 
         searchFragmentButton = view.findViewById(R.id.searchFragmentButton);
         addFragmentButton = view.findViewById(R.id.addFragmentButton);
@@ -45,16 +50,10 @@ public class HomeFragment extends Fragment {
             loginFrag.show(getParentFragmentManager(), "AdminLoginFragment");
         });
 
-        searchFragmentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { loadFragment(new SearchFragment());}
-        });
+        searchFragmentButton.setOnClickListener(v -> loadFragment(search));
 
         // Please rename to AddFragment if possible for consistency
-        addFragmentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { loadFragment(new AddItem());}
-        });
+        addFragmentButton.setOnClickListener(v -> loadFragment(new AddItem()));
 
         /* UNCOMMENT when Report Activity is converted to fragment
         reportFragmentButton.setOnClickListener(new View.OnClickListener() {
@@ -65,12 +64,9 @@ public class HomeFragment extends Fragment {
 
         Button ReportButton;
         ReportButton = reportFragmentButton;
-        ReportButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), ReportActivity.class);
-                startActivity(intent);
-            }
+        ReportButton.setOnClickListener(view1 -> {
+            Intent intent = new Intent(getActivity(), ReportActivity.class);
+            startActivity(intent);
         });
 
         logoutButton.setOnClickListener(v -> {
@@ -83,14 +79,14 @@ public class HomeFragment extends Fragment {
         // Simple check to see if a user is logged in.
         loginStatusTextView = view.findViewById(R.id.loginStatusTextView);
 
-        loadRecyclerView();
+        loadRecyclerView(recyclerView);
 
         return view;
     }
 
-    private void loadRecyclerView() {
+    private void loadRecyclerView(RecyclerViewFragment recyclerView) {
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.recyclerViewContainer, new RecyclerViewFragment());
+        transaction.replace(R.id.recyclerViewContainer, recyclerView);
         transaction.commit();
     }
 

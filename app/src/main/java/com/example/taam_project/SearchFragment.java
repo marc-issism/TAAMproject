@@ -28,6 +28,7 @@ import java.util.List;
 
 
 public class SearchFragment extends Fragment {
+    private static String DIR = "https://cscb07-taam-default-rtdb.firebaseio.com/";
 
     // View components
     private EditText lotNumberInput;
@@ -43,11 +44,23 @@ public class SearchFragment extends Fragment {
     private List<Item> results;
 
     // Default fields
-    private String lotNumber = "";
-    private String name = "";
-    private String category = "Any";
-    private String period = "Any";
-    private String description = "";
+    private String lotNumber;
+    private String name;
+    private String category;
+    private String period;
+    private String description;
+
+    private RecyclerViewFragment recyclerView;
+
+    public SearchFragment(RecyclerViewFragment recyclerView) {
+        lotNumber = "";
+        name = "";
+        category = "Any";
+        period = "Any";
+        description = "";
+        this.recyclerView = recyclerView;
+        results = new ArrayList<>();
+    }
 
     @Nullable
     @Override
@@ -74,37 +87,17 @@ public class SearchFragment extends Fragment {
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         periodSpinner.setAdapter(adapter2);
 
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) { search(); }
+        searchButton.setOnClickListener(view1 -> {
+            search();
+            recyclerView.updateItems(results);
         });
-
 
         return view;
     }
 
-    public void search() {
-
-        String DIR = "https://cscb07-taam-default-rtdb.firebaseio.com/";
+    public void fetchItems() {
         db = FirebaseDatabase.getInstance(DIR);
         ref = db.getReference("test");
-
-        results = new ArrayList<>();
-
-        resetSearchFields(); // Set all fields to default values of empty string
-
-        lotNumber = lotNumberInput.getText().toString();
-        name = nameInput.getText().toString();
-        category = categorySpinner.getSelectedItem().toString();
-        period = periodSpinner.getSelectedItem().toString();
-        try {
-            description = descriptionInput.getText().toString();
-        } catch (Exception e) {
-
-        }
-
-        Log.d("SEARCH CRITERIA", lotNumber + "|" + name + "|" + category + "|" + period + "|" + description);
-
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -119,13 +112,13 @@ public class SearchFragment extends Fragment {
                     if (isMatch) {
                         results.add(item);
                     }
-
                 }
 
-                // Log all search results' names
                 for (int i = 0; i < results.size(); i++) {
                     Log.d("SEARCH RESULT", results.get(i).getName());
                 }
+
+                recyclerView.updateItems(results);
             }
 
             @Override
@@ -133,7 +126,23 @@ public class SearchFragment extends Fragment {
                 Log.d("SEARCH", "Search cancelled");
             }
         });
+    }
 
+    public void search() {
+        resetSearchFields(); // Set all fields to default values of empty string
+
+        lotNumber = lotNumberInput.getText().toString();
+        name = nameInput.getText().toString();
+        category = categorySpinner.getSelectedItem().toString();
+        period = periodSpinner.getSelectedItem().toString();
+        try {
+            description = descriptionInput.getText().toString();
+        } catch (Exception e) {
+        }
+
+        Log.d("SEARCH CRITERIA", lotNumber + "|" + name + "|" + category + "|" + period + "|" + description);
+
+        fetchItems();
     }
 
     public static boolean matchesQuery(Item item, String lotNumber, String name, String category, String period, String description) {

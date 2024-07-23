@@ -38,9 +38,16 @@ public class RecyclerViewFragment extends Fragment {
         adapter = new ItemAdapter(items, getContext(), getParentFragmentManager());
         recyclerView.setAdapter(adapter);
         DatabaseReference dbRef = FirebaseDatabase.getInstance("https://cscb07-taam-default-rtdb.firebaseio.com/").getReference("test");
-        fetchItems(dbRef);
 
         return view;
+    }
+
+    public void updateItems(List<Item> items) {
+        // this is bad since we're storing the same things twice.
+        // TODO make sure that this class and the SearchFragment class are using the same array
+        this.items.clear();
+        this.items.addAll(items);
+        adapter.notifyDataSetChanged();
     }
 
     private void fetchItems(DatabaseReference dbRef) {

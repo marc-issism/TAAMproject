@@ -21,47 +21,17 @@
             android:textSize="16sp" />
 
         <EditText
-            android:id="@+id/lotNumberInput"
+            android:id="@+id/searchTextInput"
             android:layout_width="match_parent"
-            android:layout_height="48sp"
+            android:layout_height="50sp"
             android:ems="10"
-            android:fontFamily="monospace"
-            android:hint="Lot Number"
-            android:inputType="text"
-            android:textAlignment="center"
-            android:textSize="20sp" />
-
-        <EditText
-            android:id="@+id/nameInput"
-            android:layout_width="match_parent"
-            android:layout_height="48sp"
-            android:ems="10"
-            android:fontFamily="monospace"
-            android:hint="Name"
-            android:inputType="text"
-            android:textAlignment="center"
-            android:textSize="20sp" />
+            android:hint="text"
+            android:inputType="text" />
 
         <Spinner
-            android:id="@+id/categorySpinner"
+            android:id="@+id/filterSpinner"
             android:layout_width="match_parent"
             android:layout_height="48sp" />
-
-        <Spinner
-            android:id="@+id/periodSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="48sp" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="285dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/descriptionInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Description" />
-        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/searchButton"

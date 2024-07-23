@@ -13,14 +13,14 @@ import android.content.Context;
 import com.bumptech.glide.Glide;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
-import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.ui.StyledPlayerView;
 
 public class ViewFragment extends DialogFragment {
 
     private Item item;
     private TextView name, lot, category, dynasty, description;
     private ImageView imageView;
-    private PlayerView playerView;
+    private StyledPlayerView playerView;
     private ExoPlayer player;
     private Context context;
 

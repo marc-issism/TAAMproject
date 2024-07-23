@@ -184,8 +184,12 @@ public class AddItem extends Fragment {
                 String link = uri.toString();
                 itemsRef.child(lotNum).child("media").setValue(link);
                 load.dismiss();
-                Toast.makeText(getContext(), "Media successfully uploaded", Toast.LENGTH_SHORT).show();
 
+                Toast.makeText(getContext(), "Media successfully uploaded", Toast.LENGTH_SHORT).show();
+                FragmentManager frag = getParentFragmentManager();
+                FragmentTransaction transaction = frag.beginTransaction();
+                transaction.replace(R.id.fragment_container, HomeFragment.class, null);
+                transaction.commit();
 
             }
         }).addOnFailureListener(new OnFailureListener() {

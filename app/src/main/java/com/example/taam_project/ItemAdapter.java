@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -50,13 +52,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         Item item = items.get(position);
-
-        // Will use resource strings instead of concatenation later
-        // holder.lotNumber.setText("Lot #: " + item.getLotNumber());
         holder.name.setText("Name: " + item.getName());
-        // holder.category.setText("Category: " + item.getCategory());
-        // holder.period.setText("Period: " + item.getPeriod());
-        // holder.description.setText("Description: " + item.getDescription());
 
         Glide.with(context)
             .load(item.getMedia())
@@ -69,6 +65,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             Query query = ref.orderByChild("lotNumber").equalTo(item.getLotNumber());
             FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference sb = storage.getReference().child("ItemImages/");
+
             // TODO add error checking to this
             query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -84,6 +81,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                     Toast.makeText(context, "Deletion failed ", Toast.LENGTH_SHORT).show();
                 }
             });
+
             StorageReference media = sb.child(item.getLotNumber());
             media.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
@@ -103,39 +101,25 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             ViewFragment viewFrag = new ViewFragment(item);
             viewFrag.show(parentFragmentManager, "view_dialog_fragment");
         });
-
-//        holder.view.setOnClickListener(view -> {
-//            loadFragment(new ViewFragment(item));
-//        });
-
     }
 
     @Override
     public int getItemCount() { return items.size(); }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
-        TextView lotNumber, name, category, period, description;
+        TextView name;
         ImageView media;
-        Button remove, view;
+        Button remove;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
-            // lotNumber = itemView.findViewById(R.id.textViewLotNumber);
             name = itemView.findViewById(R.id.textViewName);
-            // category = itemView.findViewById(R.id.textViewCategory);
-            // period = itemView.findViewById(R.id.textViewPeriod);
-            // description = itemView.findViewById(R.id.textViewDescription);
             media = itemView.findViewById(R.id.imageViewMedia);
             remove = itemView.findViewById(R.id.remove);
-//            view = itemView.findViewById(R.id.view);
+
+            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            if (!(currentUser != null && currentUser.isEmailVerified()))
+                remove.setVisibility(View.GONE);
         }
     }
-
-    private void loadFragment(Fragment fragment) {
-        FragmentTransaction transaction = parentFragmentManager.beginTransaction();
-        transaction.replace(R.id.fragment_container, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
-
 }

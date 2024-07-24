@@ -43,6 +43,14 @@ public class RecyclerViewFragment extends Fragment {
         return view;
     }
 
+    public void notifyDataSetChanged() {
+        adapter.notifyDataSetChanged();
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
     private void fetchItems(DatabaseReference dbRef) {
         dbRef.addValueEventListener(new ValueEventListener() {
             @Override

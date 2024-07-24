@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.disklrucache.DiskLruCache;
 import com.google.android.material.textfield.TextInputEditText;
@@ -30,6 +31,7 @@ import java.util.List;
 
 
 public class SearchFragment extends Fragment {
+    private final String DIR = "https://cscb07-taam-default-rtdb.firebaseio.com/";
 
     // View components
     private Button searchButton;
@@ -40,6 +42,12 @@ public class SearchFragment extends Fragment {
     private FirebaseDatabase db;
     private DatabaseReference ref;
     private List<Item> results;
+    private RecyclerViewFragment recyclerView;
+
+    public SearchFragment(RecyclerViewFragment recyclerView) {
+        this.results = recyclerView.getItems();
+        this.recyclerView = recyclerView;
+    }
 
     @Nullable
     @Override
@@ -67,19 +75,9 @@ public class SearchFragment extends Fragment {
         return view;
     }
 
-    public void search() {
-
-        final String DIR = "https://cscb07-taam-default-rtdb.firebaseio.com/";
+    public void fetchItems(String filter, String query) {
         db = FirebaseDatabase.getInstance(DIR);
         ref = db.getReference("test");
-
-        results = new ArrayList<>();
-
-        String filter = filterSpinner.getSelectedItem().toString();
-        String query = searchTextInput.getText().toString();
-
-        Log.d("SEARCH CRITERIA", filter + "|" + query);
-
 
         ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -116,6 +114,8 @@ public class SearchFragment extends Fragment {
                 for (Item item : results) {
                     Log.d("SEARCH RESULT", item.getName());
                 }
+
+                recyclerView.notifyDataSetChanged();;
             }
 
             @Override
@@ -123,7 +123,14 @@ public class SearchFragment extends Fragment {
                 Log.d("SEARCH", "Search cancelled");
             }
         });
+    }
 
+    public void search() {
+        String filter = filterSpinner.getSelectedItem().toString();
+        String query = searchTextInput.getText().toString();
+
+        Log.d("SEARCH CRITERIA", filter + "|" + query);
+        fetchItems(filter, query);
     }
 
     public static boolean containsQuery(Item item, String query) {

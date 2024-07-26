@@ -8,29 +8,17 @@
     tools:context=".HomeFragment">
 
     <Button
-        android:id="@+id/loginFragmentButton"
+        android:id="@+id/adminFragmentButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Login"
+        android:text="Admin"
         android:textSize="12sp"
         android:padding="8dp"
         android:layout_margin="4dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/logoutButton"
+        app:layout_constraintEnd_toStartOf="@+id/searchFragmentButton"
         app:layout_constraintHorizontal_chainStyle="spread" />
-
-    <Button
-        android:id="@+id/logoutButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Sign Out"
-        android:textSize="12sp"
-        android:padding="8dp"
-        android:layout_margin="4dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/loginFragmentButton"
-        app:layout_constraintEnd_toStartOf="@+id/searchFragmentButton" />
 
     <Button
         android:id="@+id/searchFragmentButton"
@@ -41,7 +29,7 @@
         android:padding="8dp"
         android:layout_margin="4dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/logoutButton"
+        app:layout_constraintStart_toEndOf="@+id/adminFragmentButton"
         app:layout_constraintEnd_toStartOf="@+id/addFragmentButton" />
 
     <Button

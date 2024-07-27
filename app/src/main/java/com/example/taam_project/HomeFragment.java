@@ -18,33 +18,35 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-
 public class HomeFragment extends Fragment {
-
-    private Button searchFragmentButton;
     private Button addFragmentButton;
     private Button reportFragmentButton;
-    private Button loginFragmentButton;
+    private Button adminFragmentButton;
 
     // For basic functionality of admin.
-    private Button logoutButton;
     private TextView loginStatusTextView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        searchFragmentButton = view.findViewById(R.id.searchFragmentButton);
+        Button searchFragmentButton = view.findViewById(R.id.searchFragmentButton);
         addFragmentButton = view.findViewById(R.id.addFragmentButton);
         reportFragmentButton = view.findViewById(R.id.reportFragmentButton);
-        loginFragmentButton = view.findViewById(R.id.loginFragmentButton);
-        logoutButton = view.findViewById(R.id.logoutButton);
+        adminFragmentButton = view.findViewById(R.id.adminFragmentButton);
+        loginStatusTextView = view.findViewById(R.id.loginStatusTextView);
 
-        loginFragmentButton.setOnClickListener(v->{
-            AdminLoginFragment loginFrag = new AdminLoginFragment(this);
-            loginFrag.show(getParentFragmentManager(), "AdminLoginFragment");
+        adminFragmentButton.setOnClickListener(v->{
+            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            if (currentUser != null && currentUser.isEmailVerified()) {
+                AdminControlsFragment controlsFrag = new AdminControlsFragment(this);
+                controlsFrag.show(getParentFragmentManager(), "AdminControlsFragment");
+            }
+            else {
+                AdminLoginFragment loginFrag = new AdminLoginFragment(this);
+                loginFrag.show(getParentFragmentManager(), "AdminLoginFragment");
+            }
         });
 
         searchFragmentButton.setOnClickListener(new View.OnClickListener() {
@@ -75,20 +77,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        logoutButton.setOnClickListener(v -> {
-            // Call the signOut method to log out the current user
-            FirebaseAuth.getInstance().signOut();
-            Toast.makeText(getActivity(), "User logged out", Toast.LENGTH_SHORT).show();
-            setAdminState();
-        });
-
-        // Simple check to see if a user is logged in.
-        loginStatusTextView = view.findViewById(R.id.loginStatusTextView);
-
         loadRecyclerView();
-
-
-
 
         return view;
     }
@@ -120,21 +109,17 @@ public class HomeFragment extends Fragment {
             String email = currentUser.getEmail();
             addFragmentButton.setVisibility(View.VISIBLE);
             reportFragmentButton.setVisibility(View.VISIBLE);
-            logoutButton.setVisibility(View.VISIBLE);
-            loginFragmentButton.setVisibility(GONE);
             loginStatusTextView.setText("Admin (" + email + ") is signed in");
         } else {
             // User is not signed in.
             addFragmentButton.setVisibility(GONE);
             reportFragmentButton.setVisibility(GONE);
-            logoutButton.setVisibility(GONE);
-            loginFragmentButton.setVisibility(View.VISIBLE);
             loginStatusTextView.setText("No admin signed in");
         }
     }
 
     public void onStart() {
         super.onStart();
-       // setAdminState();
+        setAdminState();
     }
 }

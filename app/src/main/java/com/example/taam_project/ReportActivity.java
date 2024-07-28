@@ -34,20 +34,8 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 
 public class ReportActivity extends AppCompatActivity {
-    // variables for our buttons.
     Button generatePDFbtn;
-
-    // declaring width and height
-    // for our PDF file.
-    int pageHeight = 1120;
-    int pagewidth = 792;
-
-    // creating a bitmap variable
-    // for storing our images
-    //Bitmap /*bmp,*/ scaledbmp;
-
-    // constant code for runtime permissions
-    private static final int PERMISSION_REQUEST_CODE = 200;
+    //private static final int PERMISSION_REQUEST_CODE = 200;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,19 +49,6 @@ public class ReportActivity extends AppCompatActivity {
 
 
         generatePDFbtn = findViewById(R.id.idBtnGeneratePDF);
-        //bmp = BitmapFactory.decodeResource(getResources(), R.drawable.image);
-        //scaledbmp = Bitmap.createScaledBitmap(bmp, 140, 140, false);
-
-        // below code is used for
-        // checking our permissions.
-        /*
-        if (checkPermission()) {
-            Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
-        } else {
-            requestPermission();
-        }
-        */
-
         generatePDFbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,69 +58,118 @@ public class ReportActivity extends AppCompatActivity {
             }
         });
     }
+    public static String[] splitByNumber(String text, int chunkSize) {
+        int textLength = text.length();
+        int numChunks = textLength / chunkSize;
+        int remainder = textLength % chunkSize;
+
+        if (remainder > 0) {
+            numChunks++;
+        }
+
+        String[] result = new String[numChunks];
+        String remainingText = text;
+
+        for (int i = 0; i < numChunks; i++) {
+            if (remainingText.length() > chunkSize) {
+                result[i] = remainingText.substring(0, chunkSize);
+                remainingText = remainingText.substring(chunkSize);
+            } else {
+                result[i] = remainingText;
+            }
+        }
+
+        return result;
+    }
+
     private void generatePDF() {
-        // creating an object variable for our PDF document.
+        int pageHeight = 1320;
+        int pagewidth = 1020;
         PdfDocument pdfDocument = new PdfDocument();
 
         Paint paint = new Paint();
         Paint title = new Paint();
+        Paint descriptionText = new Paint();
 
-        PdfDocument.PageInfo mypageInfo = new PdfDocument.PageInfo.Builder(pagewidth, pageHeight, 1).create();
-        PdfDocument.Page myPage = pdfDocument.startPage(mypageInfo);
-        Canvas canvas = myPage.getCanvas();
+        PdfDocument.PageInfo mypageInfo = new PdfDocument.PageInfo.Builder( pagewidth,pageHeight,1).create();
 
-        /*if (scaledbmp != null) {
-            // drawing our image on our PDF file.
-            canvas.drawBitmap(scaledbmp, 56, 40, paint);
-        } else {
-            Log.e("generatePDF", "Bitmap is null. Skipping bitmap drawing.");
-        }*/
+        String lotNumber;
+        String dynasty;
+        String description;
+        String category;
+        String name;
+        Bitmap bmp, scaledbmp;
 
-        title.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
-        title.setTextSize(15);
-        title.setColor(ContextCompat.getColor(this, R.color.black));
-        title.setTextAlign(Paint.Align.LEFT); // Align text to left
+        for (int i = 0; i < 2; i++){
+            //These work below should be repeated per item
+            PdfDocument.Page myPage = pdfDocument.startPage(mypageInfo);
+            Canvas canvas = myPage.getCanvas();
+
+            title.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
+            title.setTextSize(50);
+            title.setColor(ContextCompat.getColor(this, R.color.black));
+            title.setTextAlign(Paint.Align.LEFT);
+
+            descriptionText.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
+            descriptionText.setTextSize(25);
+            descriptionText.setColor(ContextCompat.getColor(this, R.color.black));
+            descriptionText.setTextAlign(Paint.Align.LEFT);
+
+            bmp = BitmapFactory.decodeResource(getResources(), R.drawable.replica);
+
+            //manage horizontal image case and vertical image case
+            int height = bmp.getHeight();
+            double scalar = (double) 400 /height;
+            double width =  bmp.getWidth() * scalar;
+
+            scaledbmp = Bitmap.createScaledBitmap(bmp, (int)width, 400, false);
+
+            name = "replica";
+            category = "uncategorized";
+            lotNumber = "1203";
+            dynasty  = "Qing Dynasty";
+            description = "This tricolor (sancai) box has a round shape with shallow straight walls, " +
+                    "a concave circular mouth, a flat base, and a slightly curved lid. " +
+                    "The outer surface of the lid is decorated with intricate molded patterns, " +
+                    "displaying exquisite and varied designs. The exterior of the box is " +
+                    "covered in tricolor glazes, including green, yellow, white, and blue. " +
+                    "The interior of the box and the base are covered in yellow glaze. " +
+                    "The entire piece is adorned with fine crackle patterns." +
+                    "During the mid-Tang Dynasty, the tricolor glazing technique reached its " +
+                    "peak, resulting in a wide variety of vessel forms and refined " +
+                    "craftsmanship. The glaze colors during this period were lustrous and the " +
+                    "coloring appeared natural. Vessels were often fully glazed both on the " +
+                    "inside and outside, utilizing colors such as green, yellow, white, blue, " +
+                    "and black, creating a complex and diverse palette. The production " +
+                    "process involved applying a base layer of slip before adding various " +
+                    "colored glazes to achieve the desired overall effect in terms of both form " +
+                    "and decoration. The decoration techniques included carving, stamping, " +
+                    "appliqué, and modeling. These tricolor artifacts showcased rich content " +
+                    "and were considered exquisite examples of Tang tricolor ware.";
+            String[] lines = splitByNumber(description, 85);
 
 
+            if (scaledbmp != null) {
+                canvas.drawBitmap(scaledbmp, 40, 40, paint);
+            } else {
+                Log.e("generatePDF", "Bitmap is null. Skipping bitmap drawing.");
+            }
 
-// Sample extracted content from Items.pdf (for illustration purposes)
-        String pdfContent = "This tricolor (sancai) box has a round shape with shallow straight walls, " +
-                "a concave circular mouth, a flat base, and a slightly curved lid. " +
-                "The outer surface of the lid is decorated with intricate molded patterns, " +
-                "displaying exquisite and varied designs. The exterior of the box is " +
-                "covered in tricolor glazes, including green, yellow, white, and blue. " +
-                "The interior of the box and the base are covered in yellow glaze. " +
-                "The entire piece is adorned with fine crackle patterns.\n\n" +
-                "During the mid-Tang Dynasty, the tricolor glazing technique reached its " +
-                "peak, resulting in a wide variety of vessel forms and refined " +
-                "craftsmanship. The glaze colors during this period were lustrous and the " +
-                "coloring appeared natural. Vessels were often fully glazed both on the " +
-                "inside and outside, utilizing colors such as green, yellow, white, blue, " +
-                "and black, creating a complex and diverse palette. The production " +
-                "process involved applying a base layer of slip before adding various " +
-                "colored glazes to achieve the desired overall effect in terms of both form " +
-                "and decoration. The decoration techniques included carving, stamping, " +
-                "appliqué, and modeling. These tricolor artifacts showcased rich content " +
-                "and were considered exquisite examples of Tang tricolor ware.";
+            canvas.drawText(name, 550, 80, title);
+            canvas.drawText(dynasty, 550, 380, title);
+            canvas.drawText(category, 550, 430, title);
+            canvas.drawText(lotNumber, 900, 80, title);
 
-// Splitting the text into lines to draw on the canvas
-        String[] lines = pdfContent.split("\n");
+            float y = 650; // Starting y position for the text
+            for (String line : lines) {
+                canvas.drawText(line, 40, y, descriptionText);
+                y += descriptionText.getTextSize()+ 4; // Move y position for the next line
+            }
 
-// Drawing the extracted text on the canvas
-        float y = 150; // Starting y position for the text
-        for (String line : lines) {
-            canvas.drawText(line, 50, y, title);
-            y += title.getTextSize() + 5; // Move y position for the next line
+            pdfDocument.finishPage(myPage);
         }
-
-// Resetting title paint properties if needed for other texts
-        title.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-        title.setColor(ContextCompat.getColor(this, R.color.black));
-        title.setTextSize(15);
-        title.setTextAlign(Paint.Align.CENTER);
-        canvas.drawText("This is sample document which we have created.", 396, 560, title);
-        pdfDocument.finishPage(myPage);
         File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "test.pdf");
+
 
         try {
             // writing our PDF file to that location.
@@ -161,40 +185,6 @@ public class ReportActivity extends AppCompatActivity {
         pdfDocument.close();
     }
 
-
-    /*
-    private boolean checkPermission() {
-        // checking of permissions.
-        int permission1 = ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE);
-        int permission2 = ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE);
-        return permission1 == PackageManager.PERMISSION_GRANTED && permission2 == PackageManager.PERMISSION_GRANTED;
-    }
-
-    private void requestPermission() {
-        // requesting permissions if not provided.
-        ActivityCompat.requestPermissions(this, new String[]{WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            if (grantResults.length > 0) {
-
-                // after requesting permissions we are showing
-                // users a toast message of permission granted.
-                boolean writeStorage = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                boolean readStorage = grantResults[1] == PackageManager.PERMISSION_GRANTED;
-
-                if (writeStorage && readStorage) {
-                    Toast.makeText(this, "Permission Granted..", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(this, "Permission Denied.", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
-    }
-    */
 
 
 

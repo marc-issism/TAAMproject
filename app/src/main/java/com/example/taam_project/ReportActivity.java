@@ -184,8 +184,4 @@ public class ReportActivity extends AppCompatActivity {
         }
         pdfDocument.close();
     }
-
-
-
-
 }

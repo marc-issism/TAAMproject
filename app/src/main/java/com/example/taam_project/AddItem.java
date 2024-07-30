@@ -47,7 +47,7 @@ public class AddItem extends Fragment {
     ActivityResultLauncher<Intent> resultLauncher;
     private Uri image;
     static public LoadingFragment load = new LoadingFragment();
-
+    static int runTimeCheck = 10;
 
 
     @Override
@@ -93,7 +93,8 @@ public class AddItem extends Fragment {
         media.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pickImage();
+                Intent intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
+                resultLauncher.launch(intent);
             }
         });
 
@@ -118,11 +119,11 @@ public class AddItem extends Fragment {
 
        // String id = itemsRef.push().getKey();
 
-        uploadImage(tmpLot);
+        int val = uploadImage(tmpLot);
 
         Item item = new Item(tmpLot, tmpName, tmpCategory, tmpPeriod, tmpDisc, "");
         itemsRef.child(tmpLot).setValue(item).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
+            if (task.isSuccessful() && val == 0) {
                 try {
                     getMediaLink(tmpLot, 0);
                     setMediaType(tmpLot, 0);
@@ -135,16 +136,12 @@ public class AddItem extends Fragment {
 
 
             } else {
-                Toast.makeText(getContext(), "Failed to add item", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Entry logged, could not upload media", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void pickImage(){
-        Intent intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
-        resultLauncher.launch(intent);
 
-    }
 
     private void registerResult(){
         resultLauncher = registerForActivityResult(
@@ -164,16 +161,17 @@ public class AddItem extends Fragment {
         );
     }
 
-    private void uploadImage(String lotNumber){
+    private int uploadImage(String lotNumber){
         if (image == null){
-            return;
+            return -1;
         }
         StorageReference imageRef = sb.child(lotNumber);
         imageRef.putFile(image);
+        return 0;
     }
 
     private void getMediaLink(String lotNum, Integer loop) throws InterruptedException {
-        if (loop == 10) {
+        if (loop == runTimeCheck) {
             Toast.makeText(getContext(), "Media could not be uploaded", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -205,7 +203,7 @@ public class AddItem extends Fragment {
         });
     }
     private void setMediaType(String lot, Integer loop){
-        if (loop == 10){
+        if (loop == runTimeCheck){
             Toast.makeText(getContext(), "Media could not be uploaded", Toast.LENGTH_SHORT).show();
             return;
         }

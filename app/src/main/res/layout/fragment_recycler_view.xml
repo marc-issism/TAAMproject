@@ -21,8 +21,28 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_marginBottom="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="75dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Spinner
+        android:id="@+id/category"
+        android:layout_width="186dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="14dp"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+        app:layout_constraintEnd_toStartOf="@+id/period"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view" />
+
+    <Spinner
+        android:id="@+id/period"
+        android:layout_width="186dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

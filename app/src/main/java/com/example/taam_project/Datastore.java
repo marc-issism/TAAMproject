@@ -68,13 +68,7 @@ public class Datastore {
         currentQuery = s;
         displayItems.clear();
         for (Item item: allItems) {
-            String contents = item.getCategory()
-                    + " " + item.getLotNumber()
-                    + " " + item.getName()
-                    + " " + item.getDescription()
-                    + " " + item.getPeriod();
-
-            if (contents.toLowerCase().contains(s.toLowerCase()))
+            if (matches(item))
                 displayItems.add(item);
         }
         if (adapter != null) adapter.notifyDataSetChanged();

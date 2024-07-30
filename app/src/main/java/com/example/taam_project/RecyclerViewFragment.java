@@ -25,7 +25,12 @@ import java.util.List;
 
 public class RecyclerViewFragment extends Fragment {
     private ItemAdapter adapter;
-    private List<Item> items;
+    private List<Item> items, displayItems;
+
+    public RecyclerViewFragment() {
+        items = new ArrayList<>();
+        displayItems = new ArrayList<>();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,8 +39,7 @@ public class RecyclerViewFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        items = new ArrayList<>();
-        adapter = new ItemAdapter(items, getContext(), getParentFragmentManager());
+        adapter = new ItemAdapter(displayItems, getContext(), getParentFragmentManager());
         recyclerView.setAdapter(adapter);
         DatabaseReference dbRef = FirebaseDatabase.getInstance("https://cscb07-taam-default-rtdb.firebaseio.com/").getReference("test");
         fetchItems(dbRef);
@@ -51,7 +55,7 @@ public class RecyclerViewFragment extends Fragment {
                 for (DataSnapshot ds: snapshot.getChildren()) {
                     items.add(ds.getValue(Item.class));
                 }
-                adapter.notifyDataSetChanged();
+                updateDisplayItems();
             }
 
             @Override
@@ -59,5 +63,25 @@ public class RecyclerViewFragment extends Fragment {
                 Toast.makeText(getActivity(), "error", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void updateDisplayItems() {
+        displayItems.clear();
+        displayItems.addAll(items);
+        adapter.notifyDataSetChanged();
+    }
+
+    public void filter(String s) {
+        displayItems.clear();
+        for (Item item: items) {
+            String contents = item.getCategory()
+                    + " " + item.getLotNumber()
+                    + " " + item.getName()
+                    + " " + item.getDescription()
+                    + " " + item.getPeriod();
+
+            if (contents.contains(s))
+                displayItems.add(item);
+        }
     }
 }

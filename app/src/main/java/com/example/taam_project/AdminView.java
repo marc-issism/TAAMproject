@@ -13,24 +13,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.AuthResult;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-
 import android.util.Log;
 
-public class AdminLoginFragment extends DialogFragment implements AdminLoginContract.View {
+public class AdminView extends DialogFragment implements AdminContract.View {
     // The login fragment is the actual screen, so it is the view in MVP.
-    // This view will provide the definitions for the View functions specified in AdminLoginContract.View
-    private static final String TAG = "AdminLoginFragment";
-    private AdminLoginContract.Presenter mPresenter;
+    // This view will provide the definitions for the View functions specified in AdminContract.View
+    private static final String TAG = "AdminView";
+    private AdminContract.Presenter mPresenter;
     private HomeFragment parentFragment;
 
-    public AdminLoginFragment() {}
+    public AdminView() {}
 
-    public AdminLoginFragment(HomeFragment parentFragment) {
+    public AdminView(HomeFragment parentFragment) {
         this.parentFragment = parentFragment;
     }
 
@@ -44,7 +38,7 @@ public class AdminLoginFragment extends DialogFragment implements AdminLoginCont
         Button loginButton = view.findViewById(R.id.logout_button);
         Button closeButton = view.findViewById(R.id.close_button);
 
-        mPresenter = new AdminLoginPresenter(this);
+        mPresenter = new AdminPresenter(this, new AdminModel());
 
         loginButton.setOnClickListener(v -> {
             String username = emailEditText.getText().toString().trim();
@@ -80,6 +74,32 @@ public class AdminLoginFragment extends DialogFragment implements AdminLoginCont
     public void showEmailNotVerified() {
         Log.w(TAG, "Email not verified");
         Toast.makeText(getActivity(), "Please verify your email before logging in.", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showCreateAccountSuccess() {
+        Log.d(TAG, "Verification email sent.");
+        Toast.makeText(getActivity(), "Account successfully created. Please check your email to verify your account.",
+                Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showVerificationEmailNotSent(Exception e) {
+        Log.e(TAG, "Failed to send verification email.", e);
+        Toast.makeText(getActivity(), "Failed to send verification email.",
+                Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showAccountCollisionMessage(Exception e) {
+        Log.w(TAG, "createUserWithEmail:failure", e);
+        Toast.makeText(getActivity(), "Account already exists", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showCreateAccountFail(Exception e) {
+        Log.w(TAG, "createUserWithEmail:failure", e);
+        Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -60,12 +60,12 @@ public class HomeFragment extends Fragment {
         adminFragmentButton.setOnClickListener(v->{
             FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
             if (currentUser != null && currentUser.isEmailVerified()) {
-                AdminControlsFragment controlsFrag = new AdminControlsFragment(this);
-                controlsFrag.show(getParentFragmentManager(), "AdminControlsFragment");
+                AdminControlsView controlsFrag = new AdminControlsView(this);
+                controlsFrag.show(getParentFragmentManager(), "AdminControlsView");
             }
             else {
-                AdminLoginFragment loginFrag = new AdminLoginFragment(this);
-                loginFrag.show(getParentFragmentManager(), "AdminLoginFragment");
+                AdminView loginFrag = new AdminView(this);
+                loginFrag.show(getParentFragmentManager(), "AdminView");
             }
         });
 

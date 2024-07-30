@@ -23,7 +23,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -48,8 +47,8 @@ public class AddItem extends Fragment {
     private Uri image;
     static public LoadingFragment load = new LoadingFragment();
     static int runTimeCheck = 10;
-
-
+    private int uploadStat;
+    private AlertFragment alert;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -64,7 +63,7 @@ public class AddItem extends Fragment {
         Button submit = view.findViewById(R.id.Submit);
         Button media = view.findViewById(R.id.EditPicture);
         registerResult();
-
+        uploadStat = 0;
         db = FirebaseDatabase.getInstance("https://cscb07-taam-default-rtdb.firebaseio.com/");
         sb = FirebaseStorage.getInstance().getReference().child("ItemImages/");
 
@@ -111,7 +110,8 @@ public class AddItem extends Fragment {
         String tmpDisc = description.getText().toString().trim();
 
         if (tmpLot.isEmpty() || tmpName.isEmpty() || tmpCategory.isEmpty() || tmpPeriod.isEmpty() || tmpDisc.isEmpty()) {
-            Toast.makeText(getContext(), "Please fill out all fields", Toast.LENGTH_SHORT).show();
+            alert = AlertFragment.newInstance("Fill out all fields");
+            alert.show(getParentFragmentManager(), "alert_fragment");
             return;
         }
 
@@ -136,7 +136,9 @@ public class AddItem extends Fragment {
 
 
             } else {
-                Toast.makeText(getContext(), "Entry logged, could not upload media", Toast.LENGTH_SHORT).show();
+                alert = AlertFragment.newInstance("Entry logged, could not upload media");
+                alert.show(getParentFragmentManager(), "alert_fragment");
+                clearAll();
             }
         });
     }
@@ -151,9 +153,12 @@ public class AddItem extends Fragment {
                     public void onActivityResult(ActivityResult result) {
                         try{
                             image = result.getData().getData();
+                            uploadStat = 1;
                         }
                         catch (Exception e){
-                            Toast.makeText(getContext(), "Could not register image", Toast.LENGTH_SHORT).show();
+                            alert = AlertFragment.newInstance("Could not register image");
+                            alert.show(getParentFragmentManager(), "alert_fragment");
+
 
                         }
                     }
@@ -162,7 +167,7 @@ public class AddItem extends Fragment {
     }
 
     private int uploadImage(String lotNumber){
-        if (image == null){
+        if (uploadStat == 0){
             return -1;
         }
         StorageReference imageRef = sb.child(lotNumber);
@@ -172,7 +177,8 @@ public class AddItem extends Fragment {
 
     private void getMediaLink(String lotNum, Integer loop) throws InterruptedException {
         if (loop == runTimeCheck) {
-            Toast.makeText(getContext(), "Media could not be uploaded", Toast.LENGTH_SHORT).show();
+            alert = AlertFragment.newInstance("Media could not be uploaded");
+            alert.show(getParentFragmentManager(), "alert_fragment");
             return;
         }
 
@@ -183,11 +189,13 @@ public class AddItem extends Fragment {
                 itemsRef.child(lotNum).child("media").setValue(link);
                 load.dismiss();
 
-                Toast.makeText(getContext(), "Media successfully uploaded", Toast.LENGTH_SHORT).show();
-                FragmentManager frag = getParentFragmentManager();
-                FragmentTransaction transaction = frag.beginTransaction();
-                transaction.replace(R.id.fragment_container, HomeFragment.class, null);
-                transaction.commit();
+                alert = AlertFragment.newInstance("Media successfully uploaded");
+                alert.show(getParentFragmentManager(), "alert_fragment");
+                clearAll();
+//                FragmentManager frag = getParentFragmentManager();
+//                FragmentTransaction transaction = frag.beginTransaction();
+//                transaction.replace(R.id.fragment_container, HomeFragment.class, null);
+//                transaction.commit();
 
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -204,7 +212,8 @@ public class AddItem extends Fragment {
     }
     private void setMediaType(String lot, Integer loop){
         if (loop == runTimeCheck){
-            Toast.makeText(getContext(), "Media could not be uploaded", Toast.LENGTH_SHORT).show();
+            alert = AlertFragment.newInstance("Media could not be uploaded");
+            alert.show(getParentFragmentManager(), "alert_fragment");
             return;
         }
 
@@ -228,6 +237,16 @@ public class AddItem extends Fragment {
                 }
             }
         });
+    }
+    private void clearAll(){
+
+        lotNumber.setText("");
+        name.setText("");
+        description.setText("");
+        category.setSelection(0);
+        period.setSelection(0);
+        image = null;
+        uploadStat = 0;
     }
 
 

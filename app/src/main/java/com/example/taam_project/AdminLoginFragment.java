@@ -21,9 +21,11 @@ import com.google.android.gms.tasks.Task;
 
 import android.util.Log;
 
-public class AdminLoginFragment extends DialogFragment {
+public class AdminLoginFragment extends DialogFragment implements AdminLoginContract.View {
+    // The login fragment is the actual screen, so it is the view in MVP.
+    // This view will provide the definitions for the View functions specified in AdminLoginContract.View
     private static final String TAG = "AdminLoginFragment";
-    private FirebaseAuth mAuth;
+    private AdminLoginContract.Presenter mPresenter;
     private HomeFragment parentFragment;
 
     public AdminLoginFragment() {}
@@ -42,7 +44,7 @@ public class AdminLoginFragment extends DialogFragment {
         Button loginButton = view.findViewById(R.id.logout_button);
         Button closeButton = view.findViewById(R.id.close_button);
 
-        mAuth = FirebaseAuth.getInstance();
+        mPresenter = new AdminLoginPresenter(this);
 
         loginButton.setOnClickListener(v -> {
             String username = emailEditText.getText().toString().trim();
@@ -51,7 +53,7 @@ public class AdminLoginFragment extends DialogFragment {
             if (username.isEmpty() || password.isEmpty()) {
                 Toast.makeText(getActivity(), "Please enter both username and password", Toast.LENGTH_SHORT).show();
             } else {
-                login(username, password);
+                mPresenter.login(username, password);
             }
         });
 
@@ -60,57 +62,24 @@ public class AdminLoginFragment extends DialogFragment {
         return view;
     }
 
-    private void login(String email, String password) {
-        mAuth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        // Sign in success
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        if (user != null) {
-                            if (user.isEmailVerified()) {
-                                // Email is verified
-                                Log.d(TAG, "signInWithEmail:success");
-                                Toast.makeText(getActivity(), "Successfully logged in.",
-                                        Toast.LENGTH_SHORT).show();
-                                parentFragment.setAdminState();
-                                dismiss();
-                            } else {
-                                // Email is not verified
-                                Log.w(TAG, "Email not verified");
-                                Toast.makeText(getActivity(), "Please verify your email before logging in.",
-                                        Toast.LENGTH_SHORT).show();
-                                mAuth.signOut(); // Sign out the user
-                            }
-                        }
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Log.w(TAG, "signInWithEmail:failure", task.getException());
-                        Toast.makeText(getActivity(), task.getException().getMessage(),
-                                Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
+    @Override
+    public void showLoginSuccess() {
+        Log.d(TAG, "signInWithEmail:success");
+        Toast.makeText(getActivity(), "Successfully logged in.", Toast.LENGTH_SHORT).show();
+        parentFragment.setAdminState();
+        dismiss();
     }
 
-    private void displayUserInfo() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            // Name, email address, and profile photo Url
-            String name = user.getDisplayName();
-            String email = user.getEmail();
+    @Override
+    public void showLoginError(String errorMessage) {
+        Log.w(TAG, "signInWithEmail:failure");
+        Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
+    }
 
-            // Check if user's email is verified
-            boolean emailVerified = user.isEmailVerified();
-
-            // The user's ID, unique to the Firebase project. Do NOT use this value to
-            // authenticate with your backend server, if you have one. Use
-            // FirebaseUser.getIdToken() instead.
-            String uid = user.getUid();
-
-            Log.d(TAG, "displayUserInfo: " + name + " " + email);
-        }
+    @Override
+    public void showEmailNotVerified() {
+        Log.w(TAG, "Email not verified");
+        Toast.makeText(getActivity(), "Please verify your email before logging in.", Toast.LENGTH_SHORT).show();
     }
 
     @Override

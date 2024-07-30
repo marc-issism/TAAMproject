@@ -53,9 +53,9 @@ public class Datastore {
         fieldPredicates.put(SearchableField.DESCRIPTION,
                 (item, query) -> item.getDescription().toLowerCase().contains(query));
         fieldPredicates.put(SearchableField.PERIOD,
-                (item, query) -> item.getPeriod().toLowerCase().equals(query));
+                (item, query) -> item.getPeriod().toLowerCase().contains(query));
         fieldPredicates.put(SearchableField.CATEGORY,
-                (item, query) -> item.getCategory().toLowerCase().equals(query));
+                (item, query) -> item.getCategory().toLowerCase().contains(query));
     }
 
     public static Datastore getInstance() {

@@ -26,10 +26,10 @@ import java.util.List;
 public class RecyclerViewFragment extends Fragment {
     private ItemAdapter adapter;
     private List<Item> items, displayItems;
+    private Datastore ds;
 
     public RecyclerViewFragment() {
-        items = new ArrayList<>();
-        displayItems = new ArrayList<>();
+        ds = Datastore.getInstance();
     }
 
     @Override
@@ -39,49 +39,11 @@ public class RecyclerViewFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        adapter = new ItemAdapter(displayItems, getContext(), getParentFragmentManager());
+        adapter = new ItemAdapter(ds.getDisplayItems(), getContext(), getParentFragmentManager());
+        ds.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
-        DatabaseReference dbRef = FirebaseDatabase.getInstance("https://cscb07-taam-default-rtdb.firebaseio.com/").getReference("test");
-        fetchItems(dbRef);
 
         return view;
-    }
-
-    private void fetchItems(DatabaseReference dbRef) {
-        dbRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                items.clear();
-                for (DataSnapshot ds: snapshot.getChildren()) {
-                    items.add(ds.getValue(Item.class));
-                }
-                updateDisplayItems();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getActivity(), "error", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void updateDisplayItems() {
-        displayItems.clear();
-        displayItems.addAll(items);
-        adapter.notifyDataSetChanged();
-    }
-
-    public void filter(String s) {
-        displayItems.clear();
-        for (Item item: items) {
-            String contents = item.getCategory()
-                    + " " + item.getLotNumber()
-                    + " " + item.getName()
-                    + " " + item.getDescription()
-                    + " " + item.getPeriod();
-
-            if (contents.contains(s))
-                displayItems.add(item);
-        }
     }
 }

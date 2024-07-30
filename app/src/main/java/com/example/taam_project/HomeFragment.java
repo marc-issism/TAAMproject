@@ -28,12 +28,14 @@ public class HomeFragment extends Fragment {
     private TextView loginStatusTextView;
     private SearchView searchView;
     private RecyclerViewFragment recyclerViewFragment;
+    private Datastore datastore;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        datastore = Datastore.getInstance();
         recyclerViewFragment = new RecyclerViewFragment();
 
         addFragmentButton = view.findViewById(R.id.addFragmentButton);
@@ -50,7 +52,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String s) {
-                recyclerViewFragment.filter(s);
+                datastore.search(s);
                 return true;
             }
         });

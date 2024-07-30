@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,17 +26,36 @@ public class HomeFragment extends Fragment {
 
     // For basic functionality of admin.
     private TextView loginStatusTextView;
+    private SearchView searchView;
+    private RecyclerViewFragment recyclerViewFragment;
+    private Datastore datastore;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        Button searchFragmentButton = view.findViewById(R.id.searchFragmentButton);
+        datastore = Datastore.getInstance();
+        recyclerViewFragment = new RecyclerViewFragment();
+
         addFragmentButton = view.findViewById(R.id.addFragmentButton);
         reportFragmentButton = view.findViewById(R.id.reportFragmentButton);
         adminFragmentButton = view.findViewById(R.id.adminFragmentButton);
         loginStatusTextView = view.findViewById(R.id.loginStatusTextView);
+        searchView = view.findViewById(R.id.searchView);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                datastore.search(s);
+                return true;
+            }
+        });
 
         adminFragmentButton.setOnClickListener(v->{
             FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -47,11 +67,6 @@ public class HomeFragment extends Fragment {
                 AdminLoginFragment loginFrag = new AdminLoginFragment(this);
                 loginFrag.show(getParentFragmentManager(), "AdminLoginFragment");
             }
-        });
-
-        searchFragmentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { loadFragment(new SearchFragment());}
         });
 
         // Please rename to AddFragment if possible for consistency
@@ -84,7 +99,7 @@ public class HomeFragment extends Fragment {
 
     private void loadRecyclerView() {
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.recyclerViewContainer, new RecyclerViewFragment());
+        transaction.replace(R.id.recyclerViewContainer, recyclerViewFragment);
         transaction.commit();
     }
 

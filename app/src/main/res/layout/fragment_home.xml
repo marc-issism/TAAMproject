@@ -17,20 +17,9 @@
         android:layout_margin="4dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/searchFragmentButton"
+        app:layout_constraintEnd_toStartOf="@+id/addFragmentButton"
         app:layout_constraintHorizontal_chainStyle="spread" />
 
-    <Button
-        android:id="@+id/searchFragmentButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Search"
-        android:textSize="12sp"
-        android:padding="8dp"
-        android:layout_margin="4dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/adminFragmentButton"
-        app:layout_constraintEnd_toStartOf="@+id/addFragmentButton" />
 
     <Button
         android:id="@+id/addFragmentButton"
@@ -41,7 +30,7 @@
         android:padding="8dp"
         android:layout_margin="4dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/searchFragmentButton"
+        app:layout_constraintStart_toEndOf="@+id/adminFragmentButton"
         app:layout_constraintEnd_toStartOf="@+id/reportFragmentButton" />
 
     <Button
@@ -68,11 +57,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <SearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:id="@+id/searchView"
+        app:layout_constraintTop_toBottomOf="@id/loginStatusTextView"
+        app:queryHint="Search..."
+        />
+
     <FrameLayout
         android:id="@+id/recyclerViewContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/loginStatusTextView"
+        app:layout_constraintTop_toBottomOf="@+id/searchView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

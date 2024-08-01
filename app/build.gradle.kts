@@ -62,8 +62,8 @@ dependencies {
     implementation(libs.firebase.database)
     implementation(libs.firebase.storage)
     implementation(libs.firebase.auth)
-    testImplementation(libs.junit)
-    testImplementation("org.mockito:mockito-all:1.10.19")
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.mockito:mockito-core:4.0.0")
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     dependencies {

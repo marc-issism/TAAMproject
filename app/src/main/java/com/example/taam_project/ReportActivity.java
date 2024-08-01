@@ -26,7 +26,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -83,12 +82,18 @@ public class ReportActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 // Find the selected radio button
                 selectedRadioButton = findViewById(checkedId);
-                editText.setText(selectedRadioButton.getText().toString());
 
-                // Update the EditText's contentDescription based on the selected radio button
+                if (selectedRadioButton.getText().toString().equals("All Items")) {
+                    editText.setVisibility(View.INVISIBLE);
+                } else {
+                    editText.setVisibility(View.VISIBLE);
+                }
+
                 if (selectedRadioButton != null) {
+                    editText.setHint(selectedRadioButton.getText().toString());
                     editText.setContentDescription(selectedRadioButton.getText().toString());
                 }
+
             }
         });
 
@@ -108,7 +113,11 @@ public class ReportActivity extends AppCompatActivity {
                 String searchCriteria = selectedRadioButton.getText().toString();
                 boolean descriptionandimage = toggle.isChecked();
 
-                // Generate PDF with the given input
+                if (searchCriteria.equals("All Items")){
+                    Toast.makeText(ReportActivity.this, "beep boop", Toast.LENGTH_SHORT).show();
+                    generatePDF("", "Category", descriptionandimage);
+                    return;
+                }
                 generatePDF(query, searchCriteria, descriptionandimage);
             }
         });
@@ -190,7 +199,6 @@ public class ReportActivity extends AppCompatActivity {
         }
 
         for (int i = 0; i < list.size(); i++) {
-            // Start a new page for each item
             PdfDocument.Page myPage = pdfDocument.startPage(mypageInfo);
             Canvas canvas = myPage.getCanvas();
 
@@ -206,7 +214,6 @@ public class ReportActivity extends AppCompatActivity {
 
             int image_count = list.size();
             try {
-                // Download image and convert to bitmap in a background thread
                 bmp = new DownloadImageTask().execute(list.get(i).getMedia()).get(); // Use .get() to wait for the result
 
                 if (bmp != null) {

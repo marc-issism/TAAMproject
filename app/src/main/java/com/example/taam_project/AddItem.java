@@ -49,6 +49,7 @@ public class AddItem extends Fragment {
     static int runTimeCheck = 10;
     private int uploadStat;
     private AlertFragment alert;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

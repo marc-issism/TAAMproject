@@ -18,7 +18,6 @@ public class AdminControlsView extends DialogFragment implements AdminContract.V
     private static final String TAG = "AdminControlsView";
     private AdminContract.Presenter mPresenter;
     private HomeFragment parentFragment;
-
     public AdminControlsView() {}
 
     public AdminControlsView(HomeFragment parentFragment) {
@@ -34,7 +33,6 @@ public class AdminControlsView extends DialogFragment implements AdminContract.V
         EditText passwordEditText = view.findViewById(R.id.password_edit_text);
         Button createAccountButton = view.findViewById(R.id.create_account_button);
         Button closeButton = view.findViewById(R.id.close_button);
-
         mPresenter = new AdminPresenter(this, new AdminModel());
 
         logoutButton.setOnClickListener(v -> {
@@ -106,6 +104,7 @@ public class AdminControlsView extends DialogFragment implements AdminContract.V
         Log.w(TAG, "createUserWithEmail:failure", e);
         Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
     }
+
 
     @Override
     public void onStart() {

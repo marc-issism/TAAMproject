@@ -63,6 +63,7 @@ dependencies {
     implementation(libs.firebase.storage)
     implementation(libs.firebase.auth)
     testImplementation(libs.junit)
+    testImplementation("org.mockito:mockito-all:1.10.19")
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     dependencies {

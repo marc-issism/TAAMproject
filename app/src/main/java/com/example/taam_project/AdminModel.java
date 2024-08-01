@@ -18,6 +18,7 @@ public class AdminModel implements AdminContract.Model {
     }
 
     public void signInWithEmailAndPassword(String email, String password, AdminContract.View view) {
+
         mAuth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
@@ -27,6 +28,7 @@ public class AdminModel implements AdminContract.Model {
                         if (user != null) {
                             if (user.isEmailVerified()) {
                                 view.showLoginSuccess();
+
                             } else {
                                 view.showEmailNotVerified();
                                 mAuth.signOut();
@@ -34,6 +36,7 @@ public class AdminModel implements AdminContract.Model {
                         }
                     } else {
                         view.showLoginError(task.getException().getMessage());
+
                     }
                 }
             });
@@ -74,4 +77,6 @@ public class AdminModel implements AdminContract.Model {
                 }
             });
     }
+
+
 }

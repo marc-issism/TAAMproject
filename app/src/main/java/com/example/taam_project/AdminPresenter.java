@@ -22,4 +22,5 @@ public class AdminPresenter implements AdminContract.Presenter {
     public void createAccount(String email, String password) {
         mModel.createAccountWithEmailAndPassword(email, password, mView);
     }
+
 }

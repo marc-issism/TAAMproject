@@ -70,7 +70,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     @Override
     public int getItemCount() { return items.size(); }
 
-    public static class ItemViewHolder extends RecyclerView.ViewHolder {
+    public class ItemViewHolder extends RecyclerView.ViewHolder {
         TextView name;
         ImageView media;
         Button remove;
@@ -82,11 +82,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             media = itemView.findViewById(R.id.imageViewMedia);
             remove = itemView.findViewById(R.id.remove);
 
-            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-            if (currentUser != null && currentUser.isEmailVerified())
-                remove.setVisibility(View.VISIBLE);
-            else
-                remove.setVisibility(View.GONE);
+            FirebaseAuth auth = FirebaseAuth.getInstance();
+
+            auth.addAuthStateListener(firebaseAuth -> {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null && user.isEmailVerified())
+                    remove.setVisibility(View.VISIBLE);
+                else remove.setVisibility(View.GONE);
+            });
         }
     }
 }

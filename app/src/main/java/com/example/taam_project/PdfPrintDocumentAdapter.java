@@ -15,11 +15,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class PdfDocumentAdapter extends PrintDocumentAdapter {
+public class PdfPrintDocumentAdapter extends PrintDocumentAdapter {
     private Context context;
     private String pdfPath;
 
-    public PdfDocumentAdapter(Context context, String pdfPath) {
+    public PdfPrintDocumentAdapter(Context context, String pdfPath) {
         this.context = context;
         this.pdfPath = pdfPath;
     }

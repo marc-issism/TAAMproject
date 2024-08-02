@@ -90,9 +90,10 @@ public class Datastore {
 
     public List<Item> filterItems(SearchableField field, String query) {
         List<Item> filtered = new ArrayList<>();
+        FieldPredicate fieldPredicate = fieldPredicates.get(field);
 
         for (Item item: allItems)
-            if (fieldPredicates.get(field).match(item, query.toLowerCase()))
+            if (fieldPredicate.match(item, query.toLowerCase()))
                 filtered.add(item);
 
         return filtered;

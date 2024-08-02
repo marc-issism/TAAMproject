@@ -70,7 +70,6 @@ public class ViewFragment extends DialogFragment {
                     .placeholder(R.drawable.ic_launcher_foreground)
                     .into(imageView);
             }
-
         }
 
         closeButton.setOnClickListener(v -> {

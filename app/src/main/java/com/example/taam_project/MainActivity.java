@@ -20,12 +20,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // Database linking
-        // String dbURL = "https://cscb07-taam-default-rtdb.firebaseio.com/";
-        // db = FirebaseDatabase.getInstance(dbURL);
-        // DatabaseReference dbRef = db.getReference("IDK WHAT GOES HERE");
-
        if(savedInstanceState == null){
             loadFragment(new HomeFragment());
 
@@ -45,21 +39,5 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        // Patrick - Admin Login Button
-//        findViewById(R.id.show_login_button).setOnClickListener(v->{
-//            AdminFragment loginFrag = new AdminFragment();
-//            loginFrag.show(getSupportFragmentManager(), "AdminFragment");
-//        });
-      
-
-//        ReportButton = findViewById(R.id.reportbutton);
-//        ReportButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(MainActivity.this, ReportActivity.class);
-//                startActivity(intent);
-//            }
-//        });
     }
 }

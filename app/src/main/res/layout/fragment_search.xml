@@ -6,38 +6,52 @@
     tools:context=".SearchFragment">
 
     <LinearLayout
+        android:background="@color/background"
         android:id="@+id/linearLayoutSearch"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="300"
+        >
 
-        <TextView
-            android:id="@+id/searchFragmentTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="monospace"
-            android:text="Search Catalogue"
-            android:textAlignment="center"
-            android:textSize="16sp" />
+
 
         <EditText
             android:id="@+id/searchTextInput"
             android:layout_width="match_parent"
             android:layout_height="50sp"
+
             android:ems="10"
-            android:hint="text"
-            android:inputType="text" />
+            android:drawableStart="@drawable/search"
+            android:hint="   Search.."
+            android:inputType="text"
+            android:textColorHint="@color/white"
+            android:background="@drawable/rounded_edit"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            />
 
         <Spinner
             android:id="@+id/filterSpinner"
             android:layout_width="match_parent"
-            android:layout_height="48sp" />
+            android:layout_height="48sp"
+            android:theme="@style/Spinner"
+            android:background="@drawable/rounded_buttons"
+            android:layout_marginBottom="20dp"
+            />
 
         <Button
             android:id="@+id/searchButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Search" />
+            android:background="@drawable/rounded_buttons"
+            android:text="Search"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/gold"/>
 
     </LinearLayout>
 </FrameLayout>

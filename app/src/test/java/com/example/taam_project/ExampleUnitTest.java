@@ -6,7 +6,10 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ExampleUnitTest {
@@ -18,7 +21,7 @@ public class ExampleUnitTest {
     AdminModel model;
 
     @Test
-    public void testAdmin() {
+    public void testShowLoginSuccess() {
         AdminPresenter pres = new AdminPresenter(view, model);
 
         doAnswer(invocation -> {
@@ -35,7 +38,7 @@ public class ExampleUnitTest {
     }
 
     @Test
-    public void testFail() {
+    public void testShowLoginError() {
         AdminPresenter pres = new AdminPresenter(view, model);
 
         doAnswer(invocation -> {
@@ -52,7 +55,24 @@ public class ExampleUnitTest {
     }
 
     @Test
-    public void testCreateLen() {
+    public void testShowEmailNotVerifiedOnLogin() {
+        AdminPresenter pres = new AdminPresenter(view, model);
+
+        doAnswer(invocation -> {
+            view.showEmailNotVerified();
+            return null;
+        }).when(model).createAccountWithEmailAndPassword(
+                "hello",
+                "fw24242f",
+                view
+        );
+
+        pres.createAccount("hello", "fw24242f");
+        verify(view).showEmailNotVerified();
+    }
+
+    @Test
+    public void testShowCreateAccountSuccess() {
         AdminPresenter pres = new AdminPresenter(view, model);
 
         doAnswer(invocation -> {
@@ -66,5 +86,41 @@ public class ExampleUnitTest {
 
         pres.createAccount("hello", "fw24242f");
         verify(view).showCreateAccountSuccess();
+    }
+
+    @Test(expected=Exception.class)
+    public void testShowVerificationEmailNotSent() throws Exception {
+        AdminPresenter pres = new AdminPresenter(view, model);
+        doThrow(new Exception()).when(model).createAccountWithEmailAndPassword(
+                "hello@gmail.com",
+                "1234",
+                view
+        );
+        pres.login("hello@gmail.com", "1234");
+        verify(view).showVerificationEmailNotSent(new Exception());
+    }
+
+    @Test(expected=Exception.class)
+    public void testShowAccountCollisionMessage() {
+        AdminPresenter pres = new AdminPresenter(view, model);
+        doThrow(new FirebaseAuthUserCollisionException("", "")).when(model).createAccountWithEmailAndPassword(
+                "hello@gmail.com",
+                "123",
+                view
+        );
+        pres.login("hello@gmail.com", "123");
+        verify(view).showAccountCollisionMessage(new Exception());
+    }
+
+    @Test(expected=Exception.class)
+    public void testShowCreateAccountFail() {
+        AdminPresenter pres = new AdminPresenter(view, model);
+        doThrow(new Exception()).when(model).createAccountWithEmailAndPassword(
+                "hello@gmail.com",
+                "1234",
+                view
+        );
+        pres.login("hello@gmail.com", "1234");
+        verify(view).showCreateAccountFail(new Exception());
     }
 }

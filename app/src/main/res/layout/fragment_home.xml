@@ -5,9 +5,12 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeFragment">
+    tools:context=".HomeFragment"
+    android:background="@color/background">
 
     <Button
+        android:textColor="@color/white"
+        android:background="@drawable/rounded_buttons"
         android:id="@+id/adminFragmentButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -22,6 +25,9 @@
 
 
     <Button
+        android:textColor="@color/white"
+
+        android:background="@drawable/rounded_buttons"
         android:id="@+id/addFragmentButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -34,6 +40,8 @@
         app:layout_constraintEnd_toStartOf="@+id/reportFragmentButton" />
 
     <Button
+        android:textColor="@color/white"
+        android:background="@drawable/rounded_buttons"
         android:id="@+id/reportFragmentButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -51,6 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:text="Login Status"
+        android:textColor="@color/white"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -58,12 +67,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <SearchView
+        android:background="@drawable/rounded_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:id="@+id/searchView"
         app:layout_constraintTop_toBottomOf="@id/loginStatusTextView"
         app:queryHint="Search..."
+        app:defaultQueryHint="Search..."
         />
 
     <FrameLayout

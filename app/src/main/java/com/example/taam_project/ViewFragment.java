@@ -16,11 +16,13 @@ import com.bumptech.glide.Glide;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.ui.StyledPlayerView;
+import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class ViewFragment extends DialogFragment {
 
     private Item item;
     private TextView name, lot, category, dynasty, description;
+    private ImageView blurredImageView;
     private ImageView imageView;
     private StyledPlayerView playerView;
     private ExoPlayer player;
@@ -43,15 +45,16 @@ public class ViewFragment extends DialogFragment {
         dynasty = view.findViewById(R.id.textViewPeriod);
         description = view.findViewById(R.id.textViewDescription);
         imageView = view.findViewById(R.id.imageView);
+        blurredImageView = view.findViewById(R.id.blurredImageView);
         playerView = view.findViewById(R.id.playerView);
 
         if (context != null) {
 
-            name.setText(context.getString(R.string.item_name, item.getName()));
+            name.setText(item.getName());
             lot.setText(context.getString(R.string.item_lot_number, item.getLotNumber()));
             category.setText(context.getString(R.string.item_category, item.getCategory()));
             dynasty.setText(context.getString(R.string.item_period, item.getPeriod()));
-            description.setText(context.getString(R.string.item_description, item.getDescription()));
+            description.setText(item.getDescription().replace("\n", " "));
 
             playerView.setVisibility(View.GONE);
 
@@ -69,6 +72,11 @@ public class ViewFragment extends DialogFragment {
                     .load(item.getMedia())
                     .placeholder(R.drawable.ic_launcher_foreground)
                     .into(imageView);
+
+                Glide.with(context)
+                    .load(item.getMedia())
+                    .transform(new BlurTransformation(75))
+                    .into(blurredImageView);
             }
         }
 

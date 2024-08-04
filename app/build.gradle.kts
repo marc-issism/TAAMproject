@@ -51,6 +51,9 @@ dependencies {
     // Bumptech
     implementation("com.github.bumptech.glide:glide:4.14.2")
 
+    // Blur Image
+    implementation("jp.wasabeef:glide-transformations:4.3.0")
+
     // ExoPlayer
     implementation("com.google.android.exoplayer:exoplayer-core:2.18.1")
     implementation("com.google.android.exoplayer:exoplayer-ui:2.18.1")

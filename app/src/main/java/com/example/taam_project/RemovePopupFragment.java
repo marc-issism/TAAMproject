@@ -7,10 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import androidx.fragment.app.DialogFragment;
-
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -69,6 +68,9 @@ public class RemovePopupFragment extends DialogFragment {
             }
         });
         StorageReference media = sb.child(item.getLotNumber());
+
+        if (item.getMedia().equals("")) return;
+
         media.delete().addOnSuccessListener(unused -> {
             AlertFragment.newInstance("Successfully removed " + item.getName()).show(((MainActivity) context).getSupportFragmentManager(), "alert_fragment");
         }).addOnFailureListener(e -> {

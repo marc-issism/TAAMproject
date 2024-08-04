@@ -26,7 +26,6 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -115,7 +114,7 @@ public class ReportActivity extends AppCompatActivity {
                 boolean descriptionandimage = toggle.isChecked();
 
                 if (searchCriteria.equals("All Items")){
-                    Toast.makeText(ReportActivity.this, "Please wait a moment, while the pdf is being generated", Toast.LENGTH_SHORT).show();
+                    AlertFragment.newInstance("Please wait a moment, while the pdf is being generated").show(getSupportFragmentManager(), "alert_fragment");
                     generatePDF("", "Category", descriptionandimage);
                     return;
                 }
@@ -199,7 +198,7 @@ public class ReportActivity extends AppCompatActivity {
             list = ds.filterItems(Datastore.SearchableField.NAME, query);
         }
         if (list == null || list.isEmpty()){
-            Toast.makeText(ReportActivity.this, "No item that matches the query / criterion", Toast.LENGTH_SHORT).show();
+            AlertFragment.newInstance("No item that matches the query / criterion").show(getSupportFragmentManager(), "alert_fragment");
             return;
         }
 
@@ -303,7 +302,7 @@ public class ReportActivity extends AppCompatActivity {
 
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(ReportActivity.this, "Failed to generate PDF file.", Toast.LENGTH_SHORT).show();
+            AlertFragment.newInstance("Failed to generate PDF file.").show(getSupportFragmentManager(), "alert_fragment");
         }
 
         pdfDocument.close();

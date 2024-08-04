@@ -1,100 +1,108 @@
 package com.example.taam_project;
 
-import static android.view.View.GONE;
-
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class HomeFragment extends Fragment {
-    private Button addFragmentButton;
-    private Button reportFragmentButton;
-    private Button adminFragmentButton;
-
-    // For basic functionality of admin.
     private TextView loginStatusTextView;
-    private SearchView searchView;
     private RecyclerViewFragment recyclerViewFragment;
-    private Datastore datastore;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public void onCreate(Bundle b) {
+        super.onCreate(b);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
-        datastore = Datastore.getInstance();
         recyclerViewFragment = new RecyclerViewFragment();
-
-        addFragmentButton = view.findViewById(R.id.addFragmentButton);
-        reportFragmentButton = view.findViewById(R.id.reportFragmentButton);
-        adminFragmentButton = view.findViewById(R.id.adminFragmentButton);
         loginStatusTextView = view.findViewById(R.id.loginStatusTextView);
-        searchView = view.findViewById(R.id.searchView);
+        loadRecyclerView();
+        return view;
+    }
 
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.top_app_bar, menu);
+
+        SearchView searchView = (SearchView) menu.findItem(R.id.menuSearchButton).getActionView();
+        MenuItem add = menu.findItem(R.id.menuAddButton);
+        MenuItem report = menu.findItem(R.id.menuReportButton);
+        MenuItem admin = menu.findItem(R.id.menuAdminButton);
+
+        Datastore datastore = Datastore.getInstance();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
-            }
+            public boolean onQueryTextSubmit(String s) { return false; }
 
             @Override
             public boolean onQueryTextChange(String s) {
+                Log.d("SEARCH", s);
                 datastore.search(s);
                 return true;
             }
         });
 
-        adminFragmentButton.setOnClickListener(v->{
-            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-            if (currentUser != null && currentUser.isEmailVerified()) {
-                AdminControlsView controlsFrag = new AdminControlsView(this);
-                controlsFrag.show(getParentFragmentManager(), "AdminControlsView");
-            }
-            else {
-                AdminView loginFrag = new AdminView(this);
-                loginFrag.show(getParentFragmentManager(), "AdminView");
-            }
+        add.setOnMenuItemClickListener(menuItem -> {
+            loadFragment(new AddItem());
+            return true;
         });
 
-        // Please rename to AddFragment if possible for consistency
-        addFragmentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { loadFragment(new AddItem());}
+        report.setOnMenuItemClickListener(menuItem -> {
+            Intent intent = new Intent(getActivity(), ReportActivity.class);
+            startActivity(intent);
+            return true;
         });
 
-        /* UNCOMMENT when Report Activity is converted to fragment
-        reportFragmentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { loadFragment(new ReportFragment());}
+        admin.setOnMenuItemClickListener(menuItem -> {
+            loadAdminFragment();
+            return true;
         });
-        */
 
-        Button ReportButton;
-        ReportButton = reportFragmentButton;
-        ReportButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), ReportActivity.class);
-                startActivity(intent);
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        auth.addAuthStateListener(firebaseAuth -> {
+            FirebaseUser user = firebaseAuth.getCurrentUser();
+            if (user != null && user.isEmailVerified()) {
+                String email = user.getEmail();
+                report.setVisible(true);
+                add.setVisible(true);
+                loginStatusTextView.setText("Admin (" + email + ") is signed in");
+            } else {
+                report.setVisible(false);
+                add.setVisible(false);
+                loginStatusTextView.setText("No admin signed in");
             }
         });
 
-        loadRecyclerView();
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
-        return view;
+    private void loadAdminFragment() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null && currentUser.isEmailVerified()) {
+            AdminControlsView controlsFrag = new AdminControlsView(this);
+            controlsFrag.show(getParentFragmentManager(), "AdminControlsView");
+        } else {
+            AdminView loginFrag = new AdminView(this);
+            loginFrag.show(getParentFragmentManager(), "AdminView");
+        }
     }
 
     private void loadRecyclerView() {
@@ -122,13 +130,9 @@ public class HomeFragment extends Fragment {
         if (currentUser != null && currentUser.isEmailVerified()) {
             // User is signed in.
             String email = currentUser.getEmail();
-            addFragmentButton.setVisibility(View.VISIBLE);
-            reportFragmentButton.setVisibility(View.VISIBLE);
             loginStatusTextView.setText("Admin (" + email + ") is signed in");
         } else {
             // User is not signed in.
-            addFragmentButton.setVisibility(GONE);
-            reportFragmentButton.setVisibility(GONE);
             loginStatusTextView.setText("No admin signed in");
         }
     }

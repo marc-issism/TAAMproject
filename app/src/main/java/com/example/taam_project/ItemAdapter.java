@@ -7,13 +7,23 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ImageView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.bumptech.glide.Glide;
+import jp.wasabeef.glide.transformations.BlurTransformation;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
@@ -44,7 +54,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         Glide.with(context)
             .load(item.getMedia())
             .placeholder(R.drawable.ic_launcher_foreground)
-            .into(holder.media);
+            .into(holder.imageView);
+
+        Glide.with(context)
+            .load(item.getMedia())
+            .transform(new BlurTransformation(150))
+            .into(holder.blurredImageView);
 
         holder.remove.setOnClickListener(view -> {
             RemovePopupFragment frag = new RemovePopupFragment(item, context);
@@ -63,14 +78,16 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
     public class ItemViewHolder extends RecyclerView.ViewHolder {
         TextView name;
-        ImageView media;
+        ImageView imageView;
+        ImageView blurredImageView;
         Button remove;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
 
             name = itemView.findViewById(R.id.textViewName);
-            media = itemView.findViewById(R.id.imageViewMedia);
+            imageView = itemView.findViewById(R.id.imageView);
+            blurredImageView = itemView.findViewById(R.id.blurredImageView);
             remove = itemView.findViewById(R.id.remove);
 
             FirebaseAuth auth = FirebaseAuth.getInstance();

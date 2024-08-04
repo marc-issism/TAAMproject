@@ -13,9 +13,7 @@
         app:layout_constraintDimensionRatio="H,16:9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent="1">
+        app:layout_constraintTop_toTopOf="parent" >
 
         <ImageView
             android:id="@+id/blurredImageView"
@@ -46,7 +44,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/mediaContainer" />
+        app:layout_constraintTop_toBottomOf="@+id/mediaContainer" />
 
     <TextView
         android:id="@+id/textViewLotNumber"
@@ -57,7 +55,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewName" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewName" />
 
     <TextView
         android:id="@+id/textViewCategory"
@@ -68,7 +66,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewLotNumber" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewLotNumber" />
 
     <TextView
         android:id="@+id/textViewPeriod"
@@ -79,7 +77,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewCategory" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewCategory" />
 
     <TextView
         android:id="@+id/textViewDescription"
@@ -89,7 +87,7 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewPeriod" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewPeriod" />
 
     <Button
         android:id="@+id/close_button"
@@ -99,6 +97,6 @@
         android:text="Close"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewDescription" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

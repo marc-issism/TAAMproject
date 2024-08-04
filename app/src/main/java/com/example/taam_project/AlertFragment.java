@@ -8,9 +8,7 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.widget.Button;
 import android.widget.TextView;
 import androidx.fragment.app.DialogFragment;
 
@@ -61,6 +59,7 @@ public class AlertFragment extends DialogFragment {
         super.onStart();
         if (getDialog() != null && getDialog().getWindow() != null) {
             getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            getDialog().getWindow().setDimAmount(0.1f);
         }
     }
 }

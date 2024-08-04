@@ -65,21 +65,19 @@ public class RemovePopupFragment extends DialogFragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ds: snapshot.getChildren()) {
-                    Item item = ds.getValue(Item.class);
-                    Toast.makeText(context, "Removing " + item.getName(), Toast.LENGTH_SHORT).show();
                     ds.getRef().removeValue();
                 }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(context, "Deletion failed ", Toast.LENGTH_SHORT).show();
+                AlertFragment.newInstance("Deletion failed").show(((MainActivity) context).getSupportFragmentManager(), "alert_fragment");
             }
         });
         StorageReference media = sb.child(item.getLotNumber());
         media.delete().addOnSuccessListener(unused -> {
-            Toast.makeText(context, "Deletion successful ", Toast.LENGTH_SHORT).show();
+            AlertFragment.newInstance("Successfully removed " + item.getName()).show(((MainActivity) context).getSupportFragmentManager(), "alert_fragment");
         }).addOnFailureListener(e -> {
-            Toast.makeText(context, "Could not delete media", Toast.LENGTH_SHORT).show();
+            AlertFragment.newInstance("Deletion failed").show(((MainActivity) context).getSupportFragmentManager(), "alert_fragment");
         });
     }
 

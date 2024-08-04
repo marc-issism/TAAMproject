@@ -4,14 +4,6 @@ package com.example.taam_project;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -19,11 +11,26 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import android.provider.MediaStore;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
@@ -33,6 +40,7 @@ import java.util.concurrent.TimeUnit;
 
 public class AddItem extends Fragment {
     private EditText lotNumber, name, description;
+    private TextView mediaStatus;
     private Spinner category, period;
     private FirebaseDatabase db;
     private DatabaseReference itemsRef;
@@ -54,6 +62,7 @@ public class AddItem extends Fragment {
         category = view.findViewById(R.id.EditCategory);
         period = view.findViewById(R.id.EditPeriod);
         description = view.findViewById(R.id.EditDescription);
+        mediaStatus = view.findViewById(R.id.mediaStatus);
         Button submit = view.findViewById(R.id.Submit);
         Button media = view.findViewById(R.id.EditPicture);
         registerResult();
@@ -72,11 +81,19 @@ public class AddItem extends Fragment {
         period.setAdapter(perAdap);
 
         // submit the form
-        submit.setOnClickListener(v -> addItem());
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addItem();
+            }
+        });
 
-        media.setOnClickListener(v -> {
-            Intent intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
-            resultLauncher.launch(intent);
+        media.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
+                resultLauncher.launch(intent);
+            }
         });
 
         return view;
@@ -113,13 +130,11 @@ public class AddItem extends Fragment {
                 }
 
             } else {
-                AlertFragment.newInstance("Entry logged, could not upload media").show(getParentFragmentManager(), "alert_fragment");
+                AlertFragment.newInstance("Entry logged but could not upload media").show(getParentFragmentManager(), "alert_fragment");
                 clearAll();
             }
         });
     }
-
-
 
     private void registerResult(){
         resultLauncher = registerForActivityResult(
@@ -129,10 +144,12 @@ public class AddItem extends Fragment {
                     public void onActivityResult(ActivityResult result) {
                         try{
                             image = result.getData().getData();
+                            AlertFragment.newInstance("Media has been registered").show(getParentFragmentManager(), "alert_fragment");
+                            mediaStatus.setVisibility(View.VISIBLE);
                             uploadStat = 1;
                         }
                         catch (Exception e){
-                            AlertFragment.newInstance("Could not register image").show(getParentFragmentManager(), "alert_fragment");
+                            AlertFragment.newInstance("Could not register media").show(getParentFragmentManager(), "alert_fragment");
                         }
                     }
                 }
@@ -160,7 +177,6 @@ public class AddItem extends Fragment {
                 String link = uri.toString();
                 itemsRef.child(lotNum).child("media").setValue(link);
                 load.dismiss();
-
                 AlertFragment.newInstance("Media successfully uploaded").show(getParentFragmentManager(), "alert_fragment");
                 clearAll();
 //                FragmentManager frag = getParentFragmentManager();
@@ -215,6 +231,7 @@ public class AddItem extends Fragment {
         description.setText("");
         category.setSelection(0);
         period.setSelection(0);
+        mediaStatus.setVisibility(View.INVISIBLE);
         image = null;
         uploadStat = 0;
     }

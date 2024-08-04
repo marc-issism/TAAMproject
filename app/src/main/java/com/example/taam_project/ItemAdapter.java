@@ -47,7 +47,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
         Glide.with(context)
             .load(item.getMedia())
-            .placeholder(R.drawable.ic_launcher_foreground)
+            .placeholder(R.drawable.media_not_found)
             .into(holder.imageView);
 
         Glide.with(context)

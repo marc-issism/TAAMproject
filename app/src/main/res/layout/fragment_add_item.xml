@@ -119,6 +119,18 @@
         app:layout_constraintStart_toStartOf="@+id/EditDescription"
         app:layout_constraintTop_toBottomOf="@+id/EditDescription" />
 
+    <TextView
+        android:id="@+id/mediaStatus"
+        android:layout_width="112dp"
+        android:layout_height="21dp"
+        android:text="Media Received"
+        android:textColor="#0000FF"
+        android:textSize="16sp"
+        android:visibility="invisible"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="@+id/Picture"
+        app:layout_constraintTop_toBottomOf="@+id/Picture" />
+
     <Button
         android:id="@+id/EditPicture"
         android:layout_width="wrap_content"
@@ -138,4 +150,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/EditPicture" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

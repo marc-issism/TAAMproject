@@ -56,8 +56,6 @@ public class ViewFragment extends DialogFragment {
             dynasty.setText(context.getString(R.string.item_period, item.getPeriod()));
             description.setText(item.getDescription().replace("\n", " "));
 
-            playerView.setVisibility(View.GONE);
-
             if (item.getMediaType().startsWith("video")) {
                 playerView.setVisibility(View.VISIBLE);
                 player = new ExoPlayer.Builder(context).build();
@@ -68,9 +66,10 @@ public class ViewFragment extends DialogFragment {
                 player.play();
             }
             else {
+                imageView.setVisibility(View.VISIBLE);
                 Glide.with(context)
                     .load(item.getMedia())
-                    .placeholder(R.drawable.ic_launcher_foreground)
+                    .placeholder(R.drawable.media_not_found)
                     .into(imageView);
 
                 Glide.with(context)

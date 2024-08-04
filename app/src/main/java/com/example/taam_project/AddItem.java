@@ -110,7 +110,7 @@ public class AddItem extends Fragment {
         String tmpDisc = description.getText().toString().trim();
 
         if (tmpLot.isEmpty() || tmpName.isEmpty() || tmpCategory.isEmpty() || tmpPeriod.isEmpty() || tmpDisc.isEmpty()) {
-            AlertFragment.newInstance("Please fill out all fields").show(requireFragmentManager(), "alert_fragment");
+            AlertFragment.newInstance("Please fill out all fields").show(getParentFragmentManager(), "alert_fragment");
             return;
         }
 
@@ -126,14 +126,14 @@ public class AddItem extends Fragment {
                 try {
                     getMediaLink(tmpLot, 0);
                     setMediaType(tmpLot, 0);
-                    load.show(requireFragmentManager(), "loading_fragment");
+                    load.show(getParentFragmentManager(), "loading_fragment");
 
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
 
             } else {
-                AlertFragment.newInstance("Entry logged, could not upload media").show(requireFragmentManager(), "alert_fragment");
+                AlertFragment.newInstance("Entry logged, could not upload media").show(getParentFragmentManager(), "alert_fragment");
                 clearAll();
             }
         });
@@ -152,7 +152,7 @@ public class AddItem extends Fragment {
                             uploadStat = 1;
                         }
                         catch (Exception e){
-                            AlertFragment.newInstance("Could not register image").show(requireFragmentManager(), "alert_fragment");
+                            AlertFragment.newInstance("Could not register image").show(getParentFragmentManager(), "alert_fragment");
                         }
                     }
                 }
@@ -170,7 +170,7 @@ public class AddItem extends Fragment {
 
     private void getMediaLink(String lotNum, Integer loop) throws InterruptedException {
         if (loop == runTimeCheck) {
-            AlertFragment.newInstance("Media could not be uploaded").show(requireFragmentManager(), "alert_fragment");
+            AlertFragment.newInstance("Media could not be uploaded").show(getParentFragmentManager(), "alert_fragment");
             return;
         }
 
@@ -181,9 +181,9 @@ public class AddItem extends Fragment {
                 itemsRef.child(lotNum).child("media").setValue(link);
                 load.dismiss();
 
-                AlertFragment.newInstance("Media successfully uploaded").show(requireFragmentManager(), "alert_fragment");
+                AlertFragment.newInstance("Media successfully uploaded").show(getParentFragmentManager(), "alert_fragment");
                 clearAll();
-//                FragmentManager frag = requireFragmentManager();
+//                FragmentManager frag = getParentFragmentManager();
 //                FragmentTransaction transaction = frag.beginTransaction();
 //                transaction.replace(R.id.fragment_container, HomeFragment.class, null);
 //                transaction.commit();
@@ -203,7 +203,7 @@ public class AddItem extends Fragment {
     }
     private void setMediaType(String lot, Integer loop){
         if (loop == runTimeCheck){
-            AlertFragment.newInstance("Media could not be uploaded").show(requireFragmentManager(), "alert_fragment");
+            AlertFragment.newInstance("Media could not be uploaded").show(getParentFragmentManager(), "alert_fragment");
             return;
         }
 

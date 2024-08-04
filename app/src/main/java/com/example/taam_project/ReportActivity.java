@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -114,7 +115,7 @@ public class ReportActivity extends AppCompatActivity {
                 boolean descriptionandimage = toggle.isChecked();
 
                 if (searchCriteria.equals("All Items")){
-                    Toast.makeText(ReportActivity.this, "beep boop", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ReportActivity.this, "Please wait a moment, while the pdf is being generated", Toast.LENGTH_SHORT).show();
                     generatePDF("", "Category", descriptionandimage);
                     return;
                 }
@@ -124,27 +125,29 @@ public class ReportActivity extends AppCompatActivity {
     }
     public static String[] splitByNumber(String text, int chunkSize) {
         int textLength = text.length();
-        int numChunks = textLength / chunkSize;
-        int remainder = textLength % chunkSize;
+        List<String> chunks = new ArrayList<>();
+        StringBuilder currentChunk = new StringBuilder();
 
-        if (remainder > 0) {
-            numChunks++;
-        }
+        String[] words = text.split(" ");
 
-        String[] result = new String[numChunks];
-        String remainingText = text;
-
-        for (int i = 0; i < numChunks; i++) {
-            if (remainingText.length() > chunkSize) {
-                result[i] = remainingText.substring(0, chunkSize);
-                remainingText = remainingText.substring(chunkSize);
-            } else {
-                result[i] = remainingText;
+        for (String word : words) {
+            if (currentChunk.length() + word.length() + (currentChunk.length() > 0 ? 1 : 0) > chunkSize) {
+                chunks.add(currentChunk.toString());
+                currentChunk = new StringBuilder();
             }
+            if (currentChunk.length() > 0) {
+                currentChunk.append(" ");
+            }
+            currentChunk.append(word);
         }
 
-        return result;
+        if (currentChunk.length() > 0) {
+            chunks.add(currentChunk.toString());
+        }
+        return chunks.toArray(new String[0]);
     }
+
+
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         @Override
         protected Bitmap doInBackground(String... urls) {
@@ -170,7 +173,9 @@ public class ReportActivity extends AppCompatActivity {
 
         Paint paint = new Paint();
         Paint title = new Paint();
+        Paint content = new Paint();
         Paint descriptionText = new Paint();
+        Paint geometry = new Paint();
 
         PdfDocument.PageInfo mypageInfo = new PdfDocument.PageInfo.Builder(pagewidth, pageHeight, 1).create();
 
@@ -202,29 +207,49 @@ public class ReportActivity extends AppCompatActivity {
             PdfDocument.Page myPage = pdfDocument.startPage(mypageInfo);
             Canvas canvas = myPage.getCanvas();
 
-            title.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
-            title.setTextSize(50);
+            Bitmap template = BitmapFactory.decodeResource(getResources(), R.drawable.reporttemplate);
+            Bitmap scaledTemplate = Bitmap.createScaledBitmap(template, 1020, 1320, false);
+            canvas.drawBitmap(scaledTemplate, 0, 0, paint);
+
+
+            Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/customfont.ttf");
+            title.setTypeface(typeface);
+            title.setTextSize(35);
             title.setColor(ContextCompat.getColor(this, R.color.black));
             title.setTextAlign(Paint.Align.LEFT);
 
-            descriptionText.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
-            descriptionText.setTextSize(25);
+            descriptionText.setTypeface(typeface);
+            descriptionText.setTextSize(20);
             descriptionText.setColor(ContextCompat.getColor(this, R.color.black));
             descriptionText.setTextAlign(Paint.Align.LEFT);
 
-            int image_count = list.size();
+            content.setTypeface(typeface);
+            content.setTextSize(25);
+            content.setColor(ContextCompat.getColor(this, R.color.black));
+            content.setTextAlign(Paint.Align.LEFT);
+
             try {
                 bmp = new DownloadImageTask().execute(list.get(i).getMedia()).get(); // Use .get() to wait for the result
 
                 if (bmp != null) {
+                    int targetHeight = 500;
+                    int targetWidth = 400;
+
+                    int width = bmp.getWidth();
                     int height = bmp.getHeight();
-                    double scalar = (double) 400 / height;
-                    double width = bmp.getWidth() * scalar;
-                    scaledbmp = Bitmap.createScaledBitmap(bmp, (int) width, 400, false);
-                    canvas.drawBitmap(scaledbmp, 40, 40, paint);
+                    double scalar;
+                    if (height > width) {
+                        scalar = (double) targetHeight / height;
+                    } else {
+                        scalar = (double) targetWidth / width;
+                    }
+                    int scaledWidth = (int) (width * scalar);
+                    int scaledHeight = (int) (height * scalar);
+                    scaledbmp = Bitmap.createScaledBitmap(bmp, scaledWidth, scaledHeight, false);
+                    canvas.drawBitmap(scaledbmp, 80, 150, paint);
                 } else {
-                    canvas.drawText("Image unavailable", 60, 60, title);
-                    canvas.drawText("video or no media", 60, 200, title);
+                    canvas.drawText("Image unavailable", 80, 150, content);
+                    canvas.drawText("video or no media", 80, 180, content);
                     Log.e("generatePDF", "Bitmap is null. Skipping bitmap drawing.");
                 }
             } catch (Exception e) {
@@ -237,21 +262,31 @@ public class ReportActivity extends AppCompatActivity {
             lotNumber = list.get(i).getLotNumber();
             dynasty = list.get(i).getPeriod();
             description = list.get(i).getDescription();
-            String[] lines = splitByNumber(description, 75);
+            String[] lines = splitByNumber(description, 63);
+            String[] name_lines = splitByNumber(name, 25);
 
-            if (!descriptionandimage){
-                canvas.drawText(name, 550, 80, title);
-                canvas.drawText("Period: " + dynasty, 550, 380, title);
-                canvas.drawText("Category: " + category, 550, 440, title);
-                canvas.drawText(lotNumber, 850, 1250, title);
+            //canvas.drawText(name, 530, 200, title);
+            float y_1 = 200; // Starting y position for the text
+            for (String line : name_lines) {
+                canvas.drawText(line, 530, y_1, title);
+                y_1 += descriptionText.getTextSize() + 10; // Move y position for the next line
             }
 
+            canvas.drawText(dynasty, 730, 533, content);
+            canvas.drawText(category, 730, 440, content);
+            canvas.drawText(lotNumber, 730, 625, content);
 
-            float y = 650; // Starting y position for the text
+            float y_2 = 820; // Starting y position for the text
             for (String line : lines) {
-                canvas.drawText(line, 60, y, descriptionText);
-                y += descriptionText.getTextSize() + 4; // Move y position for the next line
+                canvas.drawText(line, 80, y_2, descriptionText);
+                y_2 += descriptionText.getTextSize() + 4; // Move y position for the next line
             }
+
+            if (descriptionandimage){
+                geometry.setColor(Color.WHITE);
+                canvas.drawRect(500, 130, 1030, 700, geometry);
+            }
+
 
             pdfDocument.finishPage(myPage);
         }

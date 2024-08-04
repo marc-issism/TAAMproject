@@ -8,13 +8,20 @@
 
     <FrameLayout
         android:id="@+id/mediaContainer"
-        android:layout_width="375dp"
-        android:layout_height="250dp"
-        android:layout_margin="8dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintDimensionRatio="H,16:9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="1">
+
+        <ImageView
+            android:id="@+id/blurredImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
 
         <ImageView
             android:id="@+id/imageView"
@@ -33,59 +40,65 @@
     <TextView
         android:id="@+id/textViewName"
         android:layout_width="0dp"
-        android:layout_marginTop="8dp"
         android:layout_height="wrap_content"
-        android:text="Name"
+        android:layout_marginTop="16dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mediaContainer" />
+        app:layout_constraintTop_toBottomOf="@id/mediaContainer" />
 
     <TextView
         android:id="@+id/textViewLotNumber"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Lot"
+        android:layout_marginTop="16dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewName" />
+        app:layout_constraintTop_toBottomOf="@id/textViewName" />
 
     <TextView
         android:id="@+id/textViewCategory"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Category"
+        android:layout_marginTop="8dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewLotNumber" />
+        app:layout_constraintTop_toBottomOf="@id/textViewLotNumber" />
 
     <TextView
         android:id="@+id/textViewPeriod"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Period"
+        android:layout_marginTop="8dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewCategory" />
-
+        app:layout_constraintTop_toBottomOf="@id/textViewCategory" />
 
     <TextView
         android:id="@+id/textViewDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Description"
+        android:layout_marginTop="16dp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewPeriod" />
+        app:layout_constraintTop_toBottomOf="@id/textViewPeriod" />
 
     <Button
         android:id="@+id/close_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="20dp"
         android:text="Close"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDescription" />
+        app:layout_constraintTop_toBottomOf="@id/textViewDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

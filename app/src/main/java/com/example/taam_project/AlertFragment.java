@@ -16,7 +16,7 @@ import androidx.fragment.app.DialogFragment;
 
 public class AlertFragment extends DialogFragment {
 
-    private static final String argText = "argText";
+    private static final String argText = "";
     private static final int fadeDelay = 1000; // Delay before fade-out starts
 
     public AlertFragment() {
@@ -52,7 +52,6 @@ public class AlertFragment extends DialogFragment {
                 .withEndAction(this::dismiss)
                 .start();
         }, fadeDelay);
-
 
         return view;
     }

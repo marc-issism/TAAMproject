@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class HomeFragment extends Fragment {
-    private TextView loginStatusTextView;
+    //private TextView loginStatusTextView;
     private RecyclerViewFragment recyclerViewFragment;
 
     @Override
@@ -33,7 +33,6 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         recyclerViewFragment = new RecyclerViewFragment();
-        loginStatusTextView = view.findViewById(R.id.loginStatusTextView);
         loadRecyclerView();
         return view;
     }
@@ -83,11 +82,9 @@ public class HomeFragment extends Fragment {
                 String email = user.getEmail();
                 report.setVisible(true);
                 add.setVisible(true);
-                loginStatusTextView.setText("Admin (" + email + ") is signed in");
             } else {
                 report.setVisible(false);
                 add.setVisible(false);
-                loginStatusTextView.setText("No admin signed in");
             }
         });
 
@@ -130,10 +127,10 @@ public class HomeFragment extends Fragment {
         if (currentUser != null && currentUser.isEmailVerified()) {
             // User is signed in.
             String email = currentUser.getEmail();
-            loginStatusTextView.setText("Admin (" + email + ") is signed in");
+            //loginStatusTextView.setText("Admin (" + email + ") is signed in");
         } else {
             // User is not signed in.
-            loginStatusTextView.setText("No admin signed in");
+            //loginStatusTextView.setText("No admin signed in");
         }
     }
 

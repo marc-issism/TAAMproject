@@ -10,9 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class AdminControlsView extends DialogFragment implements AdminContract.View {
     private static final String TAG = "AdminControlsView";
@@ -33,6 +35,7 @@ public class AdminControlsView extends DialogFragment implements AdminContract.V
         EditText passwordEditText = view.findViewById(R.id.password_edit_text);
         Button createAccountButton = view.findViewById(R.id.create_account_button);
         Button closeButton = view.findViewById(R.id.close_button);
+        TextView loginStatusTextView = view.findViewById(R.id.loginStatusTextView);
         mPresenter = new AdminPresenter(this, new AdminModel());
 
         logoutButton.setOnClickListener(v -> {
@@ -55,6 +58,18 @@ public class AdminControlsView extends DialogFragment implements AdminContract.V
         });
 
         closeButton.setOnClickListener(v -> dismiss());
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        auth.addAuthStateListener(firebaseAuth -> {
+            FirebaseUser user = firebaseAuth.getCurrentUser();
+            if (user != null && user.isEmailVerified()) {
+                String email = user.getEmail();
+                loginStatusTextView.setText("Admin (" + email + ") is signed in");
+            } else {
+                loginStatusTextView.setText("No admin signed in");
+            }
+        });
+
 
         return view;
     }

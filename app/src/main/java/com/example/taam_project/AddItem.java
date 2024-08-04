@@ -48,7 +48,6 @@ public class AddItem extends Fragment {
     static public LoadingFragment load = new LoadingFragment();
     static int runTimeCheck = 10;
     private int uploadStat;
-    private AlertFragment alert;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -111,8 +110,7 @@ public class AddItem extends Fragment {
         String tmpDisc = description.getText().toString().trim();
 
         if (tmpLot.isEmpty() || tmpName.isEmpty() || tmpCategory.isEmpty() || tmpPeriod.isEmpty() || tmpDisc.isEmpty()) {
-            alert = AlertFragment.newInstance("Fill out all fields");
-            alert.show(getParentFragmentManager(), "alert_fragment");
+            AlertFragment.newInstance("Please fill out all fields").show(requireFragmentManager(), "alert_fragment");
             return;
         }
 
@@ -128,17 +126,14 @@ public class AddItem extends Fragment {
                 try {
                     getMediaLink(tmpLot, 0);
                     setMediaType(tmpLot, 0);
-                    load.show(getParentFragmentManager(), "loading_fragment");
+                    load.show(requireFragmentManager(), "loading_fragment");
 
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
 
-
-
             } else {
-                alert = AlertFragment.newInstance("Entry logged, could not upload media");
-                alert.show(getParentFragmentManager(), "alert_fragment");
+                AlertFragment.newInstance("Entry logged, could not upload media").show(requireFragmentManager(), "alert_fragment");
                 clearAll();
             }
         });
@@ -157,10 +152,7 @@ public class AddItem extends Fragment {
                             uploadStat = 1;
                         }
                         catch (Exception e){
-                            alert = AlertFragment.newInstance("Could not register image");
-                            alert.show(getParentFragmentManager(), "alert_fragment");
-
-
+                            AlertFragment.newInstance("Could not register image").show(requireFragmentManager(), "alert_fragment");
                         }
                     }
                 }
@@ -178,8 +170,7 @@ public class AddItem extends Fragment {
 
     private void getMediaLink(String lotNum, Integer loop) throws InterruptedException {
         if (loop == runTimeCheck) {
-            alert = AlertFragment.newInstance("Media could not be uploaded");
-            alert.show(getParentFragmentManager(), "alert_fragment");
+            AlertFragment.newInstance("Media could not be uploaded").show(requireFragmentManager(), "alert_fragment");
             return;
         }
 
@@ -190,10 +181,9 @@ public class AddItem extends Fragment {
                 itemsRef.child(lotNum).child("media").setValue(link);
                 load.dismiss();
 
-                alert = AlertFragment.newInstance("Media successfully uploaded");
-                alert.show(getParentFragmentManager(), "alert_fragment");
+                AlertFragment.newInstance("Media successfully uploaded").show(requireFragmentManager(), "alert_fragment");
                 clearAll();
-//                FragmentManager frag = getParentFragmentManager();
+//                FragmentManager frag = requireFragmentManager();
 //                FragmentTransaction transaction = frag.beginTransaction();
 //                transaction.replace(R.id.fragment_container, HomeFragment.class, null);
 //                transaction.commit();
@@ -213,8 +203,7 @@ public class AddItem extends Fragment {
     }
     private void setMediaType(String lot, Integer loop){
         if (loop == runTimeCheck){
-            alert = AlertFragment.newInstance("Media could not be uploaded");
-            alert.show(getParentFragmentManager(), "alert_fragment");
+            AlertFragment.newInstance("Media could not be uploaded").show(requireFragmentManager(), "alert_fragment");
             return;
         }
 

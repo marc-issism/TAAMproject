@@ -124,7 +124,7 @@
         android:layout_width="112dp"
         android:layout_height="21dp"
         android:text="Media Received"
-        android:textColor="#0000FF"
+        android:textColor="@color/green_700"
         android:textSize="16sp"
         android:visibility="invisible"
         android:layout_marginTop="4dp"

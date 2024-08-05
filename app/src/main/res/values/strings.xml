@@ -44,7 +44,7 @@
         <item>Shui</item>
         <item>Tang</item>
         <item>Liao</item>
-        <item>Song</item>
+        <item>Song</item>   
         <item>Jin</item>
         <item>Yuan</item>
         <item>Ming</item>
@@ -55,5 +55,19 @@
     <string name="item_lot_number">Lot #: %1$s</string>
     <string name="item_category">Category: %1$s</string>
     <string name="item_period">Period: %1$s</string>
+
+
+    <string name="lot_number">Lot Number</string>
+    <string name="enter_lot_number">Enter Lot Number</string>
+    <string name="name">Name</string>
+    <string name="enter_name">Enter Name</string>
+    <string name="category">Category</string>
+    <string name="period">Period</string>
+    <string name="description">Description</string>
+    <string name="enter_description">Enter Description</string>
+    <string name="picture_video_upload">Picture/Video Upload</string>
+    <string name="media_received">Media Received</string>
+    <string name="upload">Upload</string>
+    <string name="submit">Submit</string>
 
 </resources>

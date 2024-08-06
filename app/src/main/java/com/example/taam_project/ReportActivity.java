@@ -11,7 +11,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.pdf.PdfDocument;
-import android.os.Bundle;
 import android.os.Environment;
 import android.print.PrintDocumentAdapter;
 import android.print.PrintManager;

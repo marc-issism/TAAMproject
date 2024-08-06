@@ -48,7 +48,7 @@ public class AddItem extends Fragment {
     ActivityResultLauncher<Intent> resultLauncher;
     private Uri image;
     static public LoadingFragment load = new LoadingFragment();
-    static int runTimeCheck = 10;
+    static int runTimeCheck = 15;
     private int uploadStat;
 
     @Override

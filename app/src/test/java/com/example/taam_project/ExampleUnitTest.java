@@ -53,6 +53,23 @@ public class ExampleUnitTest {
         pres.login("albert@gmail.com", "fw24242f");
         verify(view).showLoginError("placeholder");
     }
+    @Test
+    public void testLoginFail() {
+        AdminPresenter pres = new AdminPresenter(view, model);
+
+        doAnswer(invocation -> {
+            view.showLoginError("error");
+            return null;
+        }).when(model).signInWithEmailAndPassword(
+                "hello",
+                "fw24242f",
+                view
+        );
+
+        pres.login("hello", "fw24242f");
+        verify(view).showLoginError("error");
+    }
+
 
     @Test
     public void testShowEmailNotVerifiedOnLogin() {
@@ -67,7 +84,7 @@ public class ExampleUnitTest {
                 view
         );
 
-        pres.createAccount("hello", "fw24242f");
+        pres.login("hello", "fw24242f");
         verify(view).showEmailNotVerified();
     }
 
@@ -79,12 +96,12 @@ public class ExampleUnitTest {
             view.showCreateAccountSuccess();
             return null;
         }).when(model).createAccountWithEmailAndPassword(
-                "hello",
+                "hello@gmail.com",
                 "fw24242f",
                 view
         );
 
-        pres.createAccount("hello", "fw24242f");
+        pres.createAccount("hello@gmail.com", "fw24242f");
         verify(view).showCreateAccountSuccess();
     }
 
@@ -93,10 +110,10 @@ public class ExampleUnitTest {
         AdminPresenter pres = new AdminPresenter(view, model);
         doThrow(new Exception()).when(model).createAccountWithEmailAndPassword(
                 "hello@gmail.com",
-                "1234",
+                "123424",
                 view
         );
-        pres.login("hello@gmail.com", "1234");
+        pres.createAccount("hello@gmail.com", "123424");
         verify(view).showVerificationEmailNotSent(new Exception());
     }
 
@@ -105,10 +122,10 @@ public class ExampleUnitTest {
         AdminPresenter pres = new AdminPresenter(view, model);
         doThrow(new FirebaseAuthUserCollisionException("", "")).when(model).createAccountWithEmailAndPassword(
                 "hello@gmail.com",
-                "123",
+                "1242423",
                 view
         );
-        pres.login("hello@gmail.com", "123");
+        pres.createAccount("hello@gmail.com", "1242423");
         verify(view).showAccountCollisionMessage(new Exception());
     }
 
@@ -117,10 +134,10 @@ public class ExampleUnitTest {
         AdminPresenter pres = new AdminPresenter(view, model);
         doThrow(new Exception()).when(model).createAccountWithEmailAndPassword(
                 "hello@gmail.com",
-                "1234",
+                "123424",
                 view
         );
-        pres.login("hello@gmail.com", "1234");
+        pres.createAccount("hello@gmail.com", "123424");
         verify(view).showCreateAccountFail(new Exception());
     }
 }

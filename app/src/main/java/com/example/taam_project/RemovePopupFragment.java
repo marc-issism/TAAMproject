@@ -1,11 +1,13 @@
 package com.example.taam_project;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 
 import androidx.annotation.NonNull;
@@ -23,6 +25,7 @@ import com.google.firebase.storage.StorageReference;
 public class RemovePopupFragment extends DialogFragment {
 
     private Item item;
+    private TextView remove_confirmation;
     private Button yes, no;
     private final Context context;
 
@@ -31,13 +34,15 @@ public class RemovePopupFragment extends DialogFragment {
         this.context = context;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_remove_popup, container, false);
+        remove_confirmation = view.findViewById(R.id.textView);
         yes = view.findViewById(R.id.yesButton);
         no = view.findViewById(R.id.noButton);
-
+        remove_confirmation.setText("Are you sure you want to delete them item with \nlotNumber: " + item.getLotNumber() + "\nName: " + item.getName());
         yes.setOnClickListener(v -> {
             removeItem();
             dismiss();

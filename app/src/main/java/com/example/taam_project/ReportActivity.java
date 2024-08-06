@@ -1,16 +1,21 @@
 package com.example.taam_project;
 
 import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.pdf.PdfDocument;
+import android.os.Bundle;
 import android.os.Environment;
 import android.print.PrintDocumentAdapter;
 import android.print.PrintManager;
@@ -21,7 +26,10 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,6 +45,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 
 
@@ -65,14 +76,14 @@ public class ReportActivity extends AppCompatActivity {
         radioGroup = findViewById(R.id.radioGroup);
         generatePDFbtn = findViewById(R.id.idBtnGeneratePDF);
         toggle = findViewById(R.id.descriptionandpicture);
-
+        final boolean[] has_been_changed = {false};
         // Set up the listener for the radio group
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 // Find the selected radio button
                 selectedRadioButton = findViewById(checkedId);
-
+                has_been_changed[0] = true;
                 if (selectedRadioButton.getText().toString().equals("All Items")) {
                     editText.setVisibility(View.INVISIBLE);
                 } else {
@@ -102,9 +113,12 @@ public class ReportActivity extends AppCompatActivity {
                 String query = editText.getText().toString().trim();
                 String searchCriteria = selectedRadioButton.getText().toString();
                 boolean descriptionandimage = toggle.isChecked();
-
+                if (!has_been_changed[0]) {
+                    Toast.makeText(ReportActivity.this, "Must Select Option!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (searchCriteria.equals("All Items")){
-                    AlertFragment.newInstance("Please wait a moment, while the pdf is being generated").show(getSupportFragmentManager(), "alert_fragment");
+                    Toast.makeText(ReportActivity.this, "Please wait a moment, while the pdf is being generated", Toast.LENGTH_SHORT).show();
                     generatePDF("", "Category", descriptionandimage);
                     return;
                 }
@@ -188,7 +202,7 @@ public class ReportActivity extends AppCompatActivity {
             list = ds.filterItems(Datastore.SearchableField.NAME, query);
         }
         if (list == null || list.isEmpty()){
-            AlertFragment.newInstance("No item that matches the query / criterion").show(getSupportFragmentManager(), "alert_fragment");
+            Toast.makeText(ReportActivity.this, "No item that matches the query / criterion", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -292,7 +306,7 @@ public class ReportActivity extends AppCompatActivity {
 
         } catch (IOException e) {
             e.printStackTrace();
-            AlertFragment.newInstance("Failed to generate PDF file.").show(getSupportFragmentManager(), "alert_fragment");
+            Toast.makeText(ReportActivity.this, "Failed to generate PDF file.", Toast.LENGTH_SHORT).show();
         }
 
         pdfDocument.close();

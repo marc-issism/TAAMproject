@@ -69,5 +69,9 @@
     <string name="media_received">Media Received</string>
     <string name="upload">Upload</string>
     <string name="submit">Submit</string>
+    <string name="remove">Remove</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="close">Close</string>
 
 </resources>

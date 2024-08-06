@@ -39,6 +39,7 @@ public class Datastore {
         allItems = new ArrayList<>();
         displayItems = new ArrayList<>();
         currentQuery = "";
+        currentField = SearchableField.ALL;
 
         ref.addValueEventListener(new ValueEventListener() {
             @Override

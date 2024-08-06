@@ -1,5 +1,7 @@
 package com.example.taam_project;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.google.firebase.database.DataSnapshot;
@@ -21,7 +23,17 @@ public class Datastore {
 
     private List<Item> allItems, displayItems;
     private String currentQuery;
+    private SearchableField currentField;
     private HashMap<SearchableField, FieldPredicate> fieldPredicates;
+
+    public static SearchableField[] items = new SearchableField[] {
+            SearchableField.ALL,
+            SearchableField.NAME,
+            SearchableField.CATEGORY,
+            SearchableField.PERIOD,
+            SearchableField.DESCRIPTION,
+            SearchableField.LOT
+    };
 
     private Datastore() {
         allItems = new ArrayList<>();
@@ -44,6 +56,16 @@ public class Datastore {
         syncWithDatabase();
 
         fieldPredicates = new HashMap<>();
+        fieldPredicates.put(SearchableField.ALL, (item, query) -> {
+            boolean matches = false;
+
+            for (SearchableField field: fieldPredicates.keySet())
+                if (field != SearchableField.ALL)
+                    matches |= fieldPredicates.get(field).match(item, query);
+
+            return matches;
+        });
+
         fieldPredicates.put(SearchableField.NAME,
                 (item, query) -> item.getName().toLowerCase().contains(query));
         fieldPredicates.put(SearchableField.LOT,
@@ -68,12 +90,7 @@ public class Datastore {
     }
 
     private boolean matches(Item item) {
-        boolean match = false;
-
-        for (FieldPredicate predicate: fieldPredicates.values())
-            match |= predicate.match(item, currentQuery);
-
-        return match;
+        return fieldPredicates.get(currentField).match(item, currentQuery);
     }
 
     public void search(String s) {
@@ -84,6 +101,14 @@ public class Datastore {
                 displayItems.add(item);
         }
         if (adapter != null) adapter.notifyDataSetChanged();
+    }
+
+    public void setFilter(SearchableField f) {
+        this.currentField = f;
+    }
+
+    public SearchableField getFilter() {
+        return currentField;
     }
 
     public List<Item> filterItems(SearchableField field, String query) {
@@ -106,7 +131,7 @@ public class Datastore {
     }
 
     public enum SearchableField {
-        NAME, CATEGORY, PERIOD, DESCRIPTION, LOT
+        ALL, NAME, CATEGORY, PERIOD, DESCRIPTION, LOT
     }
 
     private interface FieldPredicate {

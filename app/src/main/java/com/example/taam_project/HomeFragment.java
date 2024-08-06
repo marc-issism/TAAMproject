@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class HomeFragment extends Fragment {
     //private TextView loginStatusTextView;
     private RecyclerViewFragment recyclerViewFragment;
+    private static final Datastore datastore = Datastore.getInstance();
 
     @Override
     public void onCreate(Bundle b) {
@@ -40,12 +41,13 @@ public class HomeFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.top_app_bar, menu);
 
+        Datastore.SearchableField f = Datastore.SearchableField.ALL;
+
         SearchView searchView = (SearchView) menu.findItem(R.id.menuSearchButton).getActionView();
         MenuItem add = menu.findItem(R.id.menuAddButton);
         MenuItem report = menu.findItem(R.id.menuReportButton);
         MenuItem admin = menu.findItem(R.id.menuAdminButton);
-
-        Datastore datastore = Datastore.getInstance();
+        MenuItem filter = menu.findItem(R.id.menuFilterButton);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) { return false; }
@@ -53,6 +55,7 @@ public class HomeFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String s) {
                 Log.d("SEARCH", s);
+                Log.d("FILTER", String.valueOf(datastore.getFilter()));
                 datastore.search(s);
                 return true;
             }
@@ -71,6 +74,12 @@ public class HomeFragment extends Fragment {
 
         admin.setOnMenuItemClickListener(menuItem -> {
             loadAdminFragment();
+            return true;
+        });
+
+        filter.setOnMenuItemClickListener(menuItem -> {
+            FilterFragment frag = new FilterFragment();
+            frag.show(getParentFragmentManager(), "remove_filter_fragment");
             return true;
         });
 

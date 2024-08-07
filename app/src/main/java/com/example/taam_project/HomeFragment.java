@@ -48,14 +48,14 @@ public class HomeFragment extends Fragment {
         MenuItem report = menu.findItem(R.id.menuReportButton);
         MenuItem admin = menu.findItem(R.id.menuAdminButton);
         MenuItem filter = menu.findItem(R.id.menuFilterButton);
+        MenuItem clearFilter = menu.findItem(R.id.menuClearFilterButton);
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) { return false; }
 
             @Override
             public boolean onQueryTextChange(String s) {
-                Log.d("SEARCH", s);
-                Log.d("FILTER", String.valueOf(datastore.getFilter()));
                 datastore.search(s);
                 return true;
             }
@@ -80,6 +80,11 @@ public class HomeFragment extends Fragment {
         filter.setOnMenuItemClickListener(menuItem -> {
             FilterFragment frag = new FilterFragment();
             frag.show(getParentFragmentManager(), "remove_filter_fragment");
+            return true;
+        });
+
+        clearFilter.setOnMenuItemClickListener(menuItem -> {
+            datastore.search("", "", "any", "any");
             return true;
         });
 

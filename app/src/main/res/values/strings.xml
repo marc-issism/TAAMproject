@@ -76,4 +76,5 @@
     <string name="generate_report_by">Generate Report by:</string>
     <string name="all_items">All Items</string>
     <string name="query">query</string>
+    <string name="lotnumberespe">LotNumber</string>
 </resources>

@@ -104,6 +104,21 @@ public class Datastore {
         if (adapter != null) adapter.notifyDataSetChanged();
     }
 
+    public void search(String a, String b, String c, String d) {
+        FieldPredicate f1 = fieldPredicates.get(SearchableField.LOT);
+        FieldPredicate f2 = fieldPredicates.get(SearchableField.NAME);
+        FieldPredicate f3 = fieldPredicates.get(SearchableField.CATEGORY);
+        FieldPredicate f4 = fieldPredicates.get(SearchableField.PERIOD);
+        displayItems.clear();
+        for (Item item: allItems)
+            if ((f1.match(item, a))
+                && (f2.match(item, b))
+                && (f3.match(item, c))
+                && (f4.match(item, d)))
+                displayItems.add(item);
+        if (adapter != null) adapter.notifyDataSetChanged();
+    }
+
     public void setFilter(SearchableField f) {
         this.currentField = f;
     }

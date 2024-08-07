@@ -13,6 +13,7 @@
         android:layout_height="48dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="104dp"
+        android:textAlignment="center"
         android:layout_marginEnd="2dp"
         android:spinnerMode="dropdown"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,22 +31,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.7"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Category" />
-
-    <EditText
-        android:id="@+id/Lot"
-        android:layout_width="369dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="98dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="84dp"
-        android:ems="10"
-        android:inputType="text"
-        android:text="Lot"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.511"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/Category"
+        android:textAlignment="center"/>
 
     <EditText
         android:id="@+id/Name"
@@ -55,10 +42,27 @@
         android:layout_marginTop="52dp"
         android:layout_marginEnd="84dp"
         android:ems="10"
+        android:gravity="center"
         android:inputType="text"
         android:text="Name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.511"
+        app:layout_constraintHorizontal_bias="0.627"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/Lot"
+        android:layout_width="369dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="98dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="84dp"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="text"
+        android:text="Lot"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.627"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

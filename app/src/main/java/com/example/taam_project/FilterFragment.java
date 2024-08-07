@@ -72,7 +72,8 @@ public class FilterFragment extends DialogFragment {
         String name = Name.getText().toString().trim();
         String category = Category.getSelectedItem().toString().toLowerCase();
         String period = Period.getSelectedItem().toString().toLowerCase();
-        //db.search(lot,name, category, period);
+        db.search(lot,name, category, period);
+        this.dismiss();
     }
 
     @Override

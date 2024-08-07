@@ -2,6 +2,7 @@ package com.example.taam_project;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,21 +20,18 @@ public class FilterFragment extends DialogFragment {
     private EditText Name;
     private Spinner Category;
     private Spinner Period;
-    private Button Submit;
-    private Button Clear;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.filter_fragment, container, false);
+        Button closeButton = view.findViewById(R.id.closeButton);
+        Button submit = view.findViewById(R.id.Submit);
 
         Lot = view.findViewById(R.id.Lot);
         Name = view.findViewById(R.id.Name);
         Category = view.findViewById(R.id.Category);
         Period = view.findViewById(R.id.Period);
-        Submit = view.findViewById(R.id.Submit);
-        Clear = view.findViewById(R.id.Clear);
-
 
         ArrayAdapter<CharSequence> catAdap = ArrayAdapter.createFromResource(getContext(),
                 R.array.category_arr, android.R.layout.simple_spinner_item);
@@ -44,19 +42,15 @@ public class FilterFragment extends DialogFragment {
         perAdap.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Period.setAdapter(perAdap);
 
-        Submit.setOnClickListener(new View.OnClickListener() {
+        submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Submit();
             }
         });
 
-        Clear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Clear();
-            }
-        });
+        closeButton.setOnClickListener(v -> dismiss());
+
         return view;
     }
 
@@ -68,12 +62,13 @@ public class FilterFragment extends DialogFragment {
     }
 
     public void Submit(){
-        String lot = Lot.getText().toString().trim();
-        String name = Name.getText().toString().trim();
+        String lot = Lot.getText().toString().toLowerCase();
+        String name = Name.getText().toString().toLowerCase();
         String category = Category.getSelectedItem().toString().toLowerCase();
         String period = Period.getSelectedItem().toString().toLowerCase();
-        db.search(lot,name, category, period);
-        this.dismiss();
+        db.search(lot, name, category, period);
+        Clear();
+        dismiss();
     }
 
     @Override

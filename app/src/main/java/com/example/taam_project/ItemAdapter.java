@@ -18,7 +18,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.bumptech.glide.Glide;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
-
 import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {

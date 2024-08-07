@@ -110,12 +110,14 @@ public class Datastore {
         FieldPredicate f3 = fieldPredicates.get(SearchableField.CATEGORY);
         FieldPredicate f4 = fieldPredicates.get(SearchableField.PERIOD);
         displayItems.clear();
-        for (Item item: allItems)
-            if ((f1.match(item, a))
-                && (f2.match(item, b))
-                && (f3.match(item, c))
-                && (f4.match(item, d)))
+        for (Item item: allItems) {
+            if ((a.isEmpty() || f1.match(item, a))
+                    && (b.isEmpty() || f2.match(item, b))
+                    && (c.equals("any") || f3.match(item, c))
+                    && (d.equals("any") || f4.match(item, d))) {
                 displayItems.add(item);
+            }
+        }
         if (adapter != null) adapter.notifyDataSetChanged();
     }
 

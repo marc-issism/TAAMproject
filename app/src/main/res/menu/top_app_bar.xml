@@ -29,6 +29,12 @@
         app:showAsAction="ifRoom"/>
 
     <item
+        android:id="@+id/menuClearFilterButton"
+        android:title="Clear Filter"
+        android:icon="@drawable/outline_filter_alt_24"
+        app:showAsAction="ifRoom"/>
+
+    <item
         android:id="@+id/menuAdminButton"
         android:title="Admin"
         android:icon="@drawable/round_person_outline_24"

@@ -23,6 +23,7 @@
         android:layout_marginTop="8dp"
         android:autofillHints=""
         android:hint="@string/enter_lot_number"
+        android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/LotNumber"
         app:layout_constraintTop_toBottomOf="@+id/LotNumber" />
@@ -44,6 +45,7 @@
         android:layout_marginTop="8dp"
         android:autofillHints=""
         android:hint="@string/enter_name"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/Name"
         app:layout_constraintTop_toBottomOf="@+id/Name" />

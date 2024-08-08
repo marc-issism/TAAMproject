@@ -35,6 +35,7 @@ public class FilterFragment extends DialogFragment {
 
         ArrayAdapter<CharSequence> catAdap = ArrayAdapter.createFromResource(getContext(),
                 R.array.category_arr, android.R.layout.simple_spinner_item);
+        catAdap.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Category.setAdapter(catAdap);
 
         ArrayAdapter<CharSequence> perAdap= ArrayAdapter.createFromResource(getContext(),

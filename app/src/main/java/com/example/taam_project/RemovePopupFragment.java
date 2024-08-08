@@ -41,7 +41,7 @@ public class RemovePopupFragment extends DialogFragment {
         remove_confirmation = view.findViewById(R.id.textView);
         yes = view.findViewById(R.id.yesButton);
         no = view.findViewById(R.id.noButton);
-        remove_confirmation.setText("Are you sure you want to delete them item with \nlotNumber: " + item.getLotNumber() + "\nName: " + item.getName());
+        remove_confirmation.setText("Are you sure you want to delete them item with \nLot Number: " + item.getLotNumber() + "\nName: " + item.getName());
         yes.setOnClickListener(v -> {
             removeItem();
             dismiss();

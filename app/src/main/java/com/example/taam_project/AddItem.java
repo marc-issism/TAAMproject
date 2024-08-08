@@ -110,7 +110,6 @@ public class AddItem extends Fragment {
             AlertFragment.newInstance("Please fill out all fields").show(getParentFragmentManager(), "alert_fragment");
             return;
         }
-
         itemsRef = db.getReference("test/");
 
        // String id = itemsRef.push().getKey();
@@ -183,7 +182,6 @@ public class AddItem extends Fragment {
 //                FragmentTransaction transaction = frag.beginTransaction();
 //                transaction.replace(R.id.fragment_container, HomeFragment.class, null);
 //                transaction.commit();
-
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -202,7 +200,6 @@ public class AddItem extends Fragment {
             AlertFragment.newInstance("Media could not be uploaded").show(getParentFragmentManager(), "alert_fragment");
             return;
         }
-
         StorageReference item = sb.child(lot);
         item.getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
             @Override
@@ -235,7 +232,4 @@ public class AddItem extends Fragment {
         image = null;
         uploadStat = 0;
     }
-
-
-
 }

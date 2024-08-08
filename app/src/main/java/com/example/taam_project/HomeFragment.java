@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class HomeFragment extends Fragment {
     //private TextView loginStatusTextView;
     private RecyclerViewFragment recyclerViewFragment;
+    private static final Datastore datastore = Datastore.getInstance();
 
     @Override
     public void onCreate(Bundle b) {
@@ -40,19 +41,21 @@ public class HomeFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.top_app_bar, menu);
 
+        Datastore.SearchableField f = Datastore.SearchableField.ALL;
+
         SearchView searchView = (SearchView) menu.findItem(R.id.menuSearchButton).getActionView();
         MenuItem add = menu.findItem(R.id.menuAddButton);
         MenuItem report = menu.findItem(R.id.menuReportButton);
         MenuItem admin = menu.findItem(R.id.menuAdminButton);
+        MenuItem filter = menu.findItem(R.id.menuFilterButton);
+        MenuItem clearFilter = menu.findItem(R.id.menuClearFilterButton);
 
-        Datastore datastore = Datastore.getInstance();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) { return false; }
 
             @Override
             public boolean onQueryTextChange(String s) {
-                Log.d("SEARCH", s);
                 datastore.search(s);
                 return true;
             }
@@ -71,6 +74,17 @@ public class HomeFragment extends Fragment {
 
         admin.setOnMenuItemClickListener(menuItem -> {
             loadAdminFragment();
+            return true;
+        });
+
+        filter.setOnMenuItemClickListener(menuItem -> {
+            FilterFragment frag = new FilterFragment();
+            frag.show(getParentFragmentManager(), "remove_filter_fragment");
+            return true;
+        });
+
+        clearFilter.setOnMenuItemClickListener(menuItem -> {
+            datastore.search("", "", "any", "any");
             return true;
         });
 

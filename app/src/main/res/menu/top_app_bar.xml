@@ -7,13 +7,13 @@
         android:id="@+id/menuAddButton"
         android:title="Add"
         android:icon="@drawable/baseline_add_24"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/menuReportButton"
         android:title="Report"
         android:icon="@drawable/round_picture_as_pdf_24"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/menuSearchButton"
@@ -21,6 +21,18 @@
         android:icon="@drawable/baseline_search_24"
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/menuFilterButton"
+        android:title="Filter"
+        android:icon="@drawable/outline_filter_alt_24"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/menuClearFilterButton"
+        android:title="Clear Filter"
+        android:icon="@drawable/outline_filter_alt_24"
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/menuAdminButton"

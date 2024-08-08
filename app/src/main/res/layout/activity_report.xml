@@ -13,7 +13,7 @@
         android:layout_width="228dp"
         android:layout_height="39dp"
         android:layout_marginTop="36dp"
-        android:text="Generate Report by:"
+        android:text="@string/generate_report_by"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.087"
@@ -57,31 +57,31 @@
             android:id="@+id/radioButton4"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:text="Category" />
+            android:text="@string/category" />
 
         <RadioButton
             android:id="@+id/byLotNumber"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:text="LotNumber" />
+            android:text="@string/lotnumberespe" />
 
         <RadioButton
             android:id="@+id/radioButton5"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:text="Period" />
+            android:text="@string/period" />
 
         <RadioButton
             android:id="@+id/byName"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:text="Name" />
+            android:text="@string/name" />
 
         <RadioButton
             android:id="@+id/radioButton"
             android:layout_width="match_parent"
             android:layout_height="31dp"
-            android:text="All Items" />
+            android:text="@string/all_items" />
     </RadioGroup>
 
     <EditText
@@ -90,7 +90,7 @@
         android:layout_height="44dp"
         android:layout_marginStart="28dp"
         android:layout_marginTop="4dp"
-        android:contentDescription="query"
+        android:contentDescription="@string/query"
         android:ems="10"
         android:inputType="text"
         android:selectAllOnFocus="true"

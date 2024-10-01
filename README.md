@@ -1,7 +1,7 @@
 ## 🏛️ TAAM Explorer
 ![image](https://github.com/user-attachments/assets/b3015574-80d9-46c0-ae10-8d13753ceb0d)
 
-**TAAM Explorer** is a Java based **Android application** designed to showcase artifacts from the **TAAM Collection**. Utilizing a custom **collection design system**, the app offers users an **immersive** and **intuitive** experience for exploring historical artifacts. Users can **browse**, **search**, and **view** detailed information and images of each artifact.
+**TAAM Explorer** is a Java based **Android application** designed to showcase artifacts from the **TAAM (Toronto Asian Art Museum) Collection**. Utilizing a custom **collection design system**, the app offers users an **immersive** and **intuitive** experience for exploring historical artifacts. Users can **browse**, **search**, and **view** detailed information and images of each artifact.
 
 ## 🌟 Engaging Digital Exhibit
 
